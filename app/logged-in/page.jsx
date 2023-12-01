@@ -1,5 +1,7 @@
 import Link from 'next/link'
-export default function AboutUs() {
+
+
+export default function Loggedin() {
     return (
         <main>
             <h2>Click the button!</h2>

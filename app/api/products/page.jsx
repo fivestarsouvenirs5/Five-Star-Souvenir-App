@@ -1,15 +1,20 @@
-import { PrismaClient } from '@prisma/client';
+const { PrismaClient } = require('@prisma/client')
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
-export default async function handler(req, res) {
+export default async function main() {
     try {
-        const products = await prisma.products.findMany();
-        res.status(200).json(products);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    } finally {
-        await prisma.$disconnect();
+        const allProducts = await prisma.products.findMany();
+    console.log(allProducts);
     }
+    catch (error){
+        console.error(error)
+        await prisma.$disconnect()
+        process.exit(1)
+    }
+    finally {
+        await prisma.$disconnect()
+    }
+    
 }
+

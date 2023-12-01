@@ -1,0 +1,60 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model category {
+  category_id Int        @id @default(autoincrement())
+  category    String?    @db.VarChar(45)
+  products    products[]
+}
+
+model clothing_size {
+  clothing_size_id   Int                  @id @default(autoincrement())
+  clothing_size      String?              @db.VarChar(45)
+  product_order_xref product_order_xref[]
+}
+
+model orders {
+  order_id           Int                  @id @default(autoincrement())
+  order_date         DateTime?            @db.Date
+  user_id            Int?
+  user               user?                @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_order_user")
+  product_order_xref product_order_xref[]
+
+  @@index([user_id], map: "fk_order_user_idx")
+}
+
+model product_order_xref {
+  product_id       Int
+  order_id         Int
+  quantity         Int?
+  clothing_size_id Int?
+  clothing_size    clothing_size? @relation(fields: [clothing_size_id], references: [clothing_size_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_productorder_clothingsize")
+  orders           orders         @relation(fields: [order_id], references: [order_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_productorder_order")
+  products         products       @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_productorder_product")
+
+  @@id([product_id, order_id])
+  @@index([clothing_size_id], map: "fk_productorder_clothingsize_idx")
+  @@index([order_id], map: "fk_productorder_order_idx")
+}
+
+model products {
+  product_id         Int                  @id @default(autoincrement())
+  product_name       String               @db.VarChar(45)
+  category_id        Int?
+  clothing_size_id   Int?
+  quantity_left      Int?
+  product_order_xref product_order_xref[]
+  category           category?            @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_category")
+
+  @@index([category_id], map: "fk_product_category_idx")
+}
+
+model user {
+  user_id      Int      @id @default(autoincrement())
+  first_name   String   @db.VarChar(45)
+  last_name    String   @db.VarChar(45)
+  company_name String   @db.VarChar(45)
+  orders       orders[]
+}

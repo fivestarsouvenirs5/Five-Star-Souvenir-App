@@ -1,9 +1,6 @@
-//  'use client'
-
 import Link from 'next/link'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient();
+import prisma from '../utils/prisma'
+//import AddProductForm from '../components/addProductForm'
 
 const fetchProducts = async () => {
     let products = await prisma.products.findMany()
@@ -24,7 +21,6 @@ export default async function Loggedin() {
   return (
     <main>
         <h2>Click the button!</h2>
-        <button>get product data</button>
         <h1>Product Data</h1>
         <ul>
             {products.map((product) => (
@@ -33,6 +29,10 @@ export default async function Loggedin() {
                 </li>
             ))}
         </ul> 
+        <Link href="/add-product" legacyBehavior> add product
+          {/* <a data-active={isActive('/add-product')}>add product</a> */}
+        </Link>
+
         <Link href="/profile">Go To Profile</Link>
     </main>
 )

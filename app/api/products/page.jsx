@@ -8,7 +8,7 @@ const prisma = new PrismaClient()
 //       res.json(products);
 //     } catch (error) {
 //       console.error(error);
-//       res.status(500).json({ error: 'Internal Server Error' });
+//       res.json({ error: 'Internal Server Error' });
 //     } finally {
 //       await prisma.$disconnect();
 //     }
@@ -17,7 +17,7 @@ const prisma = new PrismaClient()
 export default async function main() {
     try {
         const allProducts = await prisma.products.findMany();
-    console.log(allProducts);
+    console.log('fetched data frojm products', allProducts);
     }
     catch (error){
         console.error(error)

@@ -1,7 +1,7 @@
  'use client'
 
 import Link from 'next/link'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 
  export default function Loggedin() {
@@ -10,10 +10,10 @@ import { useState, useEffect } from 'react';
 //   if (!data) return <div>Loading ...</div>
     const [products, setProducts] = useState([]);
 
-    useEffect(() => {
+   // useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await fetch('/api/products'); 
+            const response = await fetch('/api/products', {cache : 'no-store'}); 
             const data = await response.json();
             console.log('Fetched Data:', data); 
             setProducts(data);
@@ -23,7 +23,7 @@ import { useState, useEffect } from 'react';
         };
     
         fetchData();
-      }, []);
+     // }, []);
 
     return (
         <main>

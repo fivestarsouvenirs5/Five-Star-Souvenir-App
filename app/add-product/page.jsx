@@ -11,7 +11,7 @@ const AddProductForm = () => {
     try {
       const body = {product_name}
       console.log(body)
-      await fetch(`/api/products`, {
+      await fetch('/api/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -35,12 +35,12 @@ const AddProductForm = () => {
             placeholder="product name"
             type="text"
             value={product_name}
-          />
+          ></input>
           <input
             disabled={!product_name}
             type="submit"
             value="Create"
-          />
+          ></input>
         </form>
       </div>
     </>

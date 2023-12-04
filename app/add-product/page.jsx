@@ -28,7 +28,7 @@ const AddProductForm = () => {
     <>
       <div>
         <form onSubmit={submitData}>
-          <h1>Add product</h1>
+          <h1 class="text-blue-600">Add product</h1>
           <input
             autoFocus
             onChange={(e) => setProductName(e.target.value)}
@@ -36,7 +36,7 @@ const AddProductForm = () => {
             type="text"
             value={product_name}
           />
-          <input
+          <input class="bg-green-200"
             disabled={!product_name}
             type="submit"
             value="Create"

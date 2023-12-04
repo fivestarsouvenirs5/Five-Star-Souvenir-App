@@ -1,17 +1,31 @@
-import prisma from "../utils/prisma"
+import { PrismaClient } from "@prisma/client";
+import {NextResponse} from "next/server"
+const prisma = new PrismaClient();
 
 // POST /api/products
 
-export default async function handle(req, res) {
-  const { product_name } = req.body
+// export default async function handle(req, res) {
+//   const { product_name } = req.body
+//   const result = await prisma.products.create({
+//     data: {
+//       product_name: product_name
+//     },
+//   })
+//   console.log("created record")
+//   res.json(result)
+// }
+
+export async function POST(request) {
+  const { product_name } = request.body
   const result = await prisma.products.create({
-    data: {
-      product_name: product_name
-    },
-  })
-  console.log("created record")
-  res.json(result)
+      data: {
+        product_name: product_name
+      },
+    })
+    console.log("created record")
+    NextResponse.json(result)
 }
+
 
 
 

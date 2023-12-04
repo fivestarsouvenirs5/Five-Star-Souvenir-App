@@ -16,14 +16,16 @@ const prisma = new PrismaClient();
 // }
 
 export async function POST(request) {
-  const { product_name } = request.body
+  // console.log(request.json())
+  const { product_name } = await request.json()
+  console.log( product_name )
   const result = await prisma.products.create({
       data: {
-        product_name: product_name
+        product_name: product_name,
       },
     })
     console.log("created record")
-    NextResponse.json(result)
+    return NextResponse.json(result)
 }
 
 

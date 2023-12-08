@@ -21,6 +21,7 @@ export default function RootLayout({ children }) {
           {/* <NavBar /> */}
           {children}</body>
       </UserProvider>
+      {/* add navbar here <NavBar /> */}
       
     </html>
   )

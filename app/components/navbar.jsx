@@ -7,6 +7,7 @@ export default function NavBar() {
         <Link href="/">Home</Link>
         <a href="/api/auth/login">Login</a>
         <a href="/api/auth/logout">Logout</a>
+        
     </nav>
     )
    

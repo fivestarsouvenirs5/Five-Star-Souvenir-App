@@ -33,8 +33,9 @@ export default function NavBar() {
 
                         {/* Primary Nav */}
                         <div class="flex items-center space-x-3">
-                            <a href="" class="">Features</a>
-                            <a href="" class="">Pricing</a>
+                            <a href="/order" class="">Order</a>
+                            <a href="/contact" class="">Contact</a>
+                            <a href="/about-us" class="">About Us</a>
                         </div>
 
                     </div>

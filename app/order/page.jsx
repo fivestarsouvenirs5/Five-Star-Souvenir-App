@@ -29,6 +29,11 @@ export default async function Order() {
                     <Category category = {category} />
                 </div>
             ))}
+        <div>
+            
+        </div>
+        
+
     </main>
 )
 }

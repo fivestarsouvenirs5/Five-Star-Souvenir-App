@@ -2,7 +2,7 @@
 // import 'materialize-css'
 import Link from 'next/link'
 import prisma from '../../utils/prisma'
-import Category from '../../components/category'
+import Category from '../../components/categoryny'
 //import AddProductForm from '../components/addProductForm'
 
 const fetchCategories = async () => {
@@ -26,7 +26,7 @@ export default async function Order() {
         <h2 class="text-red-600">Categories</h2>
             {categories.map((category) => (
                 <div key={category.category_id} >
-                    <Category category = {category} />
+                    <CategoryNY category = {category} />
                 </div>
             ))}
     </main>

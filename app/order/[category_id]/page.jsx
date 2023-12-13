@@ -1,7 +1,7 @@
 import React from 'react'
 import { notFound, } from 'next/navigation'
 import prisma from '../../utils/prisma'
-import Category from '../../components/category'
+import Category from '../../components/categoryny'
 
 export default async function CategoryPage({ params }) {
   const id = Number(

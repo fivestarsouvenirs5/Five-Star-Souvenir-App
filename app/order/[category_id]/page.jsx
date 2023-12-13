@@ -10,7 +10,7 @@ export default async function CategoryPage({ params }) {
       : params?.id,
   )
 
-//   console.log(prisma)
+   //console.log(prisma)
   const subcategories = await prisma.subcategories.findMany({
     where: { catg_id : id },
   })
@@ -18,7 +18,7 @@ export default async function CategoryPage({ params }) {
 
   return (
     <main>
-        <h2 class="text-red-600">Subcategories</h2>
+        <h2 className="text-red-600">Subcategories</h2>
             {subcategories.map((subcategory) => (
                 <div key={subcategory.subcategory_id} >
                     <Category category = {subcategory} />

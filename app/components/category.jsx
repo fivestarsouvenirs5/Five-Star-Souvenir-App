@@ -7,7 +7,7 @@ const Category = ({ category }) => {
 
   return (
     <Link
-      href={`/order/${category.category}`}
+      href={`/order/${category.category_id}`}
     >
       <h2>{category.category}</h2>
     </Link>

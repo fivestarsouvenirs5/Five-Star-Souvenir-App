@@ -1,16 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 model category {
-  category_id Int        @id @default(autoincrement())
-  category    String?    @db.VarChar(45)
-  products    products[]
+  category_id   Int             @id @default(autoincrement())
+  category      String?         @db.VarChar(45)
+  products      products[]
+  subcategories subcategories[]
 }
 
 model clothing_size {
@@ -46,13 +47,16 @@ model product_order_xref {
 model products {
   product_id         Int                  @id @default(autoincrement())
   product_name       String               @db.VarChar(45)
-  category_id        Int?
+  category_id        Int
   clothing_size_id   Int?
   quantity_left      Int?
+  subcategory_id     Int?
   product_order_xref product_order_xref[]
-  category           category?            @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_category")
+  category           category             @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_category")
+  subcategories      subcategories?       @relation(fields: [subcategory_id], references: [subcategory_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_subcategory")
 
   @@index([category_id], map: "fk_product_category_idx")
+  @@index([subcategory_id], map: "fk_product_subcategory_idx")
 }
 
 model user {
@@ -61,4 +65,14 @@ model user {
   last_name    String   @db.VarChar(45)
   company_name String   @db.VarChar(45)
   orders       orders[]
+}
+
+model subcategories {
+  subcategory_id   Int        @id
+  subcategory_name String     @db.VarChar(135)
+  catg_id          Int
+  products         products[]
+  category         category   @relation(fields: [catg_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "category_id_connection")
+
+  @@index([catg_id], map: "category_id_connection_idx")
 }

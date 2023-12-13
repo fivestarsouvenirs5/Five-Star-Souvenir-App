@@ -1,8 +1,8 @@
 // import 'materialize-css/dist/css/materialize.min.css';
 // import 'materialize-css'
 import Link from 'next/link'
-import prisma from '../utils/prisma'
-import Category from '../components/category'
+import prisma from '../../utils/prisma'
+import Category from '../../components/category'
 //import AddProductForm from '../components/addProductForm'
 
 const fetchCategories = async () => {

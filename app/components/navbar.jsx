@@ -10,7 +10,7 @@ export default function NavBar() {
 
         <nav className="bg-red-100">
             {/* to indent: max-w-5xl */}
-            <div className="px-4 mx-auto border">
+            <div className="px-4 mx-auto">
                 <div className="flex justify-between">
                     <div className="flex space-x-4">
 
@@ -30,6 +30,8 @@ export default function NavBar() {
                             <a href="/order/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Order</a>
                             <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
                             <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+                            <a href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</a>
+                            {/* find way to only have profile tab show when logged in */}
                         </div>
 
                     </div>

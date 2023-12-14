@@ -20,7 +20,7 @@ export default async function OrderNY() {
             
             <div className="grid grid-cols-6 gap-5">
                 {categories.map((category) => (
-                    <div className="border p-5 rounded-md text-center bg-blue-100 hover:bg-blue-300" key={category.category_id} >                        
+                    <div className="border p-5 rounded-md flex items-center justify-center text-center text-xl font-bold bg-blue-100 hover:bg-blue-300" key={category.category_id} >                        
                         <CategoryNY category = {category} />
                     </div>
                 ))}

@@ -7,7 +7,7 @@ const SubCategoryNY = ({ subcategory }) => {
 
   return (
     <Link
-      href={`/order/new-york/${subcategory.subcategory_id}`}
+      href={`/order/new-york/${subcategory.catg_id}/ ${subcategory.subcategory_id}`}
     >
       <h2>{subcategory.subcategory_name}</h2>
     </Link>

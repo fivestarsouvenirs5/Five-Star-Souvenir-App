@@ -11,11 +11,11 @@ const fetchCategories = async () => {
 export default async function OrderNY() {
     const categories = await fetchCategories()
 
-    console.log({categories})
+    // console.log({categories})
 
     return (
     <main>
-        <h2>Categories</h2>
+        <h2>Categories NY</h2>
         <div className = "px-20 py-10 flex justify-between gap-10">
             
             <div className="grid grid-cols-6 gap-5">

@@ -11,7 +11,7 @@ const fetchCategories = async () => {
 export default async function OrderNJ() {
     const categories = await fetchCategories()
 
-    console.log({categories})
+    // console.log({categories})
   return (
     <main>
         {/* <h2 className="text-red-600">Categories</h2>

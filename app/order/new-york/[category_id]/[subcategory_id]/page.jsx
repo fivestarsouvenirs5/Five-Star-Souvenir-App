@@ -3,6 +3,15 @@ import prisma from '../../../../utils/prisma'
 import ProductDisplay from '../../../../components/productdisplay'
 import Cart from '../../../../components/cart'
 
+
+const fetchCategories = async (id) => {
+    let categories = await prisma.category.findUnique({
+        where: {category_id: id}
+    })
+    return categories
+  }
+
+
 const fetchProducts = async (id) => {
     const products = await prisma.products.findMany({
       where: { subcategory_id: id },
@@ -20,11 +29,13 @@ export default async function Subcategory({ params }) {
     console.log(id)
 
     const products = await fetchProducts(id);
-    console.log(products);
+    // console.log(products);
+
+    const category = await fetchCategories(id);
 
     return (
       <main>
-        <h2 className="text-red-600">Products</h2>
+        <h2 className="text-red-600">{category.category}</h2>
         <div className = "px-20 py-10 flex justify-between gap-10">
 
        <div className="grid grid-cols-6 gap-5">

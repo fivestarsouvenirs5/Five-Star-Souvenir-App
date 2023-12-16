@@ -4,11 +4,11 @@ import ProductDisplay from '../../../../components/productdisplay'
 import Cart from '../../../../components/cart'
 
 
-const fetchCategories = async (id) => {
-    let categories = await prisma.category.findUnique({
-        where: {category_id: id}
+const fetchSubcategories = async (id) => {
+    let subcategories = await prisma.subcategories.findUnique({
+        where: {subcategory_id: id}
     })
-    return categories
+    return subcategories
   }
 
 
@@ -21,21 +21,22 @@ const fetchProducts = async (id) => {
 
 
 export default async function Subcategory({ params }) {
+  // console.log(params)
     const id = Number(
         Array.isArray(params?.id)
-          ? params?.category_id[ 0 ]
-          : params?.category_id,
+          ? params?.subcategory_id[ 0 ]
+          : params?.subcategory_id,
       )
     console.log(id)
 
     const products = await fetchProducts(id);
     // console.log(products);
 
-    const category = await fetchCategories(id);
+    const subcategory = await fetchSubcategories(id);
 
     return (
       <main>
-        <h2 className="text-center py-5 lg:text-4xl font-bold">{category.category}</h2>
+        <h2 className="text-center py-5 lg:text-4xl font-bold">{subcategory.subcategory_name}</h2>
         <div className="flex justify-between">
             {/* side bar */}
             <div className="grid grid-cols-1 gap-5 h-4/6">

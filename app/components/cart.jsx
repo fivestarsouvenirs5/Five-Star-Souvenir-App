@@ -1,9 +1,9 @@
 export default function Cart() {
     return(
         <div class="lg:w-96 md:w-8/12 w-full bg-red-100 float-right h-full">
-        <div class="flex flex-col lg:h-screen h-auto lg:px-8 md:px-7 px-4 lg:py-20 md:py-10 py-6 justify-between overflow-y-auto border-4 border-black">
+        <div class="flex flex-col lg:h-screen h-auto lg:px-8 md:px-7 px-4 lg:py-20 md:py-10 py-6 justify-between overflow-y-auto border-2 border-black rounded-md">
         <div>
-            <p class="lg:text-4xl text-3xl font-black leading-9 text-gray-800 dark:text-black">Summary</p>
+            <p class="lg:text-4xl text-3xl font-bold leading-9 text-gray-800 dark:text-black">Summary</p>
             <p class="lg:text-1xl text-1xl font-black leading-9 text-gray-800 dark:text-black">Items in Cart:</p>
         </div>
 

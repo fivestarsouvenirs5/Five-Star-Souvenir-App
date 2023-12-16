@@ -32,7 +32,7 @@ export default async function NYCategoryPage({ params }) {
       ? params?.category_id[ 0 ]
       : params?.category_id,
   )
-console.log(id)
+// console.log(id)
    //console.log(prisma)
 const category = await fetchCategories(id);
 // console.log(category.category);

@@ -27,11 +27,11 @@ export default async function OrderNJ() {
 
             
             
-            <div className = "px-20 flex justify-between gap-20">
+            <div className = "flex justify-between gap-10">
 
-                <div className="grid w-5/6 grid-cols-2 gap-20">
+                <div className="grid grid-cols-6 gap-5 h-1/6">
                     {categories.map((category) => (
-                        <div className="border p-5 h-2/6 w-5/6 flex items-center justify-center rounded-md text-center text-2xl font-bold bg-blue-100 hover:bg-blue-300" key={category.category_id} >                        
+                        <div className="border rounded-md flex items-center justify-center w-full text-center text-xl bg-blue-100 hover:bg-blue-300" key={category.category_id} >                        
                             <CategoryNJ category = {category} />
                         </div>
                     ))}

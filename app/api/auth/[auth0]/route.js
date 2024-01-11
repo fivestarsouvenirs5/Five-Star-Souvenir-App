@@ -6,13 +6,13 @@ export const GET = handleAuth({
     authorizationParams: {
       prompt: "login",
     },
-    returnTo: "/logged-in",
+    returnTo: "/",
   }),
   signup: handleLogin({
     authorizationParams: {
       prompt: "login",
       screen_hint: "signup",
     },
-    returnTo: "/logged-in",
+    returnTo: "/",
   }),
 });

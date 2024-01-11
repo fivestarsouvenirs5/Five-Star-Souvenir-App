@@ -50,7 +50,7 @@ export default async function NJProductsPage({ params }) {
 
                   <div className="grid grid-cols-6 gap-5">
                     {products.map((product) => (
-                            <div key={product.product_id} >
+                            <div className="border p-5 rounded-md text-center bg-gray-100 hover:bg-gray-300 h-1/2" key={product.product_id} >
                                 <ProductDisplay product = {product} />
                             </div>
                         ))}

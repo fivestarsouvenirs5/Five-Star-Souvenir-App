@@ -7,7 +7,7 @@ const CategoryNJ = ({ category }) => {
 
   return (
     <Link
-      href={`/order/new-jersey/${category.category_id}`}
+      href={`/products/new-jersey/${category.category_id}`}
     >
       <h2>{category.category}</h2>
     </Link>

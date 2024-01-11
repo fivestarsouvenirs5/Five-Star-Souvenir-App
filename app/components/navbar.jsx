@@ -27,7 +27,7 @@ export default function NavBar() {
                         {/* Primary Nav */}
                         <div className="flex items-center space-x-1">
                             <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
-                            <a href="/order/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Order</a>
+                            <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
                             <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
                             <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
                             <a href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</a>

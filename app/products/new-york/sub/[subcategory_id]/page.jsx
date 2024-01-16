@@ -53,7 +53,7 @@ export default async function Subcategory({ params }) {
                 <div className="grid grid-cols-6 gap-5">
                   {products.map((product) => (
                           <div className="h-1/2" key={product.product_id}>
-                              <ProductDisplay product = {product} />
+                              <ProductDisplay product = {product} category = {category}/>
                           </div>
                       ))}
                   </div>

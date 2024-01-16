@@ -46,16 +46,16 @@ model product_order_xref {
 }
 
 model products {
-  product_id          Int                   @id @default(autoincrement())
-  product_name        String                @db.VarChar(45)
-  category_id         Int
-  clothing_size_id    Int?
-  quantity_left       Int?
-  subcategory_id      Int?
-  image_products_xref image_products_xref[]
-  product_order_xref  product_order_xref[]
-  category            category              @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_category")
-  subcategories       subcategories?        @relation(fields: [subcategory_id], references: [subcategory_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_subcategory")
+  product_id           Int                    @id @default(autoincrement())
+  product_name         String                 @db.VarChar(45)
+  category_id          Int
+  clothing_size_id     Int?
+  in_stock             String?                @db.VarChar(45)
+  subcategory_id       Int?
+  images_products_xref images_products_xref[]
+  product_order_xref   product_order_xref[]
+  category             category               @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_category")
+  subcategories        subcategories?         @relation(fields: [subcategory_id], references: [subcategory_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_subcategory")
 
   @@index([category_id], map: "fk_product_category_idx")
   @@index([subcategory_id], map: "fk_product_subcategory_idx")
@@ -79,18 +79,18 @@ model subcategories {
   @@index([catg_id], map: "category_id_connection_idx")
 }
 
-model image_products_xref {
-  img_id     Int
-  product_id Int
-  images     images   @relation(fields: [img_id], references: [img_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_imageproducts_image")
-  products   products @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_imageproducts_products")
-
-  @@id([img_id, product_id])
-  @@index([product_id], map: "fk_imageproducts_product_idx")
+model images {
+  image_id             Int                    @id @default(autoincrement())
+  img                  Bytes?                 @db.Blob
+  images_products_xref images_products_xref[]
 }
 
-model images {
-  img_id              Int                   @id
-  img                 Bytes?                @db.Blob
-  image_products_xref image_products_xref[]
+model images_products_xref {
+  image_id   Int
+  product_id Int
+  images     images   @relation(fields: [image_id], references: [image_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_images_imagesproducts")
+  products   products @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_products_imagesproducts")
+
+  @@id([image_id, product_id])
+  @@index([product_id], map: "fk_products_imagesproducts_idx")
 }

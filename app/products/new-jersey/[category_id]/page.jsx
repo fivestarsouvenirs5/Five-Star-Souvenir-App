@@ -1,8 +1,6 @@
 import React from 'react'
-import { notFound, } from 'next/navigation'
 import prisma from '../../../utils/prisma'
-import ProductDisplay from '../../../components/productdisplay'
-import Cart from '../../../components/cart'
+import ProductPageMapping from '../../../components/productPageMapping'
 
 const fetchCategories = async (id) => {
     let categories = await prisma.category.findUnique({
@@ -44,19 +42,7 @@ export default async function NJProductsPage({ params }) {
                 </div>
             </div>
 
-            
-            
-            <div className = "flex justify-between gap-10">
-
-                  <div className="grid grid-cols-6 gap-5">
-                    {products.map((product) => (
-                            <div className="h-1/2" key={product.product_id} >
-                                <ProductDisplay product = {product} category = {category} />
-                            </div>
-                        ))}
-                  </div>
-            </div>
-            <Cart />
+            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={false} category={category} subcategory={null} />
 
        </div>
     </main>

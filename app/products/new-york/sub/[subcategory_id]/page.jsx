@@ -1,7 +1,6 @@
 import React from 'react'
 import prisma from '../../../../utils/prisma'
-import ProductDisplay from '../../../../components/productdisplay'
-import Cart from '../../../../components/cart'
+import ProductPageMapping from '../../../../components/productPageMapping'
 
 
 const fetchSubcategories = async (id) => {
@@ -19,9 +18,14 @@ const fetchProducts = async (id) => {
     return products
   }
 
+  const fetchCategories = async (id) => {
+    let categories = await prisma.category.findUnique({
+         where: {category_id: id}
+     })
+     return categories
+   }
 
 export default async function Subcategory({ params }) {
-  // console.log(params)
     const id = Number(
         Array.isArray(params?.id)
           ? params?.subcategory_id[ 0 ]
@@ -33,6 +37,8 @@ export default async function Subcategory({ params }) {
     // console.log(products);
 
     const subcategory = await fetchSubcategories(id);
+
+    const category = await fetchCategories(products[0].category_id);
 
     return (
       <main>
@@ -46,19 +52,8 @@ export default async function Subcategory({ params }) {
                 </div>
             </div>
 
-            
-            
-            <div className = "flex justify-between gap-10">
-
-                <div className="grid grid-cols-6 gap-5">
-                  {products.map((product) => (
-                          <div className="h-1/2" key={product.product_id}>
-                              <ProductDisplay product = {product} category = {category}/>
-                          </div>
-                      ))}
-                  </div>
-            </div>
-            <Cart />
+            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={subcategory} />
+      
         </div>
     </main>
     )

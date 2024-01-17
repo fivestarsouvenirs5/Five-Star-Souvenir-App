@@ -1,6 +1,5 @@
 import prisma from '../../utils/prisma'
-import CategoryNY from '../../components/categoryny'
-import Cart from '../../components/cart'
+import ProductPageMapping from '../../components/productPageMapping'
 
 const fetchCategories = async () => {
     let categories = await prisma.category.findMany({
@@ -26,21 +25,8 @@ export default async function OrderNY() {
                 </div>
             </div>
 
+            <ProductPageMapping products={null} categoryList={categories} subcategoryList={null} isNY={true} category={null} subcategory={null} />
             
-            
-            <div className = "flex justify-between gap-10">
-
-                <div className="grid grid-cols-6 gap-5">
-                    {categories.map((category) => (
-                        <div className="border rounded-md flex items-center justify-center text-center text-xl bg-blue-100 hover:bg-blue-300" key={category.category_id} >                        
-                            <CategoryNY category = {category} />
-                        </div>
-                    ))}
-                </div>
-                {/* <div class="border-8 border-sky-500 float-right h-96"></div> */}
-                <Cart />
-
-            </div>
         </div>
 
         

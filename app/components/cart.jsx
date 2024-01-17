@@ -1,4 +1,4 @@
-export default function Cart() {
+export default function Cart({ list }) {
     return(
         <div class="lg:w-96 md:w-8/12 w-full bg-red-100 float-right h-full">
         <div class="flex flex-col lg:h-screen h-auto lg:px-8 md:px-7 px-4 lg:py-20 md:py-10 py-6 justify-between overflow-y-auto border-2 border-black rounded-md">

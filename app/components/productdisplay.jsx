@@ -2,7 +2,6 @@
 import React from 'react'
 import { Button, Modal } from 'flowbite-react';
 import { useState } from 'react';
-import Link from 'next/link'
 
 const Selector = ( {product} ) => {
   if (product.clothing_size_id == 1) {
@@ -42,10 +41,10 @@ const Category = ( { subcategory, category }) => {
   }
 }
 
+
 // need to style
 const ProductDisplay = ({ product, category, subcategory, list, setList}) => {
    const [openModal, setOpenModal] = useState(false);
-  
    function increase() {
     const qtyField = document.getElementById('qtyinput');
     let num = qtyField.value;
@@ -62,9 +61,15 @@ const ProductDisplay = ({ product, category, subcategory, list, setList}) => {
     }
     qtyField.value = num;
  }
-  //  function hasSize() {
-  //     if (product.clothing_size_id)
-  //  }
+//  function AddToCart(){
+//   var qty = document.getElementById('qtyinput').value
+//   if (product.clothing_size_id == 1) {
+//     // var size = document.getElementById('size').value
+//     // var newListItem = {category.category}
+//   }
+//   setOpenModal(false);
+//  }
+
   return (
      
      <>
@@ -87,7 +92,19 @@ const ProductDisplay = ({ product, category, subcategory, list, setList}) => {
             </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => setOpenModal(false)}>Add to Cart</Button>
+          <Button onClick={() => {
+            let qty = document.getElementById('qtyinput').value
+            if (product.clothing_size_id == 1) {
+              let size = document.getElementById('size').value
+              let newListItem = qty + "x " + size + " " + category.category + " " + product.product_name + " "
+              setList([...list, newListItem])
+            }
+            else {
+              let newListItem = qty + "x " + category.category + " " + product.product_name + " "
+              setList([...list, newListItem])
+            }
+            setOpenModal(false);
+          }}>Add to Cart</Button>
         </Modal.Footer>
       </Modal>
     </>

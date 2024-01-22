@@ -23,6 +23,30 @@ const fetchProducts = async (id) => {
   return products
 }
 
+const fetchImages = async (products) => {
+  var images = {};
+  console.log(products);
+  await Promise.all(
+    products.map(async (product) => {
+      // console.log(product.image_id);
+      const imageData = await prisma.images.findUnique({
+        where: { image_id: product.image_id },
+      });
+
+      let blob = new Blob([imageData.img], { type: 'image/jpeg' });
+      console.log(blob);
+      let blobURL = URL.createObjectURL(blob);
+      console.log(blobURL);
+      
+      // Preserve the original image data and store the blobURL separately
+      images[product.image_id] = blobURL;
+    })
+  );
+  return images;
+};
+
+
+
 export default async function NYCategoryPage({ params }) {
   const id = Number(
     Array.isArray(params?.id)
@@ -35,6 +59,8 @@ const subcategories = await fetchSubcategories(id);
 
   if (subcategories === undefined || subcategories.length == 0) {
     const products = await fetchProducts(id);
+    const images = await fetchImages(products);
+    console.log(images);
     return (
       <main>
         <h2 className="text-center py-5 lg:text-4xl font-bold">{category.category}</h2>
@@ -47,7 +73,7 @@ const subcategories = await fetchSubcategories(id);
                 </div>
             </div>
 
-            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={null} />
+            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={null} images = {images} />
             
 
         </div>    

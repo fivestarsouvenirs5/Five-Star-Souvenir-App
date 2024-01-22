@@ -1,4 +1,14 @@
-export default function Cart({ list }) {
+export default function Cart({ list, setList }) {
+    function RemoveFromCart( {item}) {
+        var myItem = document.getElementById(item).value;
+        
+
+        const index = list.indexOf(myItem);
+
+        const x = list.splice(index, 1);
+
+        setList(x);
+    }
     return(
         <div class="lg:w-96 md:w-8/12 w-full bg-red-100 float-right h-full">
         <div class="flex flex-col lg:h-screen h-auto lg:px-8 md:px-7 px-4 lg:py-20 md:py-10 py-6 justify-between overflow-y-auto border-2 border-black rounded-md">
@@ -6,7 +16,22 @@ export default function Cart({ list }) {
             <p class="lg:text-4xl text-3xl font-bold leading-9 text-gray-800 dark:text-black">Summary</p>
             <p class="lg:text-1xl text-1xl font-black leading-9 text-gray-800 dark:text-black">Items in Cart:</p>
         </div>
-
+        <ul >
+            {/* fix remove from cart */}
+            {list.map((item) => (
+                <div>
+                    <li id={item}>{item}</li> <button id='remove' onClick={() => { var myItem = document.getElementById(item);
+                                                                                     const index = list.indexOf(myItem.value);
+                                                                                    const x = list.splice(index, 1);
+                                                                                    setList(x)
+                                                                                    myItem.remove();
+                                                                                    var btn = document.getElementById('remove');
+                                                                                    btn.remove();
+                                                                                    ;}} >Remove from cart</button>
+                </div>
+                   
+            ))}
+          </ul>
         <div>
             <div class="flex items-center justify-between pt-16">
             <p class="text-base leading-none text-gray-800 dark:text-black">Subtotal</p>

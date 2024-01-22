@@ -2,7 +2,6 @@
 import React from 'react'
 import { Button, Modal } from 'flowbite-react';
 import { useState } from 'react';
-import Link from 'next/link'
 
 const Selector = ( {product} ) => {
   if (product.clothing_size_id == 1) {
@@ -29,6 +28,28 @@ const Selector = ( {product} ) => {
   }
 }
 
+const Stock = ( {product} ) => {
+  if (product.in_stock === "In Stock") {
+    return (
+      <h2 className ="text-emerald-500">{product.in_stock}</h2>
+    )
+  }
+  else {
+    return (
+      <h2 className= "text-red-300">{product.in_stock}</h2>
+    )
+  }
+}
+
+const Price = ( { product } ) => {
+  // if authenticated user
+  console.log(product.price)
+  return (
+    
+    <p>${product.price}</p>
+  )
+}
+
 const Category = ( { subcategory, category }) => {
   if (subcategory == null) {
     return (
@@ -42,10 +63,10 @@ const Category = ( { subcategory, category }) => {
   }
 }
 
+
 // need to style
-const ProductDisplay = ({ product, category, subcategory, list, setList}) => {
+const ProductDisplay = ({ product, category, subcategory, list, setList, imageBlobURL}) => {
    const [openModal, setOpenModal] = useState(false);
-  
    function increase() {
     const qtyField = document.getElementById('qtyinput');
     let num = qtyField.value;
@@ -62,32 +83,55 @@ const ProductDisplay = ({ product, category, subcategory, list, setList}) => {
     }
     qtyField.value = num;
  }
-  //  function hasSize() {
-  //     if (product.clothing_size_id)
-  //  }
+//  function AddToCart(){
+//   var qty = document.getElementById('qtyinput').value
+//   if (product.clothing_size_id == 1) {
+//     // var size = document.getElementById('size').value
+//     // var newListItem = {category.category}
+//   }
+//   setOpenModal(false);
+//  }
+
   return (
      
      <>
       <Button onClick={() => setOpenModal(true)}>{product.product_name}</Button>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
-        <Modal.Header>Product Info: {product.product_name}</Modal.Header>
+        <Modal.Header>Product Info:</Modal.Header>
         <Modal.Body>
             {/*when image table is done call it to get it working */}
-            <h2>img</h2>
-            <h2>Product Name: {product.product_name}</h2>
-            <Category category = {category} subcategory = {subcategory} />
-            {/* will be what is under this but need to make column first*/}
-            <h2>{product.in_stock}</h2>
-            <form>
-                <Selector product= {product} />
-                <label>Qty: </label>
-                <input type='button' value='-' id='qtyminus'onClick={decrease} />
-                <input type='text' name='quantity' class='rounded-sm' value='0' id='qtyinput' />
-                <input type='button' value='+' id= 'qtyplus' onClick={increase}/>
-            </form>
+            <div className = "flex justify-between gap-5">
+              <img src={imageBlobURL} alt="My Image" />
+              <Price product = {product}/>
+              <div>
+                <h2>Product Name: {product.product_name}</h2>
+                <Category category = {category} subcategory = {subcategory} />
+                {/* will be what is under this but need to make column first*/}
+                <Stock product= {product} />
+                <form>
+                    <Selector product= {product} />
+                    <label>Qty: </label>
+                    {/* <input type='button' value='-' id='qtyminus'onClick={decrease} /> */}
+                    <input type='number' min='1' name='quantity' class='rounded-sm w-[81px] h-7' id='qtyinput' />
+                    {/* <input type='button' value='+' id= 'qtyplus' onClick={increase}/> */}
+                </form>
+              </div>
+            </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => setOpenModal(false)}>Add to Cart</Button>
+          <Button onClick={() => {
+            let qty = document.getElementById('qtyinput').value
+            if (product.clothing_size_id == 1) {
+              let size = document.getElementById('size').value
+              let newListItem = qty + "x " + size + " " + category.category + " " + product.product_name + " "
+              setList([...list, newListItem])
+            }
+            else {
+              let newListItem = qty + "x " + category.category + " " + product.product_name + " "
+              setList([...list, newListItem])
+            }
+            setOpenModal(false);
+          }}>Add to Cart</Button>
         </Modal.Footer>
       </Modal>
     </>

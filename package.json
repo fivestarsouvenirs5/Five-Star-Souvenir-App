@@ -17,7 +17,7 @@
     "eslint-config-next": "14.0.3",
     "flowbite-react": "^0.7.2",
     "materialize-css": "^1.0.0-rc.2",
-    "next": "^14.0.4",
+    "next": "^14.1.0",
     "postcss": "8.4.31",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -25,6 +25,6 @@
     "tailwindcss": "3.3.5"
   },
   "devDependencies": {
-    "prisma": "^5.7.0"
+    "prisma": "^5.8.1"
   }
 }

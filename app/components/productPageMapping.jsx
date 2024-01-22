@@ -9,7 +9,7 @@ import Cart from './cart'
 import {useState} from "react";
 
 
-const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory }) => {
+const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory, images }) => {
   const [listInCart, setListInCart] = useState(["test"])
 
   if (categoryList !== null) {
@@ -72,7 +72,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
         <div className="grid grid-cols-6 gap-5">
           {products.map((product) => (
                   <div className="h-1/2" key={product.product_id} >
-                      <ProductDisplay product = {product} category = {category} subcategory={null} list = {listInCart} setList = {setListInCart}/>
+                      <ProductDisplay product = {product} category = {category} subcategory={null} list = {listInCart} setList = {setListInCart} imageBlobURL = {images[product.image_id]}/>
                   </div>
               ))}
           </div>
@@ -88,7 +88,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
           <div className="grid grid-cols-6 gap-5">
             {products.map((product) => (
                     <div className="h-1/2" key={product.product_id}>
-                        <ProductDisplay product = {product} category = {category} subcategory = {subcategory} list = {listInCart} setList ={setListInCart}/>
+                        <ProductDisplay product = {product} category = {category} subcategory = {subcategory} list = {listInCart} setList ={setListInCart} imageBlobURL = {images[product.image_id]}/>
                     </div>
                 ))}
           </div>

@@ -53,12 +53,15 @@ model products {
   in_stock           String?              @db.VarChar(45)
   subcategory_id     Int?
   image_id           Int?
+  price              Float?               @db.Float
   product_order_xref product_order_xref[]
   category           category             @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_category")
+  images             images?              @relation(fields: [image_id], references: [image_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_image")
   subcategories      subcategories?       @relation(fields: [subcategory_id], references: [subcategory_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_subcategory")
 
   @@index([category_id], map: "fk_product_category_idx")
   @@index([subcategory_id], map: "fk_product_subcategory_idx")
+  @@index([image_id], map: "fk_product_image_idx")
 }
 
 model user {
@@ -80,6 +83,7 @@ model subcategories {
 }
 
 model images {
-  image_id Int    @id @default(autoincrement())
-  img      Bytes? @db.Blob
+  image_id Int        @id @default(autoincrement())
+  img      Bytes?     @db.Blob
+  products products[]
 }

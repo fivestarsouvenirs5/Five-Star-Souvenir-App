@@ -63,6 +63,18 @@ const Category = ( { subcategory, category }) => {
   }
 }
 
+const fetchImages = async ( { image_id} ) => {
+  const body = image_id;
+  console.log(body);
+  const images = await fetch('/api/images', {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json'},
+    body: JSON.stringify(body),
+  }
+  )
+  console.log(images);
+}
+
 
 // need to style
 const ProductDisplay = ({ product, category, subcategory, list, setList, imageBlobURL}) => {
@@ -91,6 +103,8 @@ const ProductDisplay = ({ product, category, subcategory, list, setList, imageBl
 //   }
 //   setOpenModal(false);
 //  }
+
+fetchImages(product.image_id);
 
   return (
      

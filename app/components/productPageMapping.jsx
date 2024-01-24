@@ -1,4 +1,3 @@
-
 'use client'
 import React from 'react'
 import CategoryNJ from './categorynj'
@@ -6,11 +5,13 @@ import CategoryNY from './categoryny'
 import ProductDisplay from './productdisplay'
 import SubCategoryNY from './subcategoryny'
 import Cart from './cart'
-import {useState} from "react";
+import { useShoppingCart } from 'use-shopping-cart';
 
 
 const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory, images }) => {
-  const [listInCart, setListInCart] = useState(["test"])
+
+  const cart = useShoppingCart();
+  const { addItem } = cart;
 
   if (categoryList !== null) {
     if (isNY == true) {
@@ -25,7 +26,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                     ))}
                 </div>
                 {/* <div class="border-8 border-sky-500 float-right h-96"></div> */}
-                <Cart list = {listInCart} setList = {setListInCart}/>
+                <Cart />
 
         </div>
       )
@@ -42,7 +43,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                     ))}
                 </div>
                 {/* <div class="border-8 border-sky-500 float-right h-96"></div> */}
-                <Cart list = {listInCart} setList = {setListInCart}/>
+                <Cart />
 
         </div>
       )
@@ -59,7 +60,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                       </div>
                   ))}
             </div>
-            <Cart list = {listInCart} setList = {setListInCart}/>
+            <Cart />
         </div>
         
       
@@ -72,11 +73,11 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
         <div className="grid grid-cols-6 gap-5">
           {products.map((product) => (
                   <div className="h-1/2" key={product.product_id} >
-                      <ProductDisplay product = {product} category = {category} subcategory={null} list = {listInCart} setList = {setListInCart} imageBlobURL = {images[product.image_id]}/>
+                      <ProductDisplay product = {product} category = {category} subcategory={null} imageBlobURL = {images[product.image_id]} addItem={addItem}/>
                   </div>
               ))}
           </div>
-          <Cart list = {listInCart} setList = {setListInCart}/> 
+          <Cart /> 
       </div>
 
     )
@@ -88,11 +89,11 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
           <div className="grid grid-cols-6 gap-5">
             {products.map((product) => (
                     <div className="h-1/2" key={product.product_id}>
-                        <ProductDisplay product = {product} category = {category} subcategory = {subcategory} list = {listInCart} setList ={setListInCart} imageBlobURL = {images[product.image_id]}/>
+                        <ProductDisplay product = {product} category = {category} subcategory = {subcategory} imageBlobURL = {images[product.image_id]} addItem = {addItem}/>
                     </div>
                 ))}
           </div>
-          <Cart list = {listInCart} setList ={setListInCart}/> 
+          <Cart /> 
 
         </div>
             

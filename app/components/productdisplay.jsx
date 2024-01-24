@@ -2,13 +2,15 @@
 import React from 'react'
 import { Button, Modal } from 'flowbite-react';
 import { useState } from 'react';
+import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-cart';
 
 const Selector = ( {product} ) => {
   if (product.clothing_size_id == 1) {
       return (
           <div>
-              <label>Please Select a Size:</label>
+              <label id='selector'>Please Select a Size:</label>
               <select >
+                  <option value=''> </option>
                   <option value="XS">X-Small</option>
                   <option value="S">Small</option>
                   <option value="M">Medium</option>
@@ -46,7 +48,7 @@ const Price = ( { product } ) => {
   console.log(product.price)
   return (
     
-    <p>${product.price}</p>
+    <p>{formatCurrencyString({ value: product.price, currency: 'USD' })}</p>
   )
 }
 
@@ -63,48 +65,34 @@ const Category = ( { subcategory, category }) => {
   }
 }
 
-const fetchImages = async ( { image_id} ) => {
-  const body = image_id;
-  console.log(body);
-  const images = await fetch('/api/images', {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json'},
-    body: JSON.stringify(body),
-  }
-  )
-  console.log(images);
-}
+// const fetchImages = async ( { image_id} ) => {
+//   const body = image_id;
+//   console.log(body);
+//   const images = await fetch('/api/images', {
+//     method: 'GET',
+//     headers: { 'Content-Type': 'application/json'},
+//     body: JSON.stringify(body),
+//   }
+//   )
+//   console.log(images);
+// }
 
 
 // need to style
-const ProductDisplay = ({ product, category, subcategory, list, setList, imageBlobURL}) => {
+const ProductDisplay = ({ product, category, subcategory, imageBlobURL, addItem}) => {
    const [openModal, setOpenModal] = useState(false);
-   function increase() {
-    const qtyField = document.getElementById('qtyinput');
-    let num = qtyField.value;
-    num++;
-    qtyField.value = num;
- }
+  //  var size = document.getElementById('selector').value
+  var cartDisplayProduct ={
+    name: category.category + ' ' + product.product_name,
+    id: category.category + '_' + product.product_name,
+    price: product.price,
+    currency: 'USD',
+    // image: image,
+    // product_data:{
+    //   size: size
+    // }
+  }
 
- function decrease() {
-    const qtyField = document.getElementById('qtyinput');
-    let num = qtyField.value;
-    num--;
-    if (num < 0) {
-      num = 0;
-    }
-    qtyField.value = num;
- }
-//  function AddToCart(){
-//   var qty = document.getElementById('qtyinput').value
-//   if (product.clothing_size_id == 1) {
-//     // var size = document.getElementById('size').value
-//     // var newListItem = {category.category}
-//   }
-//   setOpenModal(false);
-//  }
-
-fetchImages(product.image_id);
 
   return (
      
@@ -120,30 +108,26 @@ fetchImages(product.image_id);
               <div>
                 <h2>Product Name: {product.product_name}</h2>
                 <Category category = {category} subcategory = {subcategory} />
-                {/* will be what is under this but need to make column first*/}
                 <Stock product= {product} />
                 <form>
                     <Selector product= {product} />
                     <label>Qty: </label>
-                    {/* <input type='button' value='-' id='qtyminus'onClick={decrease} /> */}
                     <input type='number' min='1' name='quantity' class='rounded-sm w-[81px] h-7' id='qtyinput' />
-                    {/* <input type='button' value='+' id= 'qtyplus' onClick={increase}/> */}
                 </form>
               </div>
             </div>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={() => {
-            let qty = document.getElementById('qtyinput').value
+            let qty = parseInt(document.getElementById('qtyinput').value)
             if (product.clothing_size_id == 1) {
               let size = document.getElementById('size').value
-              let newListItem = qty + "x " + size + " " + category.category + " " + product.product_name + " "
-              setList([...list, newListItem])
+              addItem(cartDisplayProduct, {count: qty, product_data: {size: size}})
             }
             else {
-              let newListItem = qty + "x " + category.category + " " + product.product_name + " "
-              setList([...list, newListItem])
+              addItem(cartDisplayProduct, {count: qty})
             }
+            
             setOpenModal(false);
           }}>Add to Cart</Button>
         </Modal.Footer>

@@ -8,16 +8,9 @@ export const GET = handleAuth({
     },
     returnTo: "/",
   }),
-  signup: handleLogin({
-    authorizationParams: {
-      prompt: "signup",
-    },
-    returnTo: "/",
-  }),
   // signup: handleLogin({
   //   authorizationParams: {
-  //     prompt: "login",
-  //     screen_hint: "signup",
+  //     prompt: "signup",
   //   },
   //   returnTo: "/",
   // }),

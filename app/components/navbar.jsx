@@ -38,7 +38,7 @@ export default function NavBar() {
 
                     {/* login/logout */}
                     <div className="flex items-center space-x-1">
-                        <a href="/api/auth/signup" className="py-5 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Signup</a>
+                        <a href="/signup" className="py-5 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Signup</a>
                         <a href="/api/auth/login" className="py-5 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Login</a>
                         <a href="/api/auth/logout" className="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Logout</a>
                     </div>

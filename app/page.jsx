@@ -1,5 +1,19 @@
 
 export default function Home() {
+  // var myHeaders = new Headers();
+  // myHeaders.append("Accept", "application/json");
+
+  // var requestOptions = {
+  //   method: 'GET',
+  //   headers: myHeaders,
+  //   redirect: 'follow'
+  // };
+
+  // fetch("https://login.auth0.com/api/v2/users", requestOptions)
+  //   .then(response => response.text())
+  //   .then(result => console.log(result))
+  //   .catch(error => console.log('error', error));
+
   return (
     <main >
       {/* <h2 className="text-purple-600">Home</h2> */}

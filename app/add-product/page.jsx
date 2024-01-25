@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import fetch from 'node-fetch'
 
 const AddProductForm = () => {
   const [ product_name, setProduct_name ] = useState('')

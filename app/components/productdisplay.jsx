@@ -107,7 +107,6 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
                 alt="My Image1"
                 />
               </div>
-``
               <div>
                 <h2>Product Name: {product.product_name}</h2>
                 <Price product = {product}/>

@@ -8,7 +8,7 @@ import Cart from './cart'
 import { useShoppingCart } from 'use-shopping-cart';
 
 
-const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory, images }) => {
+const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory }) => {
 
   const cart = useShoppingCart();
   const { addItem } = cart;
@@ -73,7 +73,16 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
         <div className="grid grid-cols-6 gap-5">
           {products.map((product) => (
                   <div className="h-1/2" key={product.product_id} >
-                      <ProductDisplay product = {product} category = {category} subcategory={null} imageBlobURL = {images[product.image_id]} addItem={addItem}/>
+                    <div className = "bg-cyan-600 rounded-2xl pl-2 pr-2 pt-2">
+                      {/* <img className="w-80 rounded-2xl pb-3"
+                      src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
+                      alt="My Image1"/> */}
+                      <div className="flex items-center justify-center pb-4">
+                        <ProductDisplay product = {product} category = {category} subcategory={null} addItem={addItem}/>
+                      </div>
+                      
+                    </div>
+                    
                   </div>
               ))}
           </div>
@@ -89,7 +98,17 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
           <div className="grid grid-cols-6 gap-5">
             {products.map((product) => (
                     <div className="h-1/2" key={product.product_id}>
-                        <ProductDisplay product = {product} category = {category} subcategory = {subcategory} imageBlobURL = {images[product.image_id]} addItem = {addItem}/>
+                      <div className = "bg-cyan-600 rounded-2xl pl-2 pr-2 pt-2">
+
+                      <img className="w-80 rounded-2xl pb-3"
+                      src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
+                      alt="My Image1"/>
+
+                      <div className="flex items-center justify-center pb-4">
+                        <ProductDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem}/>
+                      </div>
+                      
+                    </div>
                     </div>
                 ))}
           </div>

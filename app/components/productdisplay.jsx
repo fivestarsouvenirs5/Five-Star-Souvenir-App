@@ -48,7 +48,7 @@ const Price = ( { product } ) => {
   console.log(product.price)
   return (
     
-    <p>{formatCurrencyString({ value: product.price, currency: 'USD' })}</p>
+    <p>Price: {formatCurrencyString({ value: product.price, currency: 'USD' })}</p>
   )
 }
 
@@ -79,7 +79,7 @@ const Category = ( { subcategory, category }) => {
 
 
 // need to style
-const ProductDisplay = ({ product, category, subcategory, imageBlobURL, addItem}) => {
+const ProductDisplay = ({ product, category, subcategory, addItem}) => {
    const [openModal, setOpenModal] = useState(false);
   //  var size = document.getElementById('selector').value
   var cartDisplayProduct ={
@@ -93,20 +93,27 @@ const ProductDisplay = ({ product, category, subcategory, imageBlobURL, addItem}
     // }
   }
 
-
   return (
      
      <>
-      <Button onClick={() => setOpenModal(true)}>{product.product_name}</Button>
+      <button onClick={() => setOpenModal(true)}> <img class="w-60"
+                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
+                alt="My Image1"
+                /></button>
+      <label>{product.product_name}</label>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Product Info:</Modal.Header>
         <Modal.Body>
-            {/*when image table is done call it to get it working */}
-            <div className = "flex justify-between gap-5">
-              <img src={imageBlobURL} alt="My Image" />
-              <Price product = {product}/>
+            <div className = "flex justify-between">              
+              <div>
+              <img class="w-60"
+                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
+                alt="My Image1"
+                />
+              </div>
               <div>
                 <h2>Product Name: {product.product_name}</h2>
+                <Price product = {product}/>
                 <Category category = {category} subcategory = {subcategory} />
                 <Stock product= {product} />
                 <form>

@@ -25,18 +25,18 @@ const fetchProducts = async (id) => {
      return categories
    }
 
-   const fetchImages = async (products) => {
-    var images = {}
-    console.log(products)
-    await Promise.all( 
-      products.map(async (product) => (
-      // console.log(product.image_id),
-      images[product.image_id] = await prisma.images.findUnique({
-        where: { image_id: product.image_id },
-      })
-    )))
-    return images
-  }
+  //  const fetchImages = async (products) => {
+  //   var images = {}
+  //   console.log(products)
+  //   await Promise.all( 
+  //     products.map(async (product) => (
+  //     // console.log(product.image_id),
+  //     images[product.image_id] = await prisma.images.findUnique({
+  //       where: { image_id: product.image_id },
+  //     })
+  //   )))
+  //   return images
+  // }
 
 export default async function Subcategory({ params }) {
     const id = Number(
@@ -48,7 +48,7 @@ export default async function Subcategory({ params }) {
 
     const products = await fetchProducts(id);
     // console.log(products);
-    const images = await fetchImages(product);
+    // const images = await fetchImages(product);
 
     const subcategory = await fetchSubcategories(id);
 
@@ -66,7 +66,7 @@ export default async function Subcategory({ params }) {
                 </div>
             </div>
 
-            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={subcategory} images = {images}/>
+            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={subcategory} />
       
         </div>
     </main>

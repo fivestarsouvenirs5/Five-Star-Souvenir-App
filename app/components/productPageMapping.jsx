@@ -74,9 +74,9 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
           {products.map((product) => (
                   <div className="h-1/2" key={product.product_id} >
                     <div className = "bg-cyan-600 rounded-2xl pl-2 pr-2 pt-2">
-                      <img className="w-80 rounded-2xl pb-3"
+                      {/* <img className="w-80 rounded-2xl pb-3"
                       src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
-                      alt="My Image1"/>
+                      alt="My Image1"/> */}
                       <div className="flex items-center justify-center pb-4">
                         <ProductDisplay product = {product} category = {category} subcategory={null} addItem={addItem}/>
                       </div>

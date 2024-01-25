@@ -96,13 +96,17 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
   return (
      
      <>
-      <Button onClick={() => setOpenModal(true)}>{product.product_name}</Button>
+      <button onClick={() => setOpenModal(true)}> <img class="w-60"
+                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
+                alt="My Image1"
+                /></button>
+      <label>{product.product_name}</label>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Product Info:</Modal.Header>
         <Modal.Body>
             <div className = "flex justify-between">              
               <div>
-                <img class="w-60"
+              <img class="w-60"
                 src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
                 alt="My Image1"
                 />

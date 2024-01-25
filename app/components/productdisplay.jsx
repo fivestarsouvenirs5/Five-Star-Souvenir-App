@@ -79,7 +79,7 @@ const Category = ( { subcategory, category }) => {
 
 
 // need to style
-const ProductDisplay = ({ product, category, subcategory, imageBlobURL, addItem}) => {
+const ProductDisplay = ({ product, category, subcategory, addItem}) => {
    const [openModal, setOpenModal] = useState(false);
   //  var size = document.getElementById('selector').value
   var cartDisplayProduct ={
@@ -107,7 +107,7 @@ const ProductDisplay = ({ product, category, subcategory, imageBlobURL, addItem}
                 alt="My Image1"
                 />
               </div>
-
+``
               <div>
                 <h2>Product Name: {product.product_name}</h2>
                 <Price product = {product}/>

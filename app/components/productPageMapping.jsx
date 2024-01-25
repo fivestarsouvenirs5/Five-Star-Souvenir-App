@@ -8,7 +8,7 @@ import Cart from './cart'
 import { useShoppingCart } from 'use-shopping-cart';
 
 
-const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory, images }) => {
+const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory }) => {
 
   const cart = useShoppingCart();
   const { addItem } = cart;
@@ -73,7 +73,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
         <div className="grid grid-cols-6 gap-5">
           {products.map((product) => (
                   <div className="h-1/2" key={product.product_id} >
-                      <ProductDisplay product = {product} category = {category} subcategory={null} imageBlobURL = {images[product.image_id]} addItem={addItem}/>
+                      <ProductDisplay product = {product} category = {category} subcategory={null} addItem={addItem}/>
                   </div>
               ))}
           </div>
@@ -89,7 +89,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
           <div className="grid grid-cols-6 gap-5">
             {products.map((product) => (
                     <div className="h-1/2" key={product.product_id}>
-                        <ProductDisplay product = {product} category = {category} subcategory = {subcategory} imageBlobURL = {images[product.image_id]} addItem = {addItem}/>
+                        <ProductDisplay product = {product} category = {category} subcategory = {subcategory} addItem = {addItem}/>
                     </div>
                 ))}
           </div>

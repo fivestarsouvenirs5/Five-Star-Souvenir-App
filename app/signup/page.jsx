@@ -1,24 +1,57 @@
 'use client'
 import auth0 from 'auth0-js';
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+// import React, { useState } from 'react'
+// import { useRouter } from 'next/navigation'
 
 {/* <script src="https://cdn.auth0.com/js/auth0/9.11/auth0.min.js"></script> */}
 
 
+// async function signUpDatabase({first_name, last_name, email, telephone_number, approval_status}) {
+//     alert("hello");
+//     // const router = useRouter()
+//     // e.preventDefault()
+//     alert("Now going to database");
+//         console.log(first_name);
+//         const body = {firstname: first_name, lastname: last_name, user_email: email, phonenumber: telephone_number, approvalstatus: approval_status};
+//         console.log(body);
+//         await fetch('/api/signup', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: body,
+//         })
+//     // try {
+//     //     alert("Now going to database");
+//     //     const body = {first_name, last_name, email, telephone_number, approval_status};
+//     //     console.log(body);
+//     //     await fetch('/api/signup', {
+//     //     method: 'POST',
+//     //     headers: { 'Content-Type': 'application/json' },
+//     //     body: JSON.stringify(body),
+//     //     })
+
+//     //     router.push('/')
+//     // } catch (error) {
+//     //     console.error(error)
+//     // }
+// }
+
 function signupAfterSubmit() {
-    const auth0Config = {
-        domain: 'dev-ruajdlwtnuw587py.us.auth0.com',
-        clientID: 'eRA4f5qgaavK99bNnxheJOUpP4QgxiHO',
-    };
+    // const auth0Config = {
+    //     domain: env("AUTH0_DOMAIN"),
+    //     clientID: env("AUTH0_CLIENT_ID"),
+    // };
+    
     const auth0SignUp = new auth0.WebAuth(auth0Config);
 
-    const firstname = document.getElementById('first_name').value
-    const lastname = document.getElementById('signup-lastname').value;
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
-    const phonenumber = document.getElementById('signup-telephonenumber').value;
-    
+    var firstname = document.getElementById('first_name').value;
+    console.log(firstname);
+    var lastname = document.getElementById('signup-lastname').value;
+    var email = document.getElementById('signup-email').value;
+    var password = document.getElementById('signup-password').value;
+    var phonenumber = document.getElementById('signup-telephonenumber').value;
+
+    // signUpDatabase(firstname, lastname, email, phonenumber, false);
+
     auth0SignUp.signup({
         connection: 'Five-Star-Souvenirs-Database',
         name: firstname,
@@ -32,32 +65,17 @@ function signupAfterSubmit() {
           console.error(err);
           return alert("Something went wrong with your signup.");
         } else {
-          console.log(result);
+        //   console.log(result);
           return alert("Successful signup! Yay!");
           // Handle successful sign-up
         }
     });
-
+    
     // const [ firstname, setFirst_name ] = useState('')
     // const [ last_name, setLast_name ] = useState('')
     // const [ email, setEmail ] = useState('')
     // const [ phone_number, setPhone_number ] = useState('')
     // const [ approval_status, setApproval_status ] = useState('')
-    const router = useRouter()
-    const submitData = async (e) => {
-        e.preventDefault()
-        try {
-          await fetch('/api/signup', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-          })
-    
-          router.push('/logged-in')
-        } catch (error) {
-          console.error(error)
-        }
-      }
 }
 
 
@@ -75,7 +93,7 @@ export default function signup() {
                         <h5>PLEASE SIGN UP</h5>
                     </div>
                     <div id="signup-error-message" className="alert alert-danger"></div>
-                    <form onSubmit={signupAfterSubmit}>
+                    <form>
                         <div className="form-group">
                             <label for="name">First Name</label>
                             <input type="text" className="form-control" id="first_name" placeholder="Enter your first name"></input>

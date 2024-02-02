@@ -65,11 +65,14 @@ model products {
 }
 
 model user {
-  user_id      Int      @id @default(autoincrement())
-  first_name   String   @db.VarChar(45)
-  last_name    String   @db.VarChar(45)
-  company_name String   @db.VarChar(45)
-  orders       orders[]
+  user_id         Int      @id @default(autoincrement())
+  first_name      String   @db.VarChar(45)
+  last_name       String   @db.VarChar(45)
+  company_name    String?  @db.VarChar(45)
+  email           String   @db.VarChar(95)
+  phonenumber     String   @db.VarChar(95)
+  approval_status Int      @default(0) @db.TinyInt
+  orders          orders[]
 }
 
 model subcategories {

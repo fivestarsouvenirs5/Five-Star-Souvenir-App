@@ -65,6 +65,26 @@ const Category = ( { subcategory, category }) => {
   }
 }
 
+const ImgSrc = ( { subcategory, category, product }) => {
+    if (subcategory == null) {
+      return (
+        <img class="w-60"
+                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
+                alt="My Image1"
+                />
+      )
+    }
+    else {
+      return (
+        <img class="w-60"
+                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(subcategory.subcategory_name)}/${encodeURIComponent(product.product_name)}.jpg`} 
+                alt="My Image2"
+                />
+      )
+    }
+  }
+
+
 // const fetchImages = async ( { image_id} ) => {
 //   const body = image_id;
 //   console.log(body);
@@ -94,22 +114,19 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
   }
 
   return (
-     
      <>
-      <button onClick={() => setOpenModal(true)}> <img class="w-60"
-                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
-                alt="My Image1"
-                /></button>
+      <button onClick={() => setOpenModal(true)}> 
+        <ImgSrc category = {category} subcategory={subcategory} product = {product} />
+      </button>
+
       <label>{product.product_name}</label>
+
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Product Info:</Modal.Header>
         <Modal.Body>
             <div className = "flex justify-between">              
               <div>
-              <img class="w-60"
-                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
-                alt="My Image1"
-                />
+              <ImgSrc category = {category} subcategory={subcategory} product = {product} />
               </div>
               <div>
                 <h2>Product Name: {product.product_name}</h2>

@@ -1,3 +1,5 @@
+const webpack = require('webpack'); // Import webpack
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     // Your existing Next.js configuration options here

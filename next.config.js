@@ -6,15 +6,13 @@ const nextConfig = {
     // webpack5: true,
   
     webpack: (config, { isServer }) => {
-      // Add external modules for server build only
-      if (isServer) {
-        config.externals.push({
-            'node:buffer': 'buffer',
-            'node:fs': 'fs',
-            'node:https': 'https',
-            'node:http': 'http',
-            'node:net': 'net'
-        });
+      // Add the NormalModuleReplacementPlugin to replace requests prefixed with 'node:'
+      if (!isServer) {
+        config.plugins.push(
+          new webpack.NormalModuleReplacementPlugin(/node:/, (resource) => {
+            resource.request = resource.request.replace(/^node:/, "");
+          })
+        );
       }
   
       return config;

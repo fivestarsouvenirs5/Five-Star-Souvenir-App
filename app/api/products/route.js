@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-import {NextResponse} from "next/server"
-const prisma = new PrismaClient();
+// import { PrismaClient } from "@prisma/client";
+// import {NextResponse} from "next/server"
+// const prisma = new PrismaClient();
 
 // POST /api/products
 
@@ -13,20 +13,20 @@ const prisma = new PrismaClient();
 //   })
 //   console.log("created record")
 //   res.json(result)
-// }
+// // }
 
-export async function POST(request) {
-  // console.log(request.json())
-  const { product_name } = await request.json()
-  console.log( product_name )
-  const result = await prisma.products.create({
-      data: {
-        product_name: product_name,
-      },
-    })
-    console.log("created record")
-    return NextResponse.json(result)
-}
+// export async function POST(request) {
+//   // console.log(request.json())
+//   const { product_name } = await request.json()
+//   console.log( product_name )
+//   const result = await prisma.products.create({
+//       data: {
+//         product_name: product_name,
+//       },
+//     })
+//     console.log("created record")
+//     return NextResponse.json(result)
+// }
 
 
 

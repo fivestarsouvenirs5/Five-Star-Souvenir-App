@@ -1,7 +1,10 @@
 'use client'
 import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-cart';
+import OrderButton from './orderButton'
+
 
 function CartEntry({ entry, removeItem }) {
+  console.log(entry.location)
     return (
       <div>
         <h3></h3>
@@ -35,7 +38,7 @@ export default function Cart() {
         <CartEntry key={entry.id} entry={entry} removeItem={removeItem} />
       ))
 
-    console.log(cartEntries)
+    // console.log(cartEntries)
     
     return(
         <div className="lg:w-96 md:w-8/12 w-full bg-red-100 float-right h-full">
@@ -59,7 +62,7 @@ export default function Cart() {
                 <svg className="w-6 h-6 text-gray-800 dark:text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1"/>
                 </svg>
-                <button className="text-black">Order</button>
+                <OrderButton cartDetails={cartDetails} />
             </div>
             
         </div>

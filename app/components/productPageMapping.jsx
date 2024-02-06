@@ -73,7 +73,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
         <div className="grid grid-cols-6 gap-5">
           {products.map((product) => (
                   <div className="h-1/2" key={product.product_id} >
-                    <div className = "bg-cyan-600 rounded-2xl pl-2 pr-2 pt-2">
+                    <div className = "bg-white-600 rounded-2xl pl-2 pr-2 pt-2">
                       {/* <img className="w-80 rounded-2xl pb-3"
                       src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
                       alt="My Image1"/> */}
@@ -98,14 +98,10 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
           <div className="grid grid-cols-6 gap-5">
             {products.map((product) => (
                     <div className="h-1/2" key={product.product_id}>
-                      <div className = "bg-cyan-600 rounded-2xl pl-2 pr-2 pt-2">
-
-                      {/* <img className="w-80 rounded-2xl pb-3"
-                      src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
-                      alt="My Image1"/> */}
+                      <div className = "bg-red-600 rounded-2xl pl-2 pr-2 pt-2">
 
                       <div className="flex items-center justify-center pb-4">
-                        <ProductDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem}/>
+                        <ProductDisplay className="bg-red-100" product = {product} category = {category} subcategory={subcategory} addItem={addItem}/>
                       </div>
                       
                     </div>

@@ -1,8 +1,33 @@
+// import React, { useState } from 'react';
+import axios from 'axios';
+
 export default function Contact() {
-    // const [fullname, setFullname] = useState("");
-    // const [email, setEmail] = useState("");
-    // const [subject, setSubject] = useState("");
-    // const [message, setMessage] = useState("");
+//     const [fullname, setFullname] = useState("");
+//     const [email, setEmail] = useState("");
+//     const [subject, setSubject] = useState("");
+//     const [message, setMessage] = useState("");
+
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    
+    //     try {
+    //       // Make a POST request to Brevo's API
+    //       const response = await axios.post('BREVO_API_ENDPOINT', {
+    //         apiKey: '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',
+    //         fullname: fullname,
+    //         email: email,
+    //         subject: subject,
+    //         message: message
+    //       });
+    
+    //       console.log(response.data);
+    //       // Handle the response or update your UI accordingly
+    //     } catch (error) {
+    //       console.error('Error submitting form:', error);
+    //       // Handle errors or update UI with error message
+    //     }
+    //   };
 
     return (
         <main>

@@ -129,12 +129,16 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
   }
   
   return (
-     <>
-      <button onClick={() => setOpenModal(true)}> 
-        <ImgSrc category = {category} subcategory={subcategory} product = {product} />
-      </button>
-
-      <label>{product.product_name}</label>
+    <>
+      <div className="border-2 bg-red-100 flex flex-col items-center">
+        <button className="border-b-2" onClick={() => setOpenModal(true)}> 
+          <ImgSrc category = {category} subcategory={subcategory} product = {product} />
+        </button>
+        <label className="flex justify items-center">
+          {product.product_name}
+        </label>
+     </div>
+      
 
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Product Info:</Modal.Header>

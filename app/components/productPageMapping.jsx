@@ -31,13 +31,15 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
         </div>
       )
     }
+    // is NJ
     else{
       return (
         <div className = "flex justify-between gap-10">
 
-                <div className="grid grid-cols-6 gap-5 h-1/6">
+          
+                <div className="grid grid-cols-6 gap-5">
                     {categoryList.map((category) => (
-                        <div className="border rounded-md flex items-center justify-center w-full text-center text-xl bg-blue-100 hover:bg-blue-300" key={category.category_id} >                        
+                        <div className="border rounded-md flex items-center justify-center text-center text-xl bg-blue-100 hover:bg-blue-300" key={category.category_id} >                        
                             <CategoryNJ category = {category} />
                         </div>
                     ))}

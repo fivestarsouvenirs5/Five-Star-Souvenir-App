@@ -67,12 +67,23 @@ const Category = ( { subcategory, category }) => {
 
 const ImgSrc = ( { subcategory, category, product }) => {
     if (subcategory == null) {
-      return (
+      if (category.category_location == 0) {
+        return (
+          <img class="w-60"
+                src={`/images/CATEGORIES/NJ/${encodeURIComponent(product.product_name)}.jpg`} 
+                alt="My Image3"
+                />
+        )
+      }
+      else {
+        return (
         <img class="w-60"
                 src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
                 alt="My Image1"
                 />
-      )
+        )
+      }
+      
     }
     else {
       return (

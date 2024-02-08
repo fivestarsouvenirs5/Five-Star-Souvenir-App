@@ -4,7 +4,7 @@ import OrderButton from './orderButton'
 
 
 function CartEntry({ entry, removeItem }) {
-  console.log(entry.location)
+  // console.log(entry.product_data.location)
     return (
       <div>
         <h3></h3>
@@ -34,7 +34,9 @@ export default function Cart() {
     const cart = useShoppingCart()
     const { removeItem, cartDetails, clearCart, formattedTotalPrice } = cart  
 
+    console.log(cartDetails);
     const cartEntries = Object.values(cartDetails ?? {}).map((entry) => (
+
         <CartEntry key={entry.id} entry={entry} removeItem={removeItem} />
       ))
 

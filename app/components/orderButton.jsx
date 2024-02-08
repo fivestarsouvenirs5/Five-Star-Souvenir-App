@@ -4,17 +4,16 @@ export default function OrderButton({ cartDetails }) {
   const [loading, setLoading] = useState(false);
 
   const handleOrderButtonClick = async () => {
+
     try {
       setLoading(true);
-
       const response = await fetch('/api/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ cartDetails })
+        body: JSON.stringify({cartDetails})
       });
-      console.log(response)
       if (!response.ok) {
         throw new Error('Failed to fetch order data');
       }

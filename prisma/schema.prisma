@@ -54,6 +54,7 @@ model products {
   subcategory_id     Int?
   image_id           Int?
   price              Float?               @db.Float
+  order_form_cell    String               @db.VarChar(45)
   product_order_xref product_order_xref[]
   category           category             @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_category")
   images             images?              @relation(fields: [image_id], references: [image_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_image")

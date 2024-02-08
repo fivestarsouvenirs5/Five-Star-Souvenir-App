@@ -85,7 +85,7 @@ export default function signup() {
             <div id="signup-box" className="login-container">
                 <div className="col-xs-12 col-sm-4 col-sm-offset-4 login-box">
                     <div className="login-header">
-                        <img src="https://cdn.auth0.com/styleguide/1.0.0/img/badge.svg" />
+                        <img alt= "signupImg" src="https://cdn.auth0.com/styleguide/1.0.0/img/badge.svg" />
                         <h3>Welcome</h3>
                         <h5>PLEASE SIGN UP</h5>
                     </div>

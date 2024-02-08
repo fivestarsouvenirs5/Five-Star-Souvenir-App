@@ -65,6 +65,26 @@ const Category = ( { subcategory, category }) => {
   }
 }
 
+const ImgSrc = ( { subcategory, category, product }) => {
+    if (subcategory == null) {
+      return (
+        <img class="w-60"
+                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
+                alt="My Image1"
+                />
+      )
+    }
+    else {
+      return (
+        <img class="w-60"
+                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(subcategory.subcategory_name)}/${encodeURIComponent(product.product_name)}.jpg`} 
+                alt="My Image2"
+                />
+      )
+    }
+  }
+
+
 // const fetchImages = async ( { image_id} ) => {
 //   const body = image_id;
 //   console.log(body);
@@ -82,34 +102,50 @@ const Category = ( { subcategory, category }) => {
 const ProductDisplay = ({ product, category, subcategory, addItem}) => {
    const [openModal, setOpenModal] = useState(false);
   //  var size = document.getElementById('selector').value
-  var cartDisplayProduct ={
-    name: category.category + ' ' + product.product_name,
-    id: category.category + '_' + product.product_name,
-    price: product.price,
-    currency: 'USD',
-    // image: image,
-    // product_data:{
-    //   size: size
-    // }
+  var cartDisplayProduct
+  if (subcategory !== null){
+    cartDisplayProduct ={
+      name: subcategory.subcategory_name + ' ' + product.product_name,
+      id: subcategory.subcategory_name + '_' + product.product_name,
+      price: product.price,
+      currency: 'USD',
+      // image: image,
+      // product_data:{
+      //   location: category.category_location
+      // }
+    }
   }
-
+  else {
+    cartDisplayProduct ={
+      name: category.category + ' ' + product.product_name,
+      id: category.category + '_' + product.product_name,
+      price: product.price,
+      currency: 'USD',
+      // image: image,
+      // product_data:{
+      //   location: category.category_location
+      // }
+    }
+  }
+  
   return (
-     
-     <>
-      <button onClick={() => setOpenModal(true)}> <img class="w-60"
-                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
-                alt="My Image1"
-                /></button>
-      <label>{product.product_name}</label>
+    <>
+      <div className="border-2 bg-red-100 flex flex-col items-center">
+        <button className="border-b-2" onClick={() => setOpenModal(true)}> 
+          <ImgSrc category = {category} subcategory={subcategory} product = {product} />
+        </button>
+        <label className="flex justify items-center">
+          {product.product_name}
+        </label>
+     </div>
+      
+
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Product Info:</Modal.Header>
         <Modal.Body>
             <div className = "flex justify-between">              
               <div>
-              <img class="w-60"
-                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
-                alt="My Image1"
-                />
+              <ImgSrc category = {category} subcategory={subcategory} product = {product} />
               </div>
               <div>
                 <h2>Product Name: {product.product_name}</h2>
@@ -129,10 +165,10 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
             let qty = parseInt(document.getElementById('qtyinput').value)
             if (product.clothing_size_id == 1) {
               let size = document.getElementById('size').value
-              addItem(cartDisplayProduct, {count: qty, product_data: {size: size}})
+              addItem(cartDisplayProduct, {count: qty, product_metadata: {size: size, location: category.category_location, cell: product.order_form_cell}})
             }
             else {
-              addItem(cartDisplayProduct, {count: qty})
+              addItem(cartDisplayProduct, {count: qty, product_metadata: {location: category.category_location, cell: product.order_form_cell}})
             }
             
             setOpenModal(false);

@@ -1,5 +1,9 @@
 'use client'
 import auth0 from 'auth0-js';
+import React from 'react'
+import { Button, Modal } from 'flowbite-react';
+// import { useState } from 'react';
+require('dotenv').config();
 // import React, { useState } from 'react'
 // import { useRouter } from 'next/navigation'
 
@@ -36,11 +40,16 @@ import auth0 from 'auth0-js';
 // }
 
 function signupAfterSubmit() {
-    // const auth0Config = {
-    //     domain: env("AUTH0_DOMAIN"),
-    //     clientID: env("AUTH0_CLIENT_ID"),
-    // };
-    
+    const auth0Domain = process.env.domain;
+    console.log(auth0Domain);
+    const auth0ClientId = process.env.clientID;
+    console.log(auth0ClientId);
+
+    const auth0Config = {
+        domain: auth0Domain,
+        clientID: auth0ClientId,
+    }
+
     const auth0SignUp = new auth0.WebAuth(auth0Config);
 
     var firstname = document.getElementById('first_name').value;
@@ -50,8 +59,6 @@ function signupAfterSubmit() {
     var password = document.getElementById('signup-password').value;
     var phonenumber = document.getElementById('signup-telephonenumber').value;
 
-    // signUpDatabase(firstname, lastname, email, phonenumber, false);
-
     auth0SignUp.signup({
         connection: 'Five-Star-Souvenirs-Database',
         name: firstname,
@@ -59,29 +66,19 @@ function signupAfterSubmit() {
         email: email,
         password: password, 
         user_metadata: { phonenumber: phonenumber },
-        app_metadata: {approval_status: false}
+        // app_metadata: {approval_status: true}
       }, function (err, result) {
         if (err) {
           console.error(err);
           return alert("Something went wrong with your signup.");
         } else {
-        //   console.log(result);
           return alert("Successful signup! Yay!");
-          // Handle successful sign-up
         }
     });
-    
-    // const [ firstname, setFirst_name ] = useState('')
-    // const [ last_name, setLast_name ] = useState('')
-    // const [ email, setEmail ] = useState('')
-    // const [ phone_number, setPhone_number ] = useState('')
-    // const [ approval_status, setApproval_status ] = useState('')
 }
 
 
 export default function signup() {
-    
-    
     return(
         <html>
             
@@ -120,12 +117,6 @@ export default function signup() {
                     </form>
                 </div>
             </div>
-        
-            {/* <script>
-                <script src="/js/signup.js"></script>
-                
-            </script> */}
-
         </html>
     )
 }

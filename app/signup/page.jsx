@@ -81,38 +81,46 @@ function signupAfterSubmit() {
 export default function signup() {
     return(
         <html>
-            
             <div id="signup-box" className="login-container">
-                <div className="col-xs-12 col-sm-4 col-sm-offset-4 login-box">
-                    <div className="login-header">
+                <div className="col-xs-12 col-sm-4 col-sm-offset-4 login-box flex flex-col items-center p-6 gap-10 py-20">
+                    <div className="login-header flex flex-col items-center">
                         <img alt= "signupImg" src="https://cdn.auth0.com/styleguide/1.0.0/img/badge.svg" />
                         <h3>Welcome</h3>
                         <h5>PLEASE SIGN UP</h5>
                     </div>
                     <div id="signup-error-message" className="alert alert-danger"></div>
                     <form>
-                        <div className="form-group">
-                            <label for="name">First Name</label>
-                            <input type="text" className="form-control" id="first_name" placeholder="Enter your first name"></input>
+
+                        <div className="flex flex-col gap-2 py-2">
+                            <label class="font-bold">First Name</label>
+                            <input type="text" className="form-control border-2 border-rose-600/50" id="first_name" placeholder="Enter your first name"></input>
                         </div>
-                        <div className="form-group">
-                            <label for="name">Last Name</label>
-                            <input type="text" className="form-control" id="signup-lastname" placeholder="Enter your last name"></input>
+
+                        <div className="flex flex-col gap-2 py-2">
+                            <label class="font-bold">Last Name</label>
+                            <input type="text" className="form-control border-2 border-rose-600/50" id="signup-lastname" placeholder="Enter your last name"></input>
                         </div>
-                        <div className="form-group">
-                            <label for="name">Telephone Number</label>
-                            <input type="tel" className="form-control" id="signup-telephonenumber" placeholder="Enter your telephone number"></input>
+
+                        <div className="flex flex-col gap-2 py-2">
+                            <label class="font-bold">Telephone Number</label>
+                            <input type="tel" className="form-control border-2 border-rose-600/50" id="signup-telephonenumber" placeholder="Enter your telephone number"></input>
                         </div>
-                        <div className="form-group">
-                            <label for="name">Email</label>
-                            <input type="email" className="form-control" id="signup-email" placeholder="Enter your email"></input>
+
+                        <div className="flex flex-col gap-2 py-2">
+                            <label class="font-bold">Email</label>
+                            <input type="email" className="form-control border-2 border-rose-600/50" id="signup-email" placeholder="Enter your email"></input>
                         </div>
-                        <div className="form-group">
-                            <label for="name">Password</label>
-                            <input type="password" className="form-control" id="signup-password" placeholder="Enter your password"></input>
+
+                        <div className="flex flex-col gap-2 py-2">
+                            <label class="font-bold">Password</label>
+                            <input type="password" className="form-control border-2 border-rose-600/50" id="signup-password" placeholder="Enter your password"></input>
                         </div>
-                        <div className="captcha-container form-group"></div>
-                        <button type="button" onClick={signupAfterSubmit} class="w-[100px] h-[50px] font-bold border border-rose-600/50 hover:border-rose-600 ..." id="btn-signup">Sign Up!</button>
+
+                        <div className="flex flex-col items-center py-5">
+                            <div className="captcha-container form-group"></div>
+                            <button type="button" onClick={signupAfterSubmit} class="w-[100px] h-[50px] font-bold border border-rose-600/50 hover:border-rose-600 ..." id="btn-signup">Sign Up!</button>
+                        </div>
+                        
 
                     </form>
                 </div>

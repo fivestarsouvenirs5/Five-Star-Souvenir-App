@@ -42,7 +42,7 @@ export default function OrderButton() {
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Order Complete</Modal.Header>
         <Modal.Body>
-            <h2> Thank you for placing an order! <Your></Your> order has been sent to Five Star Souvenirs for processing. Any questions or concerns please contact Five Star Souvenirs.</h2>
+            <h2> Thank you for placing an order! Your order has been sent to Five Star Souvenirs for processing. Any questions or concerns please contact Five Star Souvenirs.</h2>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={() => {

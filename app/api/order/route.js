@@ -1,8 +1,8 @@
 import ExcelJS from 'exceljs';
 import fs from 'fs';
-// import {brevo} from '@getbrevo/brevo';
 import path from 'path';
 import  process  from 'process';
+import os from 'os';
 
 export async function POST(request) {
  try { 
@@ -44,13 +44,12 @@ export async function POST(request) {
       //make filename be better, like include store name and date
       var outputPath;
       if (ny == true) {
-        outputPath = path.join(process.cwd(), '/order_forms', 'current_order_ny.xlsx');
+        outputPath = path.join(os.tmpdir(), 'current_order_ny.xlsx');
         await NYworkbook.xlsx.writeFile(outputPath);
       }
       else{
-        outputPath = path.join(process.cwd(), '/order_forms', 'current_order_nj.xlsx'); 
+        outputPath = path.join(os.tmpdir(), 'current_order_nj.xlsx');
         await NJworkbook.xlsx.writeFile(outputPath);
-
         
       }
       const fileContents = fs.readFileSync(outputPath, {encoding: 'base64'});

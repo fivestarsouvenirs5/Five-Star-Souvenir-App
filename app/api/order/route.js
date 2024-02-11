@@ -1,21 +1,22 @@
 import ExcelJS from 'exceljs';
 import fs from 'fs';
 // import {brevo} from '@getbrevo/brevo';
-// import {join} from 'path';
-// import { cwd } from 'process';
+import path from 'path';
+import  process  from 'process';
 
 export async function POST(request) {
  try { 
       const cartDetails = await request.json(); // Assuming cartDetails is sent in the request body
       var ny = false;
       var nj = false;
-
-      const NYfilePath = "public/order_forms/order_ny_template_xlsx.xlsx"; 
+      console.log(process.cwd())
+      
+      const NYfilePath = path.join(process.cwd(), '/order_forms', 'order_ny_template_xlsx.xlsx'); 
       const NYworkbook = new ExcelJS.Workbook();
       await NYworkbook.xlsx.readFile(NYfilePath);
       const NYworksheet = NYworkbook.getWorksheet(1);
 
-      const NJfilePath = "public/order_forms/order_nj_template_xlsx.xlsx"; 
+      const NJfilePath = path.join(process.cwd(), '/order_forms', 'order_nj_template_xlsx.xlsx'); 
       const NJworkbook = new ExcelJS.Workbook();
       await NJworkbook.xlsx.readFile(NJfilePath);
 
@@ -43,11 +44,11 @@ export async function POST(request) {
       //make filename be better, like include store name and date
       var outputPath;
       if (ny == true) {
-        outputPath = "public/order_forms/current_order_ny.xlsx";
+        outputPath = path.join(process.cwd(), '/order_forms', 'current_order_ny.xlsx');
         await NYworkbook.xlsx.writeFile(outputPath);
       }
       else{
-        outputPath = "public/order_forms/current_order_nj.xlsx"; 
+        outputPath = path.join(process.cwd(), '/order_forms', 'current_order_nj.xlsx'); 
         await NJworkbook.xlsx.writeFile(outputPath);
 
         

@@ -10,12 +10,12 @@ export async function POST(request) {
       var ny = false;
       var nj = false;
 
-      const NYfilePath = "./order_forms/order_ny_template_xlsx.xlsx"; 
+      const NYfilePath = "public/order_forms/order_ny_template_xlsx.xlsx"; 
       const NYworkbook = new ExcelJS.Workbook();
       await NYworkbook.xlsx.readFile(NYfilePath);
       const NYworksheet = NYworkbook.getWorksheet(1);
 
-      const NJfilePath = "./order_forms/order_nj_template_xlsx.xlsx"; 
+      const NJfilePath = "public/order_forms/order_nj_template_xlsx.xlsx"; 
       const NJworkbook = new ExcelJS.Workbook();
       await NJworkbook.xlsx.readFile(NJfilePath);
 
@@ -43,11 +43,11 @@ export async function POST(request) {
       //make filename be better, like include store name and date
       var outputPath;
       if (ny == true) {
-        outputPath = "./order_forms/current_order_ny.xlsx";
+        outputPath = "public/order_forms/current_order_ny.xlsx";
         await NYworkbook.xlsx.writeFile(outputPath);
       }
       else{
-        outputPath = "./order_forms/current_order_nj.xlsx"; 
+        outputPath = "public/order_forms/current_order_nj.xlsx"; 
         await NJworkbook.xlsx.writeFile(outputPath);
 
         

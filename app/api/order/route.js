@@ -1,5 +1,6 @@
 import ExcelJS from 'exceljs';
 import fs from 'fs';
+// import {brevo} from '@getbrevo/brevo';
 // import {join} from 'path';
 // import { cwd } from 'process';
 
@@ -51,15 +52,42 @@ export async function POST(request) {
 
         
       }
-      const fileContents = fs.readFileSync(outputPath);
-      
+      const fileContents = fs.readFileSync(outputPath, {encoding: 'base64'});
 
-      const headers = {
-              'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-              'Content-Disposition': 'attachment; filename="current_order.xlsx"'
-            };
+      const brevo = require('@getbrevo/brevo');
+       // Set your API key
+       let apiInstance = new brevo.TransactionalEmailsApi();
+
+       let apiKey = apiInstance.authentications['apiKey'];
+        apiKey.apiKey = process.env.BREVO_API_KEY;
+        
+
+        let sendSmtpEmail = new brevo.SendSmtpEmail(); 
+
+        sendSmtpEmail.subject = "New Order (date)";
+        sendSmtpEmail.htmlContent = "<html><body><h1>Attached is a new order by ...</h1></body></html>";
+        sendSmtpEmail.sender = { name: 'Order', email: 'akelnik.9@gmail.com' };
+        sendSmtpEmail.to = [{ email: 'akelnik.9@gmail.com', name: 'Five Star Souvenirs' }];
+
+        // Attach the file
+          // const fileData = Buffer.from(attachment, 'base64');
+          sendSmtpEmail.attachment = [{ name: 'new_order.xlsx', content: fileContents }];
+        
+          const headers = {
+            // 'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            // 'Content-Disposition': 'attachment; filename="current_order.xlsx"'
+            'Content-Type': 'application/json',
+          };
+
+        // Call the sendTransacEmail method to send the email
+        const data = await apiInstance.sendTransacEmail(sendSmtpEmail)
+
+        console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+        return new Response(JSON.stringify(data), {headers})
+
+     
       
-      return new Response(fileContents, {headers})
+      
     } catch (error) {
       console.error('Error reading or modifying XLSX file:', error);
       return new Response('Failed to process XLSX file', { status: 500 });

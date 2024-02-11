@@ -91,3 +91,11 @@ model images {
   img      Bytes?     @db.Blob
   products products[]
 }
+
+model clothing_product_size {
+  size_id                  Int    @id
+  clothing_product_id      Int
+  size                     String @db.VarChar(45)
+  clothing_order_form_cell String @db.VarChar(45)
+  price                    Int
+}

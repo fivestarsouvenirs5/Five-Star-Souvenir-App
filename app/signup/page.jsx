@@ -80,7 +80,6 @@ function signupAfterSubmit() {
 
 export default function signup() {
     return(
-        <html>
             <div id="signup-box" className="login-container">
                 <div className="col-xs-12 col-sm-4 col-sm-offset-4 login-box flex flex-col items-center p-6 gap-10 py-20">
                     <div className="login-header flex flex-col items-center">
@@ -125,7 +124,6 @@ export default function signup() {
                     </form>
                 </div>
             </div>
-        </html>
     )
 }
 

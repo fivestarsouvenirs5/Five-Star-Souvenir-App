@@ -1,8 +1,14 @@
+'use client'
 import { useState } from 'react';
+import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-cart';
+import { Button, Modal } from 'flowbite-react';
 
-export default function OrderButton({ cartDetails }) {
+export default function OrderButton() {
   const [loading, setLoading] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
+  const cart = useShoppingCart()
+  const { cartDetails, clearCart } = cart  
   const handleOrderButtonClick = async () => {
 
     try {
@@ -15,22 +21,13 @@ export default function OrderButton({ cartDetails }) {
         body: JSON.stringify({cartDetails})
       });
       if (!response.ok) {
+        console.log(response)
         throw new Error('Failed to fetch order data');
       }
 
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      clearCart()
+      setOpenModal(true);
 
-      // Create a link element and click it to trigger the download
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'current_order.xlsx';
-      document.body.appendChild(link);
-      link.click();
-
-      // Clean up
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error fetching order data:', error);
     } finally {
@@ -43,6 +40,18 @@ export default function OrderButton({ cartDetails }) {
       <button onClick={handleOrderButtonClick} className="text-black" disabled={loading}>
         {loading ? 'Processing...' : 'Order'}
       </button>
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header>Order Complete</Modal.Header>
+        <Modal.Body>
+            <h2> Thank you for placing an order! Your order has been sent to Five Star Souvenirs for processing. Any questions or concerns please contact Five Star Souvenirs.</h2>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={() => {
+            setOpenModal(false);
+            window.location.assign("/products/new-york")
+          }}>Continue Shopping</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

@@ -9,17 +9,18 @@ export default function AboutUs() {
                 className="text-black text-[40px] font-bold font-['Inter']">Souvenirs with creative designs and innovative ideas.</span></div>
             </div> */}
             {/* we are five star souvenirs (BOX NOT CENTERED) */}
-            <h1 className="text-center py-5 lg:text-4xl font-bold drop-shadow-[0_1.2px_1.2px_rgba(200,0,0,0.8]">About Us</h1>
-            <div class="py-10 flex items-center justify-center h-screen">
-                <div class="text-center bg-gray-300 w-2/3">
-                    <h3>
+            <h1 className="text-center pt-10 lg:text-4xl font-bold drop-shadow-[0_1.2px_1.2px_rgba(200,0,0,0.8] ">About Us</h1>
+            <div className=" flex items-center justify-center h-screen">
+           
+                <div className=" w-2/3">
+                    <h3 className="text-center font-bold">
                         <b className="text-red-600">F</b>avorite <b className="text-red-600">S</b>top for affordable <b className="text-red-600">S</b>ouvenirs with creative designs and innovative ideas.
                     </h3>
                     
-                    <div class="inline-flex items-center justify-center w-full">
-                    <hr class="w-64 h-1 my-8 bg-gray-200 border-0 rounded dark:bg-gray-700"/>
-                    <div class="absolute px-4 -translate-x-1/2 bg-white left-1/2 dark:bg-gray-900">
-                        <svg class="w-4 h-4 text-gray-700 dark:text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
+                    <div className="inline-flex items-center justify-center w-full">
+                    <hr className="w-64 h-1 my-8 bg-gray-200 border-0 rounded dark:bg-gray-700"/>
+                    <div className="absolute px-4 -translate-x-1/2 bg-white left-1/2 dark:bg-gray-900">
+                        <svg className="w-4 h-4 text-gray-700 dark:text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
                     <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z"/>
                     </svg>
                         </div>
@@ -34,7 +35,7 @@ export default function AboutUs() {
                     <p>Today, we are working with more than 20 suppliers, and have a team of dedicated salespeople who market and distribute about 50 different types of souvenirs to more than 100 retail stores. We consider all of them to be our partners, who help us reach our main goal: to produce affordable high-quality souvenirs. We are really thankful to all of them for making this possible.
                     </p>
                     <br></br>
-                    <h3>What sets Five Star Souvenirs Inc. from other companies is:</h3>
+                    <h3 className="text-center font-bold">What sets Five Star Souvenirs Inc. from other companies is:</h3>
                     <div className="w-2/3 p-6 mx-auto">
                         <ul className="list-disc text-left">
                             <li>ability to create unique designs by using real images and drawings of New York City and its landmarks as well as other tourist destinations. </li>
@@ -51,3 +52,5 @@ export default function AboutUs() {
         </main>
     )
 }
+
+  

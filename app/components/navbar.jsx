@@ -1,5 +1,54 @@
 import Link from 'next/link'
+import { getSession } from '@auth0/nextjs-auth0';
 
+async function MainLinks() {
+    const session = await getSession();
+    if (!session || !session.user) {
+        return (
+            <div className="flex items-center space-x-1">
+            <img className="h-14 w-28" src="/images/Logo.png" alt="" />
+
+                <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
+                <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
+                <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
+                <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+            </div>
+        )
+    }
+    else {
+        return (
+            <div className="flex items-center space-x-1">
+            <img className="h-14 w-28" src="/images/Logo.png" alt="" />
+
+                <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
+                <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
+                <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
+                <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+                <a href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</a>
+            </div>
+            
+        )
+    }
+}
+
+async function AuthenticationButtons() {
+    const session = await getSession();
+    if (!session || !session.user) {
+        return (
+            <div className="flex items-center space-x-1">
+            <a href="/signup" className="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Signup</a>
+            <a href="/api/auth/login" className="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Login</a>
+            </div>
+        )
+    }
+    else {
+        return (
+            <div className="flex items-center space-x-1">
+            <a href="/api/auth/logout" className="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Logout</a>
+            </div>
+        )
+    }
+}
 export default function NavBar() {
     return (
     <nav>
@@ -25,25 +74,11 @@ export default function NavBar() {
                         </div> */}
 
                         {/* Primary Nav */}
-                        <div className="flex items-center space-x-1">
-                        <img className="h-14 w-28" src="/images/Logo.png" alt="" />
-
-                            <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
-                            <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
-                            <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
-                            <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
-                            <a href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</a>
-                            {/* find way to only have profile tab show when logged in */}
-                        </div>
-
+                        
+                        <MainLinks />
                     </div>
 
-                    {/* login/logout */}
-                    <div className="flex items-center space-x-1">
-                        <a href="/signup" className="py-5 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Signup</a>
-                        <a href="/api/auth/login" className="py-5 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Login</a>
-                        <a href="/api/auth/logout" className="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Logout</a>
-                    </div>
+                    <AuthenticationButtons />
 
                     {/* mobile button here */}
                     {/* <div class="md:hidden flex items-center">
@@ -61,24 +96,7 @@ export default function NavBar() {
             </div> */}
         </nav>
         
-        
-        {/* <div className="w-[1195px] h-[49px] relative">
-        <div className="w-[1195px] h-[49px] left-0 top-0 absolute">
-            <div className="w-[1195px] h-[49px] left-0 top-0 absolute bg-red-400" />
-            <div className="w-[100px] h-9 left-[74px] top-[6px] absolute text-black text-[32px] font-normal font-['Inter']">
-            <Link href="/">home</Link>
-            </div>
-        </div>
-        <div className="w-[139px] h-9 left-[1002px] top-[6px] absolute text-black text-[32px] font-normal font-['Inter']">
-            <Link href="/about-us">about us</Link>
-            </div>
-        <div className="w-[139px] h-9 left-[370px] top-[6px] absolute text-black text-[32px] font-normal font-['Inter']">
-            <Link href="/order">order</Link>
-        </div>
-        <div className="w-[139px] h-9 left-[686px] top-[6px] absolute text-black text-[32px] font-normal font-['Inter']">
-            <Link href="/contact">contact</Link><br/>
-        </div>
-        </div> */}
+
         
     </nav>
     )

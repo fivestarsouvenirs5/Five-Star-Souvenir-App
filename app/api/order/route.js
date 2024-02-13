@@ -27,13 +27,13 @@ export async function POST(request) {
           if (entry.product_data.location == 1) {
             var cell = NYworksheet.getCell(entry.product_data.cell)
             cell.value = entry.quantity;
-            cell.font = { color: {argb: 'FF000000'}}
+            cell.font = { color: {argb: 'FF0000FF'}}
             ny = true;
           }
           else {
             var cell = NJworksheet.getCell(entry.product_data.cell)
             cell.value = entry.quantity;
-            cell.font = {color: {argb: 'FF000000'}}
+            cell.font = {color: {argb: 'FF0000FF'}}
             nj = true;
           }
         })

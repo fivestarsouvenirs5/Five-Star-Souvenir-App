@@ -21,7 +21,6 @@ export default function OrderButton() {
         body: JSON.stringify({cartDetails})
       });
       if (!response.ok) {
-        console.log(response)
         throw new Error('Failed to fetch order data');
       }
 

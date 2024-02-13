@@ -11,7 +11,7 @@ import { useShoppingCart } from 'use-shopping-cart';
 const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory }) => {
 
   const cart = useShoppingCart();
-  const { addItem } = cart;
+  const { addItem, formattedTotalPrice } = cart;
 
   if (categoryList !== null) {
     if (isNY == true) {

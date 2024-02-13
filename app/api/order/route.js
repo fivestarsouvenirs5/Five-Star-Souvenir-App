@@ -25,14 +25,17 @@ export async function POST(request) {
       Object.values(cartDetails ?? {}).map((array) => (
         Object.values(array ?? {}).map((entry) =>{
           if (entry.product_data.location == 1) {
-            NYworksheet.getCell(entry.product_data.cell).value = entry.quantity;
+            var cell = NYworksheet.getCell(entry.product_data.cell)
+            cell.value = entry.quantity;
+            cell.font = { color: {argb: 'FF0000FF'}}
             ny = true;
           }
           else {
-            NJworksheet.getCell(entry.product_data.cell).value = entry.quantity;
+            var cell = NJworksheet.getCell(entry.product_data.cell)
+            cell.value = entry.quantity;
+            cell.font = {color: {argb: 'FF0000FF'}}
             nj = true;
           }
-          
         })
       ))
 

@@ -91,9 +91,10 @@ const ImgSrc = ( { subcategory, category, product }) => {
 
 const ProductDisplay = ({ product, category, subcategory, addItem}) => {
   const {user} = useUser();
+  const [openModal, setOpenModal] = useState(false);
 
   if (user) {
-      const [openModal, setOpenModal] = useState(false);
+      
       //  var size = document.getElementById('selector').value
       var cartDisplayProduct
       if (subcategory !== null){

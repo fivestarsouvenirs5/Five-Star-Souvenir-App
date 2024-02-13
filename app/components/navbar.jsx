@@ -35,9 +35,9 @@ function MainLinks() {
 }
 
 function AuthenticationButtons() {
+    const [openModal, setOpenModal] = useState(false);
     const {user} = useUser();
     if (!user) {
-        const [openModal, setOpenModal] = useState(false);
         return (
             <div className="flex items-center space-x-1">
             <a href="/signup" className="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Signup</a>

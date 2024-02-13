@@ -28,9 +28,20 @@ function CartEntry({ entry, removeItem }) {
 export default function Cart() {
     // console.log(cartEntries)
     const { user} = useUser();
+    const cart = useShoppingCart()
+    const [hydrated, setHydrated] = useState(false);
+    useEffect(() => {
+      // This forces a rerender, so the date is rendered
+      // the second time but not the first
+      setHydrated(true);
+    }, []);
+    if (!hydrated) {
+      // Returns null on first render, so the client and server match
+      return null;
+    }
 
     if (user) {
-        const cart = useShoppingCart()
+        
         const { removeItem, cartDetails, clearCart, formattedTotalPrice } = cart  
     
         // console.log(cartDetails);
@@ -39,16 +50,8 @@ export default function Cart() {
             <CartEntry key={entry.id} entry={entry} removeItem={removeItem} />
           ))
     
-          const [hydrated, setHydrated] = useState(false);
-        useEffect(() => {
-          // This forces a rerender, so the date is rendered
-          // the second time but not the first
-          setHydrated(true);
-        }, []);
-        if (!hydrated) {
-          // Returns null on first render, so the client and server match
-          return null;
-        }
+          
+        
         return(
           <div className="lg:w-96 md:w-8/12 w-full bg-red-100 float-right h-full">
           <div className="flex flex-col lg:h-screen h-auto lg:px-8 md:px-7 px-4 lg:py-20 md:py-10 py-6 justify-between overflow-y-auto rounded-md">

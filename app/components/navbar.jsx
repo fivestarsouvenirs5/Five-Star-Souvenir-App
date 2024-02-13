@@ -1,9 +1,12 @@
+'use client'
 import Link from 'next/link'
-import { getSession } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import {useState} from 'react';
+import { Button, Modal } from 'flowbite-react';
 
-async function MainLinks() {
-    const session = await getSession();
-    if (!session || !session.user) {
+function MainLinks() {
+    const {user} = useUser();
+    if (!user) {
         return (
             <div className="flex items-center space-x-1">
             <img className="h-14 w-28" src="/images/Logo.png" alt="" />
@@ -31,13 +34,39 @@ async function MainLinks() {
     }
 }
 
-async function AuthenticationButtons() {
-    const session = await getSession();
-    if (!session || !session.user) {
+function AuthenticationButtons() {
+    const {user} = useUser();
+    if (!user) {
+        const [openModal, setOpenModal] = useState(false);
         return (
             <div className="flex items-center space-x-1">
             <a href="/signup" className="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Signup</a>
-            <a href="/api/auth/login" className="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Login</a>
+            {/* <a href="/api/auth/login" className="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Login</a> */}
+                
+            <button className="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded" onClick={() => setOpenModal(true)}> 
+                Login
+            </button>
+            
+            
+
+            <Modal show={openModal} onClose={() => setOpenModal(false)}>
+                <Modal.Header>Please Enter Your Email</Modal.Header>
+                <Modal.Body>    
+                        <div className="flex flex-col gap-2 py-2">
+                            <label class="font-bold">Email</label>
+                            <input type="email" className="form-control border-2 border-rose-600/50" id="signup-email" placeholder="Enter your email"></input>
+                        </div>
+                </Modal.Body>
+                <Modal.Footer>
+                <Button onClick={() => {
+                    //this is where you will do the fetch to api/login (our api route), the response should be an indicator of what to do
+                    //and here is where you would redirect/proceed to login/tell them to sign up depending on the responst
+                    //right now i have it going to the auth0 login page automatically
+                    setOpenModal(false);
+                    window.location.assign("/api/auth/login")
+                }}>Proceed To Login</Button>
+                </Modal.Footer>
+            </Modal>
             </div>
         )
     }

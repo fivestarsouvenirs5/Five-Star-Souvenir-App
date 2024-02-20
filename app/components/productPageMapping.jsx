@@ -3,15 +3,46 @@ import React from 'react'
 import CategoryNJ from './categorynj'
 import CategoryNY from './categoryny'
 import ProductDisplay from './productdisplay'
+import ClothingDisplay from './clothingDisplay'
 import SubCategoryNY from './subcategoryny'
 import Cart from './cart'
 import { useShoppingCart } from 'use-shopping-cart';
 
 
-const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory }) => {
+const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory, clothingList }) => {
 
   const cart = useShoppingCart();
   const { addItem, formattedTotalPrice } = cart;
+
+  const Cloth = ({ product, category, subcategory, addItem, clothingList }) => {
+    if (product.clothing_size_id == 1) {
+      if (subcategory == null) {
+        const filteredClothes = clothingList.filter(item => item.clothing_product_id === product.product_id);
+        
+        return (
+          <ClothingDisplay product = {product} category = {category} subcategory={null} addItem={addItem} clothe={filteredClothes} />
+        )
+      }
+      else {
+        return (
+          <ClothingDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem}/>
+        )
+      }
+    }
+    else {
+      if (subcategory == null) {
+        return (
+          <ProductDisplay product = {product} category = {category} subcategory={null} addItem={addItem}/>
+        )
+      }
+      else {
+        return (
+          <ProductDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem}/>
+        )
+      }
+      
+    }
+  }
 
   if (categoryList !== null) {
     if (isNY == true) {
@@ -77,7 +108,8 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                   <div className="h-1/2" key={product.product_id} >
                     <div className = "bg-white-600 rounded-2xl pl-2 pr-2 pt-2">
                       <div className="flex items-center justify-center pb-4 text-[25px]">
-                        <ProductDisplay product = {product} category = {category} subcategory={null} addItem={addItem}/>
+                        <Cloth product = {product} category = {category} subcategory={subcategory} addItem={addItem} clothingList={clothingList} />
+                        {/* <ProductDisplay product = {product} category = {category} subcategory={null} addItem={addItem}/> */}
                       </div>
                       
                     </div>
@@ -100,7 +132,8 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                       <div className = "bg-white-600 rounded-2xl pl-2 pr-2 pt-2">
 
                       <div className="flex items-center justify-center pb-4">
-                        <ProductDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem}/>
+                        <Cloth product = {product} category = {category} subcategory={subcategory} addItem={addItem} />
+                        {/* <ProductDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem}/> */}
                       </div>
                       
                     </div>

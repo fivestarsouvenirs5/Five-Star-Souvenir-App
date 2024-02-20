@@ -23,29 +23,15 @@ const fetchProducts = async (id) => {
   return products
 }
 
-// const fetchImages = async (products) => {
-//   var images = {};
-//   console.log(products);
-//   await Promise.all(
-//     products.map(async (product) => {
-//       // console.log(product.image_id);
-//       const imageData = await prisma.images.findUnique({
-//         where: { image_id: product.image_id },
-//       });
-
-//       let blob = new Blob([imageData.img], { type: 'image/jpeg' });
-//       console.log(blob);
-//       let blobURL = URL.createObjectURL(blob);
-//       console.log(blobURL);
-      
-//       // Preserve the original image data and store the blobURL separately
-//       images[product.image_id] = blobURL;
-//     })
-//   );
-//   return images;
-// };
-
-
+const fetchClothing = async () => {
+  const clothes = await prisma.clothing_product_size.findMany({
+    where: {clothing_product_id: 291},
+    // NEED TO CHANGE OBV i think itd be best to add a column to the clothing_product_size table that gives the products cateogry id so that
+    // here we can just say where: {category_id: id} so it can find it better
+    // but idk if adding a column to the table will mess up the database stuff so i shall just leave this for now
+  })
+  return clothes
+}
 
 export default async function NYCategoryPage({ params }) {
   const id = Number(
@@ -59,7 +45,7 @@ const subcategories = await fetchSubcategories(id);
 
   if (subcategories === undefined || subcategories.length == 0) {
     const products = await fetchProducts(id);
-    // const images = await fetchImages(products);
+    const clothing = await fetchClothing();
     return (
       <main>
         <h2 className="text-center py-5 lg:text-4xl font-bold">{category.category}</h2>
@@ -72,7 +58,7 @@ const subcategories = await fetchSubcategories(id);
                 </div>
             </div>
 
-            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={null} />
+            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={null} clothingList={clothing}/>
             
 
         </div>    
@@ -94,7 +80,7 @@ else {
                 </div>
             </div>
 
-            <ProductPageMapping products={null} categoryList={null} subcategoryList={subcategories} isNY={true} category={null} subcategory={null} />
+            <ProductPageMapping products={null} categoryList={null} subcategoryList={subcategories} isNY={true} category={null} subcategory={null} clothingList={clothing} />
             
 
         </div>

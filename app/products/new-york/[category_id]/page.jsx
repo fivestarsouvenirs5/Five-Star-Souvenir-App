@@ -23,9 +23,9 @@ const fetchProducts = async (id) => {
   return products
 }
 
-const fetchClothing = async () => {
+const fetchClothing = async (id) => {
   const clothes = await prisma.clothing_product_size.findMany({
-    where: {clothing_product_id: 291},
+    where: {category_id: id},
     // NEED TO CHANGE OBV i think itd be best to add a column to the clothing_product_size table that gives the products cateogry id so that
     // here we can just say where: {category_id: id} so it can find it better
     // but idk if adding a column to the table will mess up the database stuff so i shall just leave this for now
@@ -45,7 +45,7 @@ const subcategories = await fetchSubcategories(id);
 
   if (subcategories === undefined || subcategories.length == 0) {
     const products = await fetchProducts(id);
-    const clothing = await fetchClothing();
+    const clothing = await fetchClothing(id);
     return (
       <main>
         <h2 className="text-center py-5 lg:text-4xl font-bold">{category.category}</h2>

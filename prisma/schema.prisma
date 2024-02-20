@@ -93,8 +93,9 @@ model images {
 }
 
 model clothing_product_size {
-  size_id                  Int    @id
+  size_id                  Int    @id @default(autoincrement())
   clothing_product_id      Int
+  category_id              Int
   size                     String @db.VarChar(45)
   clothing_order_form_cell String @db.VarChar(45)
   price                    Int

@@ -143,7 +143,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
           
                 <div className="grid grid-cols-6 gap-5">
                     {categoryList.map((category) => (
-                      <div>
+                      <div key={category.category_id}>
                         <div className="border rounded-md flex items-center justify-center text-center text-xl bg-blue-100 hover:bg-blue-300" key={category.category_id} >                        
                             <CategoryNJ category = {category} />
                            

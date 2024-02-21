@@ -42,7 +42,7 @@ export default async function NJProductsPage() {
                 </div>
             </div>
 
-            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={false} category={category} subcategory={null} />
+            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={false} category={category} subcategory={null} subMainCategory={null} />
 
        </div>
     </main>

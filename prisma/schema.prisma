@@ -77,7 +77,7 @@ model user {
 }
 
 model subcategories {
-  subcategory_id   Int        @id
+  subcategory_id   Int        @id @default(autoincrement())
   subcategory_name String     @db.VarChar(135)
   catg_id          Int
   products         products[]

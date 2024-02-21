@@ -52,7 +52,7 @@ export default async function Subcategory({ params }) {
 
     const subcategory = await fetchSubcategories(id);
 
-    const category = await fetchCategories(products[0].category_id);
+    const category = await fetchCategories(subcategory.catg_id);
 
     return (
       <main>
@@ -66,7 +66,7 @@ export default async function Subcategory({ params }) {
                 </div>
             </div>
 
-            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={subcategory} />
+            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={subcategory} subMainCategory={null}/>
       
         </div>
     </main>

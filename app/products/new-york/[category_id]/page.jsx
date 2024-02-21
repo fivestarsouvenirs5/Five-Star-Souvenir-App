@@ -58,7 +58,7 @@ const subcategories = await fetchSubcategories(id);
                 </div>
             </div>
 
-            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={null} clothingList={clothing}/>
+            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={null} clothingList={clothing} subMainCategory={null}/>
             
 
         </div>    
@@ -67,6 +67,7 @@ const subcategories = await fetchSubcategories(id);
   }
 
 else {
+  const clothing = await fetchClothing(id);
   return (
     <main>
       
@@ -80,7 +81,7 @@ else {
                 </div>
             </div>
 
-            <ProductPageMapping products={null} categoryList={null} subcategoryList={subcategories} isNY={true} category={null} subcategory={null} clothingList={clothing} />
+            <ProductPageMapping products={null} categoryList={null} subcategoryList={subcategories} isNY={true} category={null} subcategory={null} clothingList={clothing} subMainCategory={category}/>
             
 
         </div>

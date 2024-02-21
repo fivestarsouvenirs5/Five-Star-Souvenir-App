@@ -96,7 +96,7 @@ export default function AddProductButton({ category, subcategory }) {
                                 <input type="text" id="newProductName"></input>
                                 <label>Price: *in cents*</label>
                                 <input type="number" id="newProductPrice"></input>
-                                <label>Stock *Please write 'In Stock' or a custom message: </label>
+                                <label>Stock *Please write &apos;In Stock&apos; or a custom message: </label>
                                 <input type="text" id="newProductStock"></input>
                                 <label>Is this a clothing item? </label>
                                 <input type="checkbox" id="clothing?"></input>

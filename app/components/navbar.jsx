@@ -58,13 +58,52 @@ function AuthenticationButtons() {
                         </div>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button onClick={() => {
-                    //this is where you will do the fetch to api/login (our api route), the response should be an indicator of what to do
-                    //and here is where you would redirect/proceed to login/tell them to sign up depending on the responst
-                    //right now i have it going to the auth0 login page automatically
+                <Button onClick={async () => {
+                    //new code
+                    //const [loading, setLoading] = useState(false);
+                    var useremail = document.getElementById('signup-email').value;
+
+                    try {
+                        //setLoading(true);
+                        const response = await fetch('/api/login', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify({useremail})
+                        });
+                        
+                        console.log(response.status);
+                        const myResponse = await response.json();
+                        console.log(myResponse);
+                        if (!response.ok) {
+                            alert("This is an incorrect email.");
+                            throw new Error('Failed to fetch the email of this user');
+                        }
+                        else {
+                            if (myResponse.noUserMessage == "usernotfound") {
+                                alert("It seems that you are not registered. Please make sure there are not typos in the email or go to signup to register.");
+                                window.location.assign("/signup")
+                            }
+                            else {
+                                if (myResponse.userExistsButNotApproved == "usernotapproved") {
+                                    alert("You are not a valid user. You must wait for admin.");
+                                }
+                                else if (myResponse.userExistsAndApproved == "userapproved") {
+                                    alert("You are a valid user. Proceed to login!")
+                                    window.location.assign("/api/auth/login")
+                                }
+                            }
+                        }
+                        setOpenModal(true);
+                  
+                      } catch (error) {
+                            console.error('Error fetching the email of this user:', error);
+                      } finally {
+                        //setLoading(false);
+                      }
                     setOpenModal(false);
-                    window.location.assign("/api/auth/login")
-                }}>Proceed To Login</Button>
+                }}>Proceed</Button>
                 </Modal.Footer>
             </Modal>
             </div>

@@ -77,7 +77,7 @@ model user {
 }
 
 model subcategories {
-  subcategory_id   Int        @id
+  subcategory_id   Int        @id @default(autoincrement())
   subcategory_name String     @db.VarChar(135)
   catg_id          Int
   products         products[]
@@ -93,8 +93,9 @@ model images {
 }
 
 model clothing_product_size {
-  size_id                  Int    @id
+  size_id                  Int    @id @default(autoincrement())
   clothing_product_id      Int
+  category_id              Int
   size                     String @db.VarChar(45)
   clothing_order_form_cell String @db.VarChar(45)
   price                    Int

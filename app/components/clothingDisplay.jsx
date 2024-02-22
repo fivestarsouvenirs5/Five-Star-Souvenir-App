@@ -5,31 +5,32 @@ import { useState } from 'react';
 import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-cart';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
+let selected_size = "";
 
-const Selector = ( {product} ) => {
-  if (product.clothing_size_id == 1) {
-      return (
-          <div>
-              <label id='selector'>Please Select a Size:</label>
-              <select >
-                  <option value=''> </option>
-                  <option value="XS">X-Small</option>
-                  <option value="S">Small</option>
-                  <option value="M">Medium</option>
-                  <option value="L">Large</option>
-                  <option value="XL">X-Large</option>
-                  <option value="2XL">2X-Large</option>
-              </select>
-              <br></br>
-          </div>
-          
-      )
-  }
-  else {
-      return (
-          <br></br>
-      )
-  }
+
+const Selector = ( {sizeList} ) => {
+  const [selectedSize, setSelectedSize] = useState('');
+
+  const handleSizeChange = (event) => {
+    setSelectedSize(event.target.value);
+  };
+
+    return (
+        <div>
+            <label id='selector'>Please Select a Size: </label>
+            <select onChange={handleSizeChange} value={selectedSize}>
+              <option value="" disabled>--</option> {/* not good cuz someone may add to cart with this selected */}
+              {sizeList.map((size, index) => (
+                <option key={index} value={size}>{size}</option>
+              ))}
+            </select>
+            <br></br>
+            {/* <p>Selected Size: {selectedSize}</p> */}
+            <label hidden>{selected_size = selectedSize}</label>
+
+        </div>
+        
+    )
 }
 
 const Stock = ( {product} ) => {
@@ -44,7 +45,6 @@ const Stock = ( {product} ) => {
     )
   }
 }
-  
 
 const Category = ( { subcategory, category }) => {
   if (subcategory == null) {
@@ -89,19 +89,25 @@ const ImgSrc = ( { subcategory, category, product }) => {
     }
   }
 
-const ProductDisplay = ({ product, category, subcategory, addItem}) => {
+const ClothingDisplay = ({ product, category, subcategory, addItem, clothe}) => {
   const {user} = useUser();
   const [openModal, setOpenModal] = useState(false);
 
+  // console.log(clothe, product.product_id)
+
+  var cartDisplayProduct
   if (user) {
-      
+      const filteredSizes = clothe.map(item => item.size);
+      const filteredPrices = clothe.map(item => item.price);
+      const clothingPrice = filteredPrices[filteredSizes.indexOf(selected_size)];
+
       //  var size = document.getElementById('selector').value
-      var cartDisplayProduct
+      
       if (subcategory !== null){
         cartDisplayProduct ={
           name: subcategory.subcategory_name + ' ' + product.product_name,
           id: subcategory.subcategory_name + '_' + product.product_name,
-          price: product.price,
+          price: clothingPrice,
           currency: 'USD',
           // image: image,
           // product_data:{
@@ -113,15 +119,17 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
         cartDisplayProduct ={
           name: category.category + ' ' + product.product_name,
           id: category.category + '_' + product.product_name,
-          price: product.price,
+          price: clothingPrice,
           currency: 'USD',
+    
           // image: image,
           // product_data:{
           //   location: category.category_location
           // }
         }
       }
-      
+
+
       return (
         <>
           <div className="border-2 bg-red-100 flex flex-col items-center">
@@ -131,10 +139,9 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
             <label className="flex justify items-center">
               {product.product_name}
             </label>
-            {formatCurrencyString({ value: product.price, currency: 'USD' })}
+            <p className="text-[16px]">{formatCurrencyString({ value: filteredPrices[0], currency: 'USD' })} to {formatCurrencyString({ value: filteredPrices[filteredPrices.length - 1], currency: 'USD' })}</p>
         </div>
-          
-
+        
           <Modal show={openModal} onClose={() => setOpenModal(false)}>
             <Modal.Header>Product Info:</Modal.Header>
             <Modal.Body>
@@ -144,13 +151,15 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
                   </div>
                   <div>
                     <h2>Product Name: {product.product_name}</h2>
-                    <p>Price: {formatCurrencyString({ value: product.price, currency: 'USD' })}</p>
+                    <p>Price: {formatCurrencyString({ value: filteredPrices[0], currency: 'USD' })} to {formatCurrencyString({ value: filteredPrices[filteredPrices.length - 1], currency: 'USD' })}
+                    </p>
                     <Category category = {category} subcategory = {subcategory} />
                     <Stock product= {product} />
                     <form>
-                        <Selector product= {product} />
+                        <Selector product= {product} sizeList={filteredSizes} />
+                        <p>{selected_size}</p>
                         <label>Qty: </label>
-                        <input type='number' min='1' name='quantity' class='rounded-sm w-[81px] h-7' id='qtyinput' />
+                        <input type='number' min='1' name='quantity' className='rounded-sm w-[81px] h-7' id='qtyinput' />
                     </form>
                   </div>
                 </div>
@@ -160,13 +169,14 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
                 let qty = parseInt(document.getElementById('qtyinput').value)
                 if (product.clothing_size_id == 1) {
                   let size = document.getElementById('selector').value
-                  addItem(cartDisplayProduct, {count: qty, product_metadata: {size: size, location: category.category_location, cell: product.order_form_cell}})
+                  addItem(cartDisplayProduct, {count: qty, price_metadata: clothingPrice, product_metadata: {size: size, location: category.category_location, cell: product.order_form_cell}})
                 }
                 else {
                   addItem(cartDisplayProduct, {count: qty, product_metadata: {location: category.category_location, cell: product.order_form_cell}})
                 }
                 
                 setOpenModal(false);
+                
               }}>Add to Cart</Button>
             </Modal.Footer>
           </Modal>
@@ -189,4 +199,4 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
   
 }
 
-export default ProductDisplay
+export default ClothingDisplay

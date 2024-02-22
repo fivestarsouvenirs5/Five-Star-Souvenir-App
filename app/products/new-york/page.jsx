@@ -25,7 +25,7 @@ export default async function OrderNY() {
                 </div>
             </div>
 
-            <ProductPageMapping products={null} categoryList={categories} subcategoryList={null} isNY={true} category={null} subcategory={null} />
+            <ProductPageMapping products={null} categoryList={categories} subcategoryList={null} isNY={true} category={null} subcategory={null} subMainCategory={null}/>
             
         </div>
 

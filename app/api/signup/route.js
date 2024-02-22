@@ -1,29 +1,29 @@
-import { PrismaClient } from "@prisma/client"
-import {NextResponse} from "next/server"
-const prisma = new PrismaClient();
-
 export async function POST(request) {
-    const {req} = await request.json();
-    // const { first_name } = await request.json()
-    // console.log(first_name);
-    // const { last_name } = await request.json()
-    // const { phone_number } = await request.json()
-    // const { email } = await request.json()
-    // // const {approval_status} = await request.json()
-    // console.log( first_name )
-    // console.log( last_name )
-    // console.log( phone_number )
-    // console.log( email )
-    // console.log( approval_status )
-    const result = await prisma.user.create({
-        data: {
-          first_name: req.firstname,
-          last_name: req.lastname,
-          email: req.user_email,
-          phonenumber: req.phonenumber,
-        //   approval_status: approval_status,
-        },
+  try {
+    const newUserDetails = await request.json()
+    console.log(newUserDetails)
+    const fetchURL = 'https://' + process.env.AUTH0_DOMAIN + '/dbconnections/signup'
+    console.log(fetchURL)
+    const response = await fetch(fetchURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        client_id: process.env.AUTH0_CLIENT_ID,
+        connection: 'Five-Star-Souvenirs-Database',
+        name: newUserDetails.first_name,
+        given_name: newUserDetails.last_name,
+        email: newUserDetails.user_email,
+        password: newUserDetails.user_password, 
+        user_metadata: { phonenumber: newUserDetails.phone_number },
       })
-      console.log("created record")
-      return NextResponse.json(result)
+      })
+      return response;
+  }
+  catch (error) {
+    console.log("signup error", error)
+  }
+   
+      
 }

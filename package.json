@@ -11,7 +11,7 @@
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.3.0",
     "@getbrevo/brevo": "^2.0.0-beta.4",
-    "@prisma/client": "^5.8.1",
+    "@prisma/client": "^5.9.1",
     "@stripe/stripe-js": "^2.4.0",
     "auth0-js": "^9.24.1",
     "autoprefixer": "10.4.16",
@@ -34,6 +34,6 @@
     "use-shopping-cart": "^3.2.0"
   },
   "devDependencies": {
-    "prisma": "^5.8.1"
+    "prisma": "^5.9.1"
   }
 }

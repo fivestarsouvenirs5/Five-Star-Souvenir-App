@@ -28,9 +28,20 @@ function CartEntry({ entry, removeItem }) {
 export default function Cart() {
     // console.log(cartEntries)
     const { user} = useUser();
+    const cart = useShoppingCart()
+    const [hydrated, setHydrated] = useState(false);
+    useEffect(() => {
+      // This forces a rerender, so the date is rendered
+      // the second time but not the first
+      setHydrated(true);
+    }, []);
+    if (!hydrated) {
+      // Returns null on first render, so the client and server match
+      return null;
+    }
 
     if (user) {
-        const cart = useShoppingCart()
+        
         const { removeItem, cartDetails, clearCart, formattedTotalPrice } = cart  
     
         // console.log(cartDetails);
@@ -39,16 +50,8 @@ export default function Cart() {
             <CartEntry key={entry.id} entry={entry} removeItem={removeItem} />
           ))
     
-          const [hydrated, setHydrated] = useState(false);
-        useEffect(() => {
-          // This forces a rerender, so the date is rendered
-          // the second time but not the first
-          setHydrated(true);
-        }, []);
-        if (!hydrated) {
-          // Returns null on first render, so the client and server match
-          return null;
-        }
+          
+        
         return(
           <div className="lg:w-96 md:w-8/12 w-full bg-red-100 float-right h-full">
           <div className="flex flex-col lg:h-screen h-auto lg:px-8 md:px-7 px-4 lg:py-20 md:py-10 py-6 justify-between overflow-y-auto rounded-md">
@@ -73,7 +76,7 @@ export default function Cart() {
             </div>
               <div className = "flex items-center justify-center text-base leading-none w-full py-5 bg-blue-300 border-4 border-black border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-white hover:bg-blue-100">
                   <svg className="w-6 h-6 text-gray-800 dark:text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1"/>
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1"/>
                   </svg>
                   <OrderButton />
               </div>

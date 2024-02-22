@@ -1,9 +1,9 @@
 import axios from "axios"
 
 export async function POST(request) {
-    console.log('reached server post request'); 
+    //console.log('reached server post request'); 
         const myRequest = await request.json(); // Assuming cartDetails is sent in the request body
-        console.log(myRequest.useremail);
+        //console.log(myRequest.useremail);
         
    
         var axios = require("axios").default;
@@ -21,12 +21,12 @@ export async function POST(request) {
 
         let user = [];
         await axios.request(options).then(function (response) {
-            console.log(response.data);
+            //console.log(response.data);
             user = response.data;
         }).catch(function (error) {
             console.error(error);
         });
-        
+
         if (user.length == 0) {
             return new Response(JSON.stringify({noUserMessage: 'usernotfound'}), {headers});
         }

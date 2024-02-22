@@ -73,9 +73,9 @@ function AuthenticationButtons() {
                           body: JSON.stringify({useremail})
                         });
                         
-                        console.log(response.status);
+                        //console.log(response.status);
                         const myResponse = await response.json();
-                        console.log(myResponse);
+                        //console.log(myResponse);
                         if (!response.ok) {
                             alert("This is an incorrect email.");
                             throw new Error('Failed to fetch the email of this user');

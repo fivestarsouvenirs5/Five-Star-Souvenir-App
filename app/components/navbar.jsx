@@ -87,7 +87,7 @@ function AuthenticationButtons() {
                             }
                             else {
                                 if (myResponse.userExistsButNotApproved == "usernotapproved") {
-                                    alert("You are not a valid user. You must wait for admin.");
+                                    alert("You are not a valid user. You must wait for admin approval.");
                                 }
                                 else if (myResponse.userExistsAndApproved == "userapproved") {
                                     alert("You are a valid user. Proceed to login!")

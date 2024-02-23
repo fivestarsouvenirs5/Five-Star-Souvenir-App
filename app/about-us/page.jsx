@@ -9,12 +9,16 @@ export default function AboutUs() {
                 className="text-black text-[40px] font-bold font-['Inter']">Souvenirs with creative designs and innovative ideas.</span></div>
             </div> */}
             {/* we are five star souvenirs (BOX NOT CENTERED) */}
-            <h1 className="text-center pt-10 lg:text-4xl font-bold drop-shadow-[0_1.2px_1.2px_rgba(200,0,0,0.8] ">About Us</h1>
-            <div className=" flex items-center justify-center h-screen">
-           
-                <div className=" w-2/3">
-                    <h3 className="text-center font-bold">
-                        <b className="text-red-600">F</b>avorite <b className="text-red-600">S</b>top for affordable <b className="text-red-600">S</b>ouvenirs with creative designs and innovative ideas.
+            
+
+            <div className="text-center pt-10 lg:text-4xl font-bold drop-shadow-[0_1.2px_1.2px_rgba(200,0,0,0.8)]">
+                <h1>About Us</h1>
+            </div>
+
+            <div className="flex items-center justify-center h-screen">
+                <div className="w-2/3 mt-20"> {/* Add margin-top to move it below the About Us heading */}
+                     <h3 className="text-center font-bold">
+                         <b className="text-red-600">F</b>avorite <b className="text-red-600">S</b>top for affordable <b className="text-red-600">S</b>ouvenirs with creative designs and innovative ideas.
                     </h3>
                     
                     <div className="inline-flex items-center justify-center w-full">

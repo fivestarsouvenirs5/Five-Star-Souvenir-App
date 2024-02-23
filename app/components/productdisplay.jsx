@@ -160,7 +160,7 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
                 let qty = parseInt(document.getElementById('qtyinput').value)
                 if (product.clothing_size_id == 1) {
                   let size = document.getElementById('selector').value
-                  addItem(cartDisplayProduct, {count: qty, product_metadata: {size: size, location: category.category_location, cell: product.order_form_cell}})
+                  addItem(cartDisplayProduct, {count: qty, product_metadata: {size: "", location: category.category_location, cell: product.order_form_cell}})
                 }
                 else {
                   addItem(cartDisplayProduct, {count: qty, product_metadata: {location: category.category_location, cell: product.order_form_cell}})

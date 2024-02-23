@@ -17,8 +17,8 @@ const Selector = ( {sizeList} ) => {
 
     return (
         <div>
-            <label id='selector'>Please Select a Size: </label>
-            <select onChange={handleSizeChange} value={selectedSize}>
+            <label >Please Select a Size: </label>
+            <select id='selector' onChange={handleSizeChange} value={selectedSize}>
               <option value="" disabled>--</option> {/* not good cuz someone may add to cart with this selected */}
               {sizeList.map((size, index) => (
                 <option key={index} value={size}>{size}</option>
@@ -99,35 +99,35 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe}) => 
   if (user) {
       const filteredSizes = clothe.map(item => item.size);
       const filteredPrices = clothe.map(item => item.price);
-      const clothingPrice = filteredPrices[filteredSizes.indexOf(selected_size)];
+      // const clothingPrice = filteredPrices[filteredSizes.indexOf(selected_size)];
 
       //  var size = document.getElementById('selector').value
       
-      if (subcategory !== null){
-        cartDisplayProduct ={
-          name: subcategory.subcategory_name + ' ' + product.product_name,
-          id: subcategory.subcategory_name + '_' + product.product_name,
-          price: clothingPrice,
-          currency: 'USD',
-          // image: image,
-          // product_data:{
-          //   location: category.category_location
-          // }
-        }
-      }
-      else {
-        cartDisplayProduct ={
-          name: category.category + ' ' + product.product_name,
-          id: category.category + '_' + product.product_name,
-          price: clothingPrice,
-          currency: 'USD',
+      // if (subcategory !== null){
+      //   cartDisplayProduct ={
+      //     name: subcategory.subcategory_name + ' ' + product.product_name,
+      //     id: subcategory.subcategory_name + '_' + product.product_name,
+      //     price: clothingPrice,
+      //     currency: 'USD',
+      //     // image: image,
+      //     // product_data:{
+      //     //   location: category.category_location
+      //     // }
+      //   }
+      // }
+      // else {
+      //   cartDisplayProduct ={
+      //     name: category.category + ' ' + product.product_name,
+      //     id: category.category + '_' + product.product_name,
+      //     price: clothingPrice,
+      //     currency: 'USD',
     
-          // image: image,
-          // product_data:{
-          //   location: category.category_location
-          // }
-        }
-      }
+      //     // image: image,
+      //     // product_data:{
+      //     //   location: category.category_location
+      //     // }
+      //   }
+      // }
 
 
       return (
@@ -169,7 +169,34 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe}) => 
                 let qty = parseInt(document.getElementById('qtyinput').value)
                 if (product.clothing_size_id == 1) {
                   let size = document.getElementById('selector').value
-                  addItem(cartDisplayProduct, {count: qty, price_metadata: clothingPrice, product_metadata: {size: size, location: category.category_location, cell: product.order_form_cell}})
+                  const clothingPrice = filteredPrices[filteredSizes.indexOf(size)];
+                  if (subcategory !== null){
+                    cartDisplayProduct ={
+                      name: subcategory.subcategory_name + ' ' + product.product_name,
+                      id: subcategory.subcategory_name + '_' + product.product_name,
+                      price: clothingPrice,
+                      currency: 'USD',
+                      // image: image,
+                      // product_data:{
+                      //   location: category.category_location
+                      // }
+                    }
+                  }
+                  else {
+                    cartDisplayProduct ={
+                      name: category.category + ' ' + product.product_name,
+                      id: category.category + '_' + product.product_name,
+                      price: clothingPrice,
+                      currency: 'USD',
+                
+                      // image: image,
+                      // product_data:{
+                      //   location: category.category_location
+                      // }
+                    }
+                  }
+                  console.log(clothingPrice, size, "yay!")
+                  addItem(cartDisplayProduct, {count: qty, product_metadata: {size: size, location: category.category_location, cell: product.order_form_cell}})
                 }
                 else {
                   addItem(cartDisplayProduct, {count: qty, product_metadata: {location: category.category_location, cell: product.order_form_cell}})

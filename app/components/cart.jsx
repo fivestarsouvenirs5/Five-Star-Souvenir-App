@@ -16,9 +16,11 @@ function CartEntry({ entry, removeItem }) {
           <img width={100} src={entry.image} alt={entry.description} />
         ) : null} */}
         <p>
-           {entry.quantity} x {' '}
+           {entry.quantity} x {' '} 
+           {entry.product_data.size}
            &quot;{entry.name}&quot; ={' '}
           {entry.formattedValue}
+          
         </p>
         <button onClick={() => removeItem(entry.id)}>Remove</button>
       </div>

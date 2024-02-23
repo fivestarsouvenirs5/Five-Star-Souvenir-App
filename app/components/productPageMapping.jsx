@@ -114,22 +114,21 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
   if (categoryList !== null) {
     if (isNY == true) {
       return (
-        <div className = "flex justify-between gap-10">
-
-                <div className="grid grid-cols-6 gap-5">
-                    {categoryList.map((category) => (
-                      <div key = {category.category_id}>
-                        <div className="border rounded-md flex items-center justify-center text-center text-xl bg-blue-100 hover:bg-blue-300" key={category.category_id} >                        
-                            <CategoryNY category = {category} />
-                           
-                        </div>
-                        <DeleteButton item ={category} type={"Category"} />
-                      </div>
-                    ))}
-                    <AddCategoryButton location={1} />
+        <div className="flex flex-col sm:flex-row justify-between gap-5 sm:gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-6 gap-5">
+            {categoryList.map((category) => (
+              <div key={category.category_id} className="mb-3 sm:mb-0">
+                <div className="border rounded-md flex items-center justify-center text-center max-w-full p-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl bg-blue-100 hover:bg-blue-300">
+                  {/* Adjust text sizes based on your preference and design */}
+                  <CategoryNY category={category} />
                 </div>
-                {/* <div class="border-8 border-sky-500 float-right h-96"></div> */}
-                <Cart />
+                <DeleteButton item={category} type={"Category"} />
+              </div>
+            ))}
+            <AddCategoryButton location={1} />
+          </div>
+          {/* <div class="border-8 border-sky-500 float-right h-96"></div> */}
+          <Cart />
                 
 
         </div>
@@ -144,7 +143,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                 <div className="grid grid-cols-6 gap-5">
                     {categoryList.map((category) => (
                       <div key={category.category_id}>
-                        <div className="border rounded-md flex items-center justify-center text-center text-xl bg-blue-100 hover:bg-blue-300" key={category.category_id} >                        
+                        <div className="border rounded-md flex items-center justify-center text-center max-w-full p-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl bg-blue-100 hover:bg-blue-300" key={category.category_id} >                        
                             <CategoryNJ category = {category} />
                            
                         </div>

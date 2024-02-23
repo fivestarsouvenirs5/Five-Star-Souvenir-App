@@ -25,6 +25,7 @@ function MainLinks() {
 
                 <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
                 <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
+                <a href="/users" className="py-5 px-3 text-gray-700 hover:text-gray-900">Users</a> 
                 <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
                 <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
                 <a href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</a>

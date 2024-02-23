@@ -52,7 +52,7 @@ const DeleteButton= ({item, type}) => {
       }
       return (
         <div>
-            <button className="border-b-2" onClick={() => setOpenModal(true)}> 
+            <button className="bg-red-500 text-white px-2 py-1 rounded-md mb-4" onClick={() => setOpenModal(true)}> 
                   Delete
                 </button>
                 <Modal show={openModal} onClose={() => setOpenModal(false)}>
@@ -118,11 +118,12 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
           <div className="grid grid-cols-1 sm:grid-cols-6 gap-5">
             {categoryList.map((category) => (
               <div key={category.category_id} className="mb-3 sm:mb-0">
-                <div className="border rounded-md flex items-center justify-center text-center max-w-full p-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl bg-blue-100 hover:bg-blue-300">
+                <div className="border rounded-md flex items-center justify-center text-center max-w-full p-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl bg-blue-100 hover:bg-blue-300 mb-4">
                   {/* Adjust text sizes based on your preference and design */}
                   <CategoryNY category={category} />
                 </div>
                 <DeleteButton item={category} type={"Category"} />
+
               </div>
             ))}
             <AddCategoryButton location={1} />

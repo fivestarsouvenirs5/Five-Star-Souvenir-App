@@ -79,10 +79,13 @@ export default function AddProductButton({ category, subcategory }) {
         };
     
         return (
+
             <div>
-                <button className="border-b-2" onClick={() => setOpenModal(true)}>
+                <div className='className="bg-gray-200 border p-4 w-64"'>
+                <button className="border-b-2 text-lg font-bold " onClick={() => setOpenModal(true)}>
                     Add New Product
                 </button>
+                </div>
                 <Modal show={openModal} onClose={() => setOpenModal(false)}>
                     <Modal.Header>New Product</Modal.Header>
                     <Modal.Body>
@@ -92,17 +95,30 @@ export default function AddProductButton({ category, subcategory }) {
                                 <input type="file" onChange={handleFileChange}></input>
                             </div>
                             <div>
-                                <label>Product Name: </label>
+                                <div className='ml-[-80px]'>
+                                <label className='font-bold'>Product Name: </label>
                                 <input type="text" id="newProductName"></input>
-                                <label>Price: *in cents*</label>
+                                <br></br>
+                                <br></br>
+
+                                <label className='font-bold'>Price (¢): </label>
                                 <input type="number" id="newProductPrice"></input>
-                                <label>Stock *Please write &apos;In Stock&apos; or a custom message: </label>
+                                <br></br>
+                                <br></br>
+
+                                <label className='font-bold'>Stock *Please write &apos;In Stock&apos; or a custom message: </label>
                                 <input type="text" id="newProductStock"></input>
-                                <label>Is this a clothing item? </label>
+                                <br></br>
+                                <br></br>
+
+                                <label className='font-bold'>Is this a clothing item? </label>
                                 <input type="checkbox" id="clothing?"></input>
                                 <br></br>
-                                <label>What is the cell in the order form that corresponds to this item? </label>
+                                <br></br>
+
+                                <label className='font-bold'>What is the cell in the order form that corresponds to this item? </label>
                                 <input type="text" id="newProductCell"></input>
+                                </div>
                             </div>
                         </div>
                     </Modal.Body>

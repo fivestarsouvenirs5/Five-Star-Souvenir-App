@@ -2,35 +2,9 @@
 import React from 'react'
 import { Button, Modal } from 'flowbite-react';
 import { useState } from 'react';
-import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-cart';
+import { formatCurrencyString } from 'use-shopping-cart';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
-
-const Selector = ( {product} ) => {
-  if (product.clothing_size_id == 1) {
-      return (
-          <div>
-              <label id='selector'>Please Select a Size:</label>
-              <select >
-                  <option value=''> </option>
-                  <option value="XS">X-Small</option>
-                  <option value="S">Small</option>
-                  <option value="M">Medium</option>
-                  <option value="L">Large</option>
-                  <option value="XL">X-Large</option>
-                  <option value="2XL">2X-Large</option>
-              </select>
-              <br></br>
-          </div>
-          
-      )
-  }
-  else {
-      return (
-          <br></br>
-      )
-  }
-}
 
 const Stock = ( {product} ) => {
   if (product.in_stock === "In Stock") {
@@ -148,7 +122,6 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
                     <Category category = {category} subcategory = {subcategory} />
                     <Stock product= {product} />
                     <form>
-                        <Selector product= {product} />
                         <label>Qty: </label>
                         <input type='number' min='1' name='quantity' class='rounded-sm w-[81px] h-7' id='qtyinput' />
                     </form>
@@ -158,13 +131,8 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
             <Modal.Footer>
               <Button onClick={() => {
                 let qty = parseInt(document.getElementById('qtyinput').value)
-                if (product.clothing_size_id == 1) {
-                  let size = document.getElementById('selector').value
-                  addItem(cartDisplayProduct, {count: qty, product_metadata: {size: "", location: category.category_location, cell: product.order_form_cell}})
-                }
-                else {
                   addItem(cartDisplayProduct, {count: qty, product_metadata: {location: category.category_location, cell: product.order_form_cell}})
-                }
+                
                 
                 setOpenModal(false);
               }}>Add to Cart</Button>

@@ -67,12 +67,12 @@ function readFileAsBase64(file) {
     });
 }
 
-export default function AddProductButton({ category, subcategory }) {
+export default function AddProductButton({ category, subcategory, admin }) {
     const { user } = useUser();
     const [openModal, setOpenModal] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
 
-    if (user) {
+    if (user && admin) {
         const handleFileChange = (event) => {
             const file = event.target.files[0];
             setSelectedFile(file);

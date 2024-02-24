@@ -14,9 +14,30 @@ import { useState } from 'react';
 import { useShoppingCart } from 'use-shopping-cart';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
-const DeleteButton= ({item, type}) => {
+// async function getAppMetadata(email) {
+//   try {
+//       const response = await fetch('/api/getUserInfo', {
+//           method: 'POST',
+//           headers: {
+//             'Content-Type': 'application/json'
+//           },
+//           body: JSON.stringify({email})
+//         });
+       
+//         //console.log(response.status);
+//         const myResponse = await response.json();
+//         console.log(myResponse.myUser.app_metadata.admin)
+//         return myResponse.myUser.app_metadata.admin;
+//   } catch (err){
+//       console.log("getting metadata error", err);
+//   }
+// }
+
+const DeleteButton= ({item, type, admin}) => {
   const { user} = useUser();
   const [openModal, setOpenModal] = useState(false);
+
+
   var name;
   if (type === "Category") {
     name = item.category;
@@ -27,7 +48,7 @@ const DeleteButton= ({item, type}) => {
   else if (type === "Product") {
     name = item.product_name;
   }
-  if (user) {
+  if (user && admin) {
     async function handleClick() {
       const response = await fetch('/api/delete', {
         method: 'DELETE',
@@ -76,10 +97,12 @@ const DeleteButton= ({item, type}) => {
   
 }
 
-const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory, clothingList, subMainCategory }) => {
-
+const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory, clothingList, subMainCategory, isAdmin }) => {
+ // const { user} = useUser();
   const cart = useShoppingCart();
   const { addItem, formattedTotalPrice } = cart;
+  // const admin = getAppMetadata(user.email)
+  // console.log(admin)
 
   const Cloth = ({ product, category, subcategory, addItem, clothingList }) => {
     if (product.clothing_size_id == 1) {
@@ -122,11 +145,11 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                   {/* Adjust text sizes based on your preference and design */}
                   <CategoryNY category={category} />
                 </div>
-                <DeleteButton item={category} type={"Category"} />
+                <DeleteButton item={category} type={"Category"} admin={isAdmin} />
 
               </div>
             ))}
-            <AddCategoryButton location={1} />
+            <AddCategoryButton location={1} admin={isAdmin}/>
           </div>
           {/* <div class="border-8 border-sky-500 float-right h-96"></div> */}
           <Cart />
@@ -148,10 +171,10 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                             <CategoryNJ category = {category} />
                            
                         </div>
-                        <DeleteButton item = {category} type ={"Category"} />
+                        <DeleteButton item = {category} type ={"Category"} admin={isAdmin}/>
                       </div>
                     ))}
-                    <AddCategoryButton location={0} />
+                    <AddCategoryButton location={0} admin={isAdmin} />
                 </div>
                 {/* <div class="border-8 border-sky-500 float-right h-96"></div> */}
                 <Cart />
@@ -171,10 +194,10 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                           <SubCategoryNY subcategory = {subcategory} />
                           
                       </div>
-                      <DeleteButton item ={subcategory} type ={"Subcategory"} />
+                      <DeleteButton item ={subcategory} type ={"Subcategory"} admin={isAdmin}/>
                       </div>
                   ))}
-                <AddSubCategoryButton category= {subMainCategory} />
+                <AddSubCategoryButton category= {subMainCategory} admin={isAdmin}/>
             </div>
             <Cart />
         </div>
@@ -194,12 +217,13 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                         <Cloth product = {product} category = {category} subcategory={subcategory} addItem={addItem} clothingList={clothingList} />
                         {/* <ProductDisplay product = {product} category = {category} subcategory={null} addItem={addItem}/> */}
                       </div>
-                      <DeleteButton item={product} type={"Product"} />
+                      <DeleteButton item={product} type={"Product"} admin={isAdmin} />
                     </div>
                     
                   </div>
               ))}
-            <AddProductButton category={category} subcategory={null} />
+            <AddProductButton category={category} subcategory={null} admin={isAdmin} />
+            <AddSubCategoryButton category= {category} admin={isAdmin}/>
           </div>
           <Cart /> 
       </div>
@@ -219,11 +243,12 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                         <Cloth product = {product} category = {category} subcategory={subcategory} addItem={addItem} />
                         {/* <ProductDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem}/> */}
                       </div>
-                      <DeleteButton item ={product} type={"Product"} />
+                      <DeleteButton item ={product} type={"Product"} admin={isAdmin} />
                     </div>
                     </div>
                 ))}
-            <AddProductButton category={category} subcategory={subcategory} />
+            <AddProductButton category={category} subcategory={subcategory} admin={isAdmin} />
+            <AddSubCategoryButton category= {category} admin={isAdmin}/>
           </div>
           <Cart /> 
 

@@ -21,10 +21,10 @@ async function addSubCatg({category}) {
 }
 
 
-export default function AddSubCategoryButton ({category}) {
+export default function AddSubCategoryButton ({category, admin}) {
     const {user} = useUser();
     const [openModal, setOpenModal] = useState(false);
-    if (user) {
+    if (user && admin && category.category_location == 1) {
         return (
             <div>
                 <button className="border-b-2" onClick={() => setOpenModal(true)}> 

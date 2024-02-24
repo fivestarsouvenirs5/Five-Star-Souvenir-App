@@ -95,40 +95,11 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe}) => 
 
   // console.log(clothe, product.product_id)
 
-  var cartDisplayProduct
+  
   if (user) {
       const filteredSizes = clothe.map(item => item.size);
       const filteredPrices = clothe.map(item => item.price);
-      // const clothingPrice = filteredPrices[filteredSizes.indexOf(selected_size)];
-
-      //  var size = document.getElementById('selector').value
-      
-      // if (subcategory !== null){
-      //   cartDisplayProduct ={
-      //     name: subcategory.subcategory_name + ' ' + product.product_name,
-      //     id: subcategory.subcategory_name + '_' + product.product_name,
-      //     price: clothingPrice,
-      //     currency: 'USD',
-      //     // image: image,
-      //     // product_data:{
-      //     //   location: category.category_location
-      //     // }
-      //   }
-      // }
-      // else {
-      //   cartDisplayProduct ={
-      //     name: category.category + ' ' + product.product_name,
-      //     id: category.category + '_' + product.product_name,
-      //     price: clothingPrice,
-      //     currency: 'USD',
-    
-      //     // image: image,
-      //     // product_data:{
-      //     //   location: category.category_location
-      //     // }
-      //   }
-      // }
-
+      const filteredCellNumbers = clothe.map(item => item.clothing_order_form_cell);
 
       return (
         <>
@@ -166,10 +137,12 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe}) => 
             </Modal.Body>
             <Modal.Footer>
               <Button onClick={() => {
-                let qty = parseInt(document.getElementById('qtyinput').value)
-                if (product.clothing_size_id == 1) {
+                  let qty = parseInt(document.getElementById('qtyinput').value)
                   let size = document.getElementById('selector').value
                   const clothingPrice = filteredPrices[filteredSizes.indexOf(size)];
+                  const clothingCellNumber = filteredCellNumbers[filteredSizes.indexOf(size)];
+
+                  var cartDisplayProduct
                   if (subcategory !== null){
                     cartDisplayProduct ={
                       name: subcategory.subcategory_name + ' ' + product.product_name,
@@ -195,12 +168,8 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe}) => 
                       // }
                     }
                   }
-                  console.log(clothingPrice, size, "yay!")
-                  addItem(cartDisplayProduct, {count: qty, product_metadata: {size: size, location: category.category_location, cell: product.order_form_cell}})
-                }
-                else {
-                  addItem(cartDisplayProduct, {count: qty, product_metadata: {location: category.category_location, cell: product.order_form_cell}})
-                }
+                  // console.log(clothingPrice, size, "yay!")
+                  addItem(cartDisplayProduct, {count: qty, product_metadata: {size: size, location: category.category_location, cell: clothingCellNumber}})
                 
                 setOpenModal(false);
                 

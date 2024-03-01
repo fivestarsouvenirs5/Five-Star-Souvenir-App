@@ -16,7 +16,7 @@ export default function Home() {
 
       {/* products page*/}
       <div className="mb-4 text-xl">
-      View our products in <a href="/product-page" className="text-red-500 hover:underline">our Products Page</a>!
+      View our products in <a href="/products/new-york" className="text-red-500 hover:underline">our Products Page</a>!
       </div>
 
 
@@ -28,7 +28,7 @@ export default function Home() {
 
       {/* Contact us page*/}
       <div className="text-xl">
-        If you are interested in any of our products, please contact Five Star Souvenirs through the <a href="/contact-us" className="text-red-500 hover:underline">Contact Page</a>  to discuss more details!
+        If you are interested in any of our products, please contact Five Star Souvenirs through the <a href="/contact" className="text-red-500 hover:underline">Contact Page</a>  to discuss more details!
       </div>
 
     </main>

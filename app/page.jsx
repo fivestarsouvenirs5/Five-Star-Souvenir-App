@@ -1,36 +1,36 @@
-
 export default function Home() {
-  // var myHeaders = new Headers();
-  // myHeaders.append("Accept", "application/json");
-
-  // var requestOptions = {
-  //   method: 'GET',
-  //   headers: myHeaders,
-  //   redirect: 'follow'
-  // };
-
-  // fetch("https://login.auth0.com/api/v2/users", requestOptions)
-  //   .then(response => response.text())
-  //   .then(result => console.log(result))
-  //   .catch(error => console.log('error', error));
-
   return (
-    <main >
-      {/* <h2 className="text-purple-600">Home</h2> */}
-
+    <main className="max-w-screen-xl mx-auto p-8 font-serif">
+      {/* welcome blurb -> about us page */}
       
-      {/* we are five star souvenirs (BOX NOT CENTERED) */}
-      <div className="left-[50px] top-[40px] content-center w-[1195px] h-[143px] relative">
-        <div className="w-[1195px] h-[143px] left-0 top-0 absolute border border-red-500" />
-        <div className="left-[14px] top-[21px] absolute text-black text-[16px]">we are five star souvenirs inc</div>
+      <div className="mb-12 p-4 border border-red-500 rounded-md">
+        <p className="text-xl">
+        Five Star Souvenirs Inc. is a family-owned wholesale corporation known for its over 20 years of expertise in crafting and distributing unique, high-quality souvenirs featuring real images of New York City landmarks. With a commitment to eco-friendly materials and personalized customer relationships, the company sets itself apart by creating colorful, creative, and practical items.
+                  <hr className="my-2 border-black" />
+          
+          <span className="mt-2 block">
+            Read more in the <a href="/about-us" className="text-red-500 hover:underline">About Us page</a>!
+          </span>
+        </p>
       </div>
 
-      {/* featured products */}
-      <div className="left-[50px] top-[100px] content-center w-[1195px] h-[143px] relative">
-        <div className="w-[1195px] h-[143px] left-0 top-0 absolute border border-red-500" />
-        <div className="left-[14px] top-[21px] absolute text-black text-[16px]">Featured Products</div>
+      {/* products page*/}
+      <div className="mb-4 text-xl">
+      View our products in <a href="/product-page" className="text-red-500 hover:underline">our Products Page</a>!
+      </div>
+
+
+      {/* featured products*/}
+      <div className="mb-8 p-4 border border-red-500 rounded-md bg-white">
+        <h2 className="text-xl text-black mb-40">Featured Products</h2>
+        {/* You can add content inside this box if needed */}
+      </div>
+
+      {/* Contact us page*/}
+      <div className="text-xl">
+        If you are interested in any of our products, please contact Five Star Souvenirs through the <a href="/contact-us" className="text-red-500 hover:underline">Contact Page</a>  to discuss more details!
       </div>
 
     </main>
-  )
+  );
 }

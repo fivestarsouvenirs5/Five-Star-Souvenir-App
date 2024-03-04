@@ -25,8 +25,8 @@ export default function AddCategoryButton ({location, admin}) {
     const [openModal, setOpenModal] = useState(false);
     if (user && admin) {
         return (
-            <div className="bg-gray-200 p-4 mt-2">
-                <  button className="border-b-2 text-lg font-bold ml- [-20 px]" onClick={() => setOpenModal(true)}>
+            <div className='className="bg-gray-200 border p-4 w-64"'>
+                <  button className="border-b-2 text-lg font-bold " onClick={() => setOpenModal(true)}>
                     Add new Category
                 </button>
                 <Modal show={openModal} onClose={() => setOpenModal(false)}>

@@ -1,4 +1,18 @@
+'use client'
+import {useState} from 'react'
+import {useEffect} from 'react'
+
 export default function Home() {
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    // This forces a rerender, so the date is rendered
+    // the second time but not the first
+    setHydrated(true);
+  }, []);
+  if (!hydrated) {
+    // Returns null on first render, so the client and server match
+    return null;
+  }
   return (
     <main className="max-w-screen-xl mx-auto p-8 font-serif">
       {/* welcome blurb -> about us page */}
@@ -6,7 +20,7 @@ export default function Home() {
       <div className="mb-12 p-4 border border-red-500 rounded-md">
         <p className="text-xl">
         Five Star Souvenirs Inc. is a family-owned wholesale corporation known for its over 20 years of expertise in crafting and distributing unique, high-quality souvenirs featuring real images of New York City landmarks. With a commitment to eco-friendly materials and personalized customer relationships, the company sets itself apart by creating colorful, creative, and practical items.
-                  <hr className="my-2 border-black" />
+                  <hr className="my-2 border-black"/>
           
           <span className="mt-2 block">
             Read more in the <a href="/about-us" className="text-red-500 hover:underline">About Us page</a>!

@@ -27,9 +27,11 @@ export default function AddSubCategoryButton ({category, admin}) {
     if (user && admin && category.category_location == 1) {
         return (
             <div>
-                <button className="border-b-2" onClick={() => setOpenModal(true)}> 
+                <div className='className="bg-gray-200 border p-4 w-64"'>
+                <button className="border-b-2 text-lg font-bold" onClick={() => setOpenModal(true)}> 
                   Add new SubCategory
                 </button>
+                </div>
                 <Modal show={openModal} onClose={() => setOpenModal(false)}>
                 <Modal.Header>New SubCategory</Modal.Header>
                 <Modal.Body>

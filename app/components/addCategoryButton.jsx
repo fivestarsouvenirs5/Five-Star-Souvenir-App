@@ -20,10 +20,10 @@ async function addCatg({location}) {
 }
 
 
-export default function AddCategoryButton ({location}) {
+export default function AddCategoryButton ({location, admin}) {
     const {user} = useUser();
     const [openModal, setOpenModal] = useState(false);
-    if (user) {
+    if (user && admin) {
         return (
             <div className="bg-gray-200 p-4 mt-2">
                 <  button className="border-b-2 text-lg font-bold ml- [-20 px]" onClick={() => setOpenModal(true)}>

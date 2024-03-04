@@ -23,20 +23,54 @@ export async function POST(request) {
 
     let ny = false;
 
+    var myCells = []
     Object.values(cartDetails ?? {}).forEach((array) => {
       Object.values(array ?? {}).forEach((entry) => {
         if (entry.product_data.location === 1) {
+          myCells.push(entry.product_data.cell)
+          console.log(entry.product_data.cell)
           let cell = nyWorksheet.getCell(entry.product_data.cell);
-          cell.value = entry.quantity;
-          cell.font = { color: { argb: 'FFFF0000' } };
+          // cell.value = entry.quantity;
+          cell.value = {
+            richText: [
+              {
+                text: entry.quantity,
+                font: {
+                  color: {
+                    argb: 'FFFF0000',
+                  },
+                },
+              },
+            ],
+          };
           ny = true;
         } else if (entry.product_data.location === 0) {
           let cell = njWorksheet.getCell(entry.product_data.cell);
           cell.value = entry.quantity;
-          cell.font = { color: { argb: 'FFFF0000' } };
+          cell.style.font = { color: { argb: 'FFFF0000' } };
         }
       });
     });
+
+    nyWorksheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
+      row.eachCell({ includeEmpty: false }, (cell, colNumber) => {
+          if (cell.style && cell.style.font && cell.style.font.color && cell.style.font.color.argb) {
+           
+              if (myCells.indexOf(cell.address) >= 0) {
+                console.log(`Font Color: ${cell.style.font.color.argb} ${cell.address}`);
+                console.log("red ", cell.address)
+                
+              }
+              else {
+                
+                nyWorksheet.getCell(cell.address).style.font ={ color: { argb: 'FF000000' } };
+                console.log("changed", cell.address)
+              }
+              console.log(`Font Color: ${cell.style.font.color.argb} ${cell.address}`);
+   
+          } 
+      });
+  });
 
     let outputPath;
     const currentDate = new Date(); 
@@ -78,7 +112,7 @@ export async function POST(request) {
     const headers = { 'Content-Type': 'application/json' };
 
     const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
-    console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+    console.log('API called successfully.');
 
     return new Response(JSON.stringify(data), { headers });
   } catch (error) {

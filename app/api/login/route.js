@@ -20,7 +20,7 @@ export async function POST(request) {
     };
 
     console.log("Made it!");
-    console.log(getAccess);
+    // console.log(getAccess);
 
     let apiKeyInformation = [];
     await axios.request(getAccess).then(function (response) {

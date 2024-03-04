@@ -146,7 +146,7 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe}) => 
                   if (subcategory !== null){
                     cartDisplayProduct ={
                       name: subcategory.subcategory_name + ' ' + product.product_name,
-                      id: subcategory.subcategory_name + '_' + product.product_name,
+                      id: subcategory.subcategory_name + '_' + product.product_name + '_' + size,
                       price: clothingPrice,
                       currency: 'USD',
                       // image: image,
@@ -158,7 +158,7 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe}) => 
                   else {
                     cartDisplayProduct ={
                       name: category.category + ' ' + product.product_name,
-                      id: category.category + '_' + product.product_name,
+                      id: category.category + '_' + product.product_name + '_' + size,
                       price: clothingPrice,
                       currency: 'USD',
                 

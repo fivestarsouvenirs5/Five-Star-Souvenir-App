@@ -83,7 +83,14 @@ export default async function NJProductsPage() {
     const category = await fetchCategories();
     const session = await getSession();
 
-     const adminMetadata = await getAppMetadata(session.user.email);
+    var adminMetadata
+    if (session) {
+        adminMetadata = await getAppMetadata(session.user.email);
+    }
+    else {
+        adminMetadata = false;
+    }
+    
     return (
       <main>
         <h2 className="text-center py-5 lg:text-4xl font-bold drop-shadow-[0_1.2px_1.2px_rgba(200,0,0,0.8]">{category.category}</h2>

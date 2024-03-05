@@ -95,7 +95,13 @@ const category = await fetchCategories(id);
 const subcategories = await fetchSubcategories(id);
 const session = await getSession();
 
-const adminMetadata = await getAppMetadata(session.user.email);
+  var adminMetadata
+  if (session) {
+      adminMetadata = await getAppMetadata(session.user.email);
+  }
+  else {
+      adminMetadata = false;
+  }
 
   if (subcategories === undefined || subcategories.length == 0) {
     const products = await fetchProducts(id);

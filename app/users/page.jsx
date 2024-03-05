@@ -71,7 +71,7 @@ async function forUnapprovedUser() {
   }
 }
 
-export default function users() {
+export default function Users() {
 
   const [displayContent, setDisplayContent] = useState(null);
 

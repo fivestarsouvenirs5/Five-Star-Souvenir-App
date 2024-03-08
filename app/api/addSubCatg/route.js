@@ -1,4 +1,6 @@
 import { promises as fs } from 'fs';
+import prisma from '../../utils/prisma'
+
 export async function POST(request) {
     try {
       const newSubCatgDetails = await request.json()

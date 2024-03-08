@@ -1,4 +1,5 @@
 import fs from 'fs';
+import prisma from '../../utils/prisma'
 
 async function fetchParentCategory(id) {
     let category = await prisma.category.findUnique({
@@ -58,7 +59,7 @@ export async function DELETE(request) {
                     },
                 })
             } catch (err) {
-                throw new Error("There was an error deleting this subcategory, please make sure all the products inside of it don't exist.")
+                throw new Error("There was an error deleting this subcategory, please make sure all the products inside of it don't exist." + err)
             }
             const category = await fetchParentCategory(itemDetails.myItem.catg_id)
             const folderPath = `public/images/CATEGORIES/${category.category}/${itemDetails.myItem.subcategory_name}`;

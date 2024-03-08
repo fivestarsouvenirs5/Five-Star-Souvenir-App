@@ -29,6 +29,7 @@
 
 import { promises as fs } from 'fs';
 import path from 'path';
+import prisma from '../../utils/prisma'
 
 export async function POST(request) {
     try {

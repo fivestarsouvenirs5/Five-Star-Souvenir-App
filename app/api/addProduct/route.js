@@ -42,10 +42,10 @@ export async function POST(request) {
         // Save the file to the public/images/CATEGORIES folder
         var newFilePath;
         if (newProductDetails.productSubCatgName !== null){
-             newFilePath = path.join('public/images/CATEGORIES/', `${newProductDetails.productCatgName}`, '/', `${newProductDetails.productSubCatgName}`, '/', `${newProductDetails.name}.jpg`);
+             newFilePath = path.join('/images/CATEGORIES/', `${newProductDetails.productCatgName}`, '/', `${newProductDetails.productSubCatgName}`, '/', `${newProductDetails.name}.jpg`);
         }
         else {
-             newFilePath = path.join('public/images/CATEGORIES/', `${newProductDetails.productCatgName}`, '/', `${newProductDetails.name}.jpg`);
+             newFilePath = path.join('/images/CATEGORIES/', `${newProductDetails.productCatgName}`, '/', `${newProductDetails.name}.jpg`);
         }
         
         await fs.writeFile(newFilePath, Buffer.from(fileData, 'base64'));

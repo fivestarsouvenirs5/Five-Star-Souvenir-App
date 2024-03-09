@@ -12,8 +12,8 @@ export async function POST(request) {
         },
       })
 
-      const newFolderPath = `public/images/CATEGORIES/${newSubCatgDetails.mainCatgName}/${newSubCatgDetails.name}`;
-      await fs.mkdir(newFolderPath);
+      // const newFolderPath = `public/images/CATEGORIES/${newSubCatgDetails.mainCatgName}/${newSubCatgDetails.name}`;
+      // await fs.mkdir(newFolderPath);
 
       return new Response();
     }

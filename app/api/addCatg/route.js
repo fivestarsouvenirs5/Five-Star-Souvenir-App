@@ -36,8 +36,8 @@ export async function POST(request) {
         });
 
         // Create a new folder for the category images
-        const newFolderPath = `/images/CATEGORIES/${newCatgDetails.name}`;
-        await fs.mkdir(newFolderPath);
+        // const newFolderPath = `public/images/CATEGORIES/${newCatgDetails.name}`;
+        // await fs.mkdir(newFolderPath);
 
         // Return a success response with a message
         return new Response('Category created successfully', { status: 200 });

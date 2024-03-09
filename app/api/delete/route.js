@@ -19,16 +19,16 @@ export async function DELETE(request) {
             })
             const category = await fetchParentCategory(itemDetails.myItem.category_id)
             console.log(category)
-            const filePath = `public/images/CATEGORIES/${category.category}/${itemDetails.myItem.product_name}.jpg`;
+            //const filePath = `public/images/CATEGORIES/${category.category}/${itemDetails.myItem.product_name}.jpg`;
 
-            // Delete the file
-            fs.unlink(filePath, (err) => {
-                if (err) {
-                    console.error('Error deleting file:', err);
-                    return;
-                }
-                console.log('File deleted successfully');
-            });
+            // // Delete the file
+            // fs.unlink(filePath, (err) => {
+            //     if (err) {
+            //         console.error('Error deleting file:', err);
+            //         return;
+            //     }
+            //     console.log('File deleted successfully');
+            // });
         }
         else if (itemDetails.itemType === "Category") {
             try {
@@ -40,16 +40,16 @@ export async function DELETE(request) {
             } catch (err) {
                 throw new Error("There was an error deleting this category, please make sure all the subcategories and products inside of it don't exist.")
             }
-            const folderPath = `public/images/CATEGORIES/${itemDetails.myItem.category}`;
+            // const folderPath = `public/images/CATEGORIES/${itemDetails.myItem.category}`;
 
-            // Delete the folder
-            fs.rmdir(folderPath, { recursive: true }, (err) => {
-                if (err) {
-                    console.error('Error deleting folder:', err);
-                    return;
-                }
-                console.log('Folder deleted successfully');
-            });
+            // // Delete the folder
+            // fs.rmdir(folderPath, { recursive: true }, (err) => {
+            //     if (err) {
+            //         console.error('Error deleting folder:', err);
+            //         return;
+            //     }
+            //     console.log('Folder deleted successfully');
+            // });
         }
         else if (itemDetails.itemType === "Subcategory") {
             try {
@@ -62,16 +62,16 @@ export async function DELETE(request) {
                 throw new Error("There was an error deleting this subcategory, please make sure all the products inside of it don't exist." + err)
             }
             const category = await fetchParentCategory(itemDetails.myItem.catg_id)
-            const folderPath = `public/images/CATEGORIES/${category.category}/${itemDetails.myItem.subcategory_name}`;
+            // const folderPath = `public/images/CATEGORIES/${category.category}/${itemDetails.myItem.subcategory_name}`;
 
-            // Delete the folder
-            fs.rmdir(folderPath, (err) => {
-                if (err) {
-                    console.error('Error deleting folder:', err);
-                    return;
-                }
-                console.log('Folder deleted successfully');
-            });
+            // // Delete the folder
+            // fs.rmdir(folderPath, (err) => {
+            //     if (err) {
+            //         console.error('Error deleting folder:', err);
+            //         return;
+            //     }
+            //     console.log('Folder deleted successfully');
+            // });
         }
       
         return new Response(JSON.stringify({ message: "Success" }), {

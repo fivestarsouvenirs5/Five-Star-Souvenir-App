@@ -40,15 +40,15 @@ export async function POST(request) {
         const fileData = newProductDetails.file;
 
         // Save the file to the public/images/CATEGORIES folder
-        var newFilePath;
-        if (newProductDetails.productSubCatgName !== null){
-             newFilePath = path.join('/images/CATEGORIES/', `${newProductDetails.productCatgName}`, '/', `${newProductDetails.productSubCatgName}`, '/', `${newProductDetails.name}.jpg`);
-        }
-        else {
-             newFilePath = path.join('/images/CATEGORIES/', `${newProductDetails.productCatgName}`, '/', `${newProductDetails.name}.jpg`);
-        }
+        // var newFilePath;
+        // if (newProductDetails.productSubCatgName !== null){
+        //      newFilePath = path.join('/images/CATEGORIES/', `${newProductDetails.productCatgName}`, '/', `${newProductDetails.productSubCatgName}`, '/', `${newProductDetails.name}.jpg`);
+        // }
+        // else {
+        //      newFilePath = path.join('/images/CATEGORIES/', `${newProductDetails.productCatgName}`, '/', `${newProductDetails.name}.jpg`);
+        // }
         
-        await fs.writeFile(newFilePath, Buffer.from(fileData, 'base64'));
+        // await fs.writeFile(newFilePath, Buffer.from(fileData, 'base64'));
 
         // Create the new product in the database
         const product = await prisma.products.create({

@@ -123,7 +123,7 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
                     <Stock product= {product} />
                     <form>
                         <label>Qty: </label>
-                        <input type='number' min='1' name='quantity' class='rounded-sm w-[81px] h-7' id='qtyinput' />
+                        <input type='number' min='1' placeholder='1' name='quantity' class='rounded-sm w-[81px] h-7' id='qtyinput' />
                     </form>
                   </div>
                 </div>

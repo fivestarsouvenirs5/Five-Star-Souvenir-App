@@ -61,13 +61,11 @@ export default async function ProfileServer() {
           <div className="m-10">
             
             <h1 className="mt-3 mb-3 md:font-bold text-2xl">Profile</h1>
-            <div class="h-2 bg-red-500 mb-5 rounded"></div>
+            <div class="h-1 bg-rose-600/50 rounded"/>
 
             <div className="flex flex-row items-center">
-              
-              <img className="w-30 rounded-full mr-20" alt="userImg" src={user2[0].picture} />
-              
-              <div className="bg-red-100 flex flex-col px-20 py-20 m-10">
+              <img className="w-30 rounded-full mr-10 ml-5" alt="userImg" src={user2[0].picture} />
+              <div className="flex flex-col px-20 m-10">
                 <h1 className="mb-4 text-2xl md:font-bold">{user2[0].name} {user2[0].given_name}</h1>
                 <table>
                   <tbody>

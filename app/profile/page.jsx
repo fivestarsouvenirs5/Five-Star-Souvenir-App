@@ -1,21 +1,87 @@
 import { getSession } from '@auth0/nextjs-auth0';
 
+async function getAppMetadata(email) {
+  var axios = require("axios").default;
+  try {
+      var getAccess = {
+          method: 'POST',
+          url: 'https://' + process.env.AUTH0_DOMAIN + '/oauth/token',
+          headers: {'content-type': 'application/x-www-form-urlencoded'},
+          data: new URLSearchParams({
+              grant_type: 'client_credentials',
+              client_id: process.env.AUTH0_API_CLIENT_ID,
+              client_secret: process.env.AUTH0_API_CLIENT_SECRET,
+              audience: process.env.AUTH0_API_ID 
+          })
+      };
+  
+      console.log("Made it!");
+      // console.log(getAccess);
+  
+      let apiKeyInformation = [];
+      await axios.request(getAccess).then(function (response) {
+          apiKeyInformation = response.data;
+      }).catch(function (error) {
+          console.error(error);
+      })
+  
+      var options = {
+          method: 'GET',
+          url: 'https://dev-ruajdlwtnuw587py.us.auth0.com/api/v2/users-by-email',
+          params: {email: email},
+          headers: {authorization: 'Bearer ' + apiKeyInformation.access_token}
+      };
+
+      const headers = {
+          'Content-Type': 'application/json',
+      };
+
+      let user = [];
+      await axios.request(options).then(function (response) {
+          console.log(response.data);
+          user = response.data;
+      }).catch(function (error) {
+          console.error(error);
+      });
+      return user
+
+  } catch (err){
+      console.log("getting metadata error", err);
+  }
+}
+
+
 export default async function ProfileServer() {
   const { user } = await getSession();
-
+  
+  const user2 = await getAppMetadata(user.email);
+  
   return (
       user && (
           <div className="m-10">
-            {/* pfp + name */}
-            <div className="flex flex-row items-center px-20 py-10">
+            
+            <h1 className="mt-3 mb-3 md:font-bold text-2xl">Profile</h1>
+            <div class="h-2 bg-red-500 mb-5 rounded"></div>
+
+            <div className="flex flex-row items-center">
               
-              <div className="bg-gray-100 p-20 mr-4">
-                <img className="w-30 rounded" alt="userImg" src={user.picture} />
-              </div>
+              <img className="w-30 rounded-full mr-20" alt="userImg" src={user2[0].picture} />
               
-              <div className="bg-gray-100 flex flex-col px-20 py-20 m-10">
-                <h2 className="mb-4">{user.name}</h2>
-                <h2>{user.email}</h2>
+              <div className="bg-red-100 flex flex-col px-20 py-20 m-10">
+                <h1 className="mb-4 text-2xl md:font-bold">{user2[0].name} {user2[0].given_name}</h1>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>Email:</td>
+                      <td className="pl-5">{user2[0].email}</td>
+                    </tr>
+                    <tr>
+                      <td>Phone Number:</td>
+                      <td className="pl-5">{user2[0].user_metadata.phonenumber}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                
               </div>
             
             </div>         

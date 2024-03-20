@@ -100,3 +100,10 @@ model clothing_product_size {
   clothing_order_form_cell String @db.VarChar(45)
   price                    Int
 }
+
+model stores {
+  store_id      Int     @id @default(autoincrement())
+  user_id       String? @db.VarChar(45)
+  store_name    String? @db.VarChar(45)
+  store_address String? @db.VarChar(45)
+}

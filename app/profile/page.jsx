@@ -1,4 +1,7 @@
 import { getSession } from '@auth0/nextjs-auth0';
+import AddStoreButton from '../components/addStoreButton';
+// import ProfilePage from '../components/profilePage';
+
 
 async function getAppMetadata(email) {
   var axios = require("axios").default;
@@ -79,6 +82,9 @@ export default async function ProfileServer() {
                     </tr>
                   </tbody>
                 </table>
+
+                <AddStoreButton id1={user2[0].user_id}/>
+
                 
               </div>
             

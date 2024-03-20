@@ -8,10 +8,9 @@ export default function Contact() {
             <div className="py-20 px-20 grid grid-cols-1 lg:grid-cols-2">
                 <form className="flex flex-col gap-8">
                     
-                    <h1 className="relative inline">
-                        <label class="font-bold text-sm/[5px] text-[20pt]"> Contact</label>
-                        <hr class="h-1 my-1 bg-rose-400/50 border-0 rounded"/>
-                    </h1>
+                <h1 className="mt-3 font-bold text-2xl">Contact</h1>
+                <div class="h-1 bg-rose-600/50 rounded"/>
+                    
                     
                     <form action="https://api.web3forms.com/submit" method="POST">
                         <input type="hidden" name="access_key" value={v} />

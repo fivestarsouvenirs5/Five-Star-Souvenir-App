@@ -25,7 +25,6 @@ const Selector = ( {sizeList} ) => {
               ))}
             </select>
             <br></br>
-            {/* <p>Selected Size: {selectedSize}</p> */}
             <label hidden>{selected_size = selectedSize}</label>
 
         </div>
@@ -128,9 +127,8 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe}) => 
                     <Stock product= {product} />
                     <form>
                         <Selector product= {product} sizeList={filteredSizes} />
-                        <p>{selected_size}</p>
                         <label>Qty: </label>
-                        <input type='number' min='1' name='quantity' className='rounded-sm w-[81px] h-7' id='qtyinput' />
+                        <input type='number' min='1' placeholder='1' name='quantity' className='rounded-sm w-[81px] h-7' id='qtyinput' />
                     </form>
                   </div>
                 </div>

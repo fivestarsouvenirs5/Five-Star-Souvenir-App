@@ -2,6 +2,7 @@ export async function POST(request) {
   try {
     const newUserDetails = await request.json()
     console.log(newUserDetails)
+    console.log(newUserDetails.admin_approval)
     const fetchURL = 'https://' + process.env.AUTH0_DOMAIN + '/dbconnections/signup'
     console.log(fetchURL)
     const response = await fetch(fetchURL, {
@@ -16,7 +17,7 @@ export async function POST(request) {
         given_name: newUserDetails.last_name,
         email: newUserDetails.user_email,
         password: newUserDetails.user_password, 
-        user_metadata: { phonenumber: newUserDetails.phone_number },
+        user_metadata: { phonenumber: newUserDetails.phone_number, adminapproval: newUserDetails.admin_approval },
       })
       })
       return response;
@@ -24,6 +25,8 @@ export async function POST(request) {
   catch (error) {
     console.log("signup error", error)
   }
+  console.log(response);
+  console.log(response.data);
    
       
 }

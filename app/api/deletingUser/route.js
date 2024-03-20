@@ -1,7 +1,4 @@
-import axios from "axios"
-
 export async function POST(request) {
-    //console.log('reached server post request'); 
     const myRequest = await request.json(); // Assuming cartDetails is sent in the request body
     //console.log(myRequest.useremail);
 
@@ -52,21 +49,23 @@ export async function POST(request) {
     if (user.length == 0) {
         return new Response(JSON.stringify({noUserMessage: 'usernotfound'}), {headers});
     }
-    else {
-        if (user[0].user_metadata.adminapproval === 'false') {
-            return new Response(JSON.stringify({userExistsButNotApproved: 'usernotapproved'}), {headers});
-        }
-        else if (user[0].user_metadata.adminapproval === 'true') {
-            return new Response(JSON.stringify({userExistsAndApproved: 'userapproved'}), {headers});
-        }
-        //test if user approved message works by making someone's thing true
-        else {
-            return new Response(JSON.stringify({foundUserMessage: 'userfound'}), {headers});
-        }
-    }
-}
-    
-        
 
-        
-        
+    let userid = user[0].user_id;
+
+    let userData = []
+    axios.delete('https://' + process.env.AUTH0_DOMAIN + '/api/v2/users/' + userid, {
+        headers: {
+            authorization: 'Bearer ' + apiKeyInformation.access_token,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log('User deleted successfully:', response.data);
+        userData = response.data;
+        console.log(userData);
+    })
+    .catch(error => {
+        console.error('Error deleted user:', error.response.data);
+    })
+    return new Response(JSON.stringify({userDeleted: 'userdeleted'}), {headers});
+}

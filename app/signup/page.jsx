@@ -8,13 +8,14 @@ async function signupAfterSubmit() {
     const email = document.getElementById('signup-email').value;
     const password = document.getElementById('signup-password').value;
     const phonenumber = document.getElementById('signup-telephonenumber').value;
+    const original_admin_approval = 'false';
 
     const response = await fetch('/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({first_name: firstname, last_name: lastname, user_email: email, user_password: password, phone_number: phonenumber})
+        body: JSON.stringify({first_name: firstname, last_name: lastname, user_email: email, user_password: password, phone_number: phonenumber, admin_approval: original_admin_approval})
       });
       if (!response.ok) {
         alert('There is a problem signin up. Please check that the information in the fields is valid & that your password is strong enough! Also, you may already have an account :)')

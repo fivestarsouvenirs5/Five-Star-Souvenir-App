@@ -1,7 +1,4 @@
-import axios from "axios"
-
 export async function POST(request) {
-    //console.log('reached server post request'); 
     const myRequest = await request.json(); // Assuming cartDetails is sent in the request body
     //console.log(myRequest.useremail);
 
@@ -52,21 +49,30 @@ export async function POST(request) {
     if (user.length == 0) {
         return new Response(JSON.stringify({noUserMessage: 'usernotfound'}), {headers});
     }
-    else {
-        if (user[0].user_metadata.adminapproval === 'false') {
-            return new Response(JSON.stringify({userExistsButNotApproved: 'usernotapproved'}), {headers});
-        }
-        else if (user[0].user_metadata.adminapproval === 'true') {
-            return new Response(JSON.stringify({userExistsAndApproved: 'userapproved'}), {headers});
-        }
-        //test if user approved message works by making someone's thing true
-        else {
-            return new Response(JSON.stringify({foundUserMessage: 'userfound'}), {headers});
-        }
-    }
-}
-    
-        
 
-        
-        
+    let userid = user[0].user_id;
+
+    const updatedField = {
+        user_metadata: {
+            adminapproval: 'true'
+        }
+    };
+
+    let userData = []
+    axios.patch('https://' + process.env.AUTH0_DOMAIN + '/api/v2/users/' + userid, updatedField, {
+        headers: {
+            authorization: 'Bearer ' + apiKeyInformation.access_token,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log('User metadata updated successfully:', response.data);
+        userData = response.data;
+        console.log(userData.user_metadata.adminapproval);
+    })
+    .catch(error => {
+        console.error('Error updating user metadata:', error.response.data)
+    })
+
+    return new Response(JSON.stringify({userMetadataUpdated: 'userapproved'}), {headers});
+}

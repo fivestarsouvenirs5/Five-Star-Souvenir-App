@@ -34,7 +34,7 @@ export async function POST(request) {
         var options = {
             method: 'GET',
             url: 'https://dev-ruajdlwtnuw587py.us.auth0.com/api/v2/users?fields=name,given_name,email,user_metadata.phonenumber',
-            params: {q: 'app_metadata.admin_approved: true', search_engine: 'v3'},
+            params: {q: 'user_metadata.adminapproval: "true"', search_engine: 'v3'},
             headers: {authorization: 'Bearer ' + apiKeyInformation.access_token}
         };
 

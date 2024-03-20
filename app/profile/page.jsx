@@ -1,6 +1,22 @@
+import React from 'react'
+import prisma from '../utils/prisma'
 import { getSession } from '@auth0/nextjs-auth0';
 import AddStoreButton from '../components/addStoreButton';
-// import ProfilePage from '../components/profilePage';
+import StoreSelector from '../components/storeSelector';
+
+
+const fetchStores = async (id) => {
+  try {
+    const stores = await prisma.stores.findMany({
+      where: { user_id: id },
+    });
+    return stores;
+  } catch (error) {
+    // Handle error
+    console.error("Error fetching stores:", error);
+    throw error; // Re-throw the error if needed
+  }
+};
 
 
 async function getAppMetadata(email) {
@@ -54,11 +70,14 @@ async function getAppMetadata(email) {
 }
 
 
+
 export default async function ProfileServer() {
   const { user } = await getSession();
   
   const user2 = await getAppMetadata(user.email);
-  
+
+  const stores = await fetchStores(user2[0].user_id);
+
   return (
       user && (
           <div className="m-10">
@@ -79,6 +98,11 @@ export default async function ProfileServer() {
                     <tr>
                       <td>Phone Number:</td>
                       <td className="pl-5">{user2[0].user_metadata.phonenumber}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                      <StoreSelector storeList= {stores} />
+                      </td>
                     </tr>
                   </tbody>
                 </table>

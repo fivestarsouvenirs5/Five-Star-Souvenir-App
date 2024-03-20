@@ -4,6 +4,7 @@ import { Button, Modal } from 'flowbite-react';
 import { useState } from 'react';
 import { formatCurrencyString } from 'use-shopping-cart';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import Image from "next/image";
 
 
 const Stock = ( {product} ) => {
@@ -18,7 +19,8 @@ const Stock = ( {product} ) => {
     )
   }
 }
-  
+ 
+
 
 const Category = ( { subcategory, category }) => {
   if (subcategory == null) {
@@ -33,42 +35,37 @@ const Category = ( { subcategory, category }) => {
   }
 }
 
-const ImgSrc = ( { subcategory, category, product }) => {
-    if (subcategory == null) {
-      if (category.category_location == 0) {
-        return (
-          <img className="w-60"
-                src={`/images/CATEGORIES/NJ/${encodeURIComponent(product.product_name)}.jpg`} 
-                alt="My Image3"
-                />
-        )
-      }
-      else {
-        return (
-        <img className="w-60"
-                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
-                alt="My Image1"
-                />
-        )
-      }
-      
-    }
-    else {
-      return (
-        <img className="w-60"
-                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(subcategory.subcategory_name)}/${encodeURIComponent(product.product_name)}.jpg`} 
+
+const ImgSrc = ( {product }) => {
+  if(product.image_id) {
+    return (
+      <Image className="w-60"
+                src={product.image_id}
                 alt="My Image2"
+                width={300}
+                height={400}
                 />
-      )
-    }
+    )
   }
+  else {
+    return (
+      <img className="w-60"
+                src="/images/CATEGORIES/cat/cat1.jpg"
+                alt="My Image23"
+                />
+    )
+  }
+    
+  }
+
 
 const ProductDisplay = ({ product, category, subcategory, addItem}) => {
   const {user} = useUser();
   const [openModal, setOpenModal] = useState(false);
 
+
   if (user) {
-      
+     
       //  var size = document.getElementById('selector').value
       var cartDisplayProduct
       if (subcategory !== null){
@@ -95,11 +92,11 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
           // }
         }
       }
-      
+     
       return (
         <>
           <div className="border-2 bg-red-100 flex flex-col items-center">
-            <button className="border-b-2" onClick={() => setOpenModal(true)}> 
+            <button className="border-b-2" onClick={() => setOpenModal(true)}>
               <ImgSrc category = {category} subcategory={subcategory} product = {product} />
             </button>
             <label className="flex justify items-center">
@@ -107,7 +104,8 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
             </label>
             {formatCurrencyString({ value: product.price, currency: 'USD' })}
         </div>
-          
+         
+
 
           <Modal show={openModal} onClose={() => setOpenModal(false)}>
             <Modal.Header>Product Info:</Modal.Header>
@@ -132,8 +130,8 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
               <Button onClick={() => {
                 let qty = parseInt(document.getElementById('qtyinput').value)
                   addItem(cartDisplayProduct, {count: qty, product_metadata: {location: category.category_location, cell: product.order_form_cell}})
-                
-                
+               
+               
                 setOpenModal(false);
               }}>Add to Cart</Button>
             </Modal.Footer>
@@ -150,11 +148,12 @@ const ProductDisplay = ({ product, category, subcategory, addItem}) => {
               {product.product_name}
             </label>
           </div>
-          
+         
         </>
       );
   }
-  
+ 
 }
+
 
 export default ProductDisplay

@@ -1,5 +1,6 @@
 import fs from 'fs';
 import prisma from '../../utils/prisma'
+import { del } from '@vercel/blob';
 
 async function fetchParentCategory(id) {
     let category = await prisma.category.findUnique({
@@ -10,15 +11,15 @@ async function fetchParentCategory(id) {
 export async function DELETE(request) {
     try {
       const itemDetails = await request.json()
-      console.log(itemDetails)
+      
         if (itemDetails.itemType === "Product") {
+            del(itemDetails.myItem.image_id)
             const deleteProduct = await prisma.products.delete({
                 where: {
                 product_id: itemDetails.myItem.product_id,
                 },
             })
             const category = await fetchParentCategory(itemDetails.myItem.category_id)
-            console.log(category)
             //const filePath = `public/images/CATEGORIES/${category.category}/${itemDetails.myItem.product_name}.jpg`;
 
             // // Delete the file

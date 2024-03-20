@@ -23,12 +23,12 @@ export async function POST(request) {
 
     let ny = false;
 
-    var myCells = []
+    // var myCells = []
     Object.values(cartDetails ?? {}).forEach((array) => {
       Object.values(array ?? {}).forEach((entry) => {
         if (entry.product_data.location === 1) {
-          myCells.push(entry.product_data.cell)
-          console.log(entry.product_data.cell)
+          // myCells.push(entry.product_data.cell)
+          // console.log(entry.product_data.cell)
           let cell = nyWorksheet.getCell(entry.product_data.cell);
           // cell.value = entry.quantity;
           cell.value = {
@@ -46,31 +46,42 @@ export async function POST(request) {
           ny = true;
         } else if (entry.product_data.location === 0) {
           let cell = njWorksheet.getCell(entry.product_data.cell);
-          cell.value = entry.quantity;
-          cell.style.font = { color: { argb: 'FFFF0000' } };
+          // cell.value = entry.quantity;
+          cell.value = {
+            richText: [
+              {
+                text: entry.quantity,
+                font: {
+                  color: {
+                    argb: 'FFFF0000',
+                  },
+                },
+              },
+            ],
+          };
         }
       });
     });
 
-    nyWorksheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
-      row.eachCell({ includeEmpty: false }, (cell, colNumber) => {
-          if (cell.style && cell.style.font && cell.style.font.color && cell.style.font.color.argb) {
+  //   nyWorksheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
+  //     row.eachCell({ includeEmpty: false }, (cell, colNumber) => {
+  //         if (cell.style && cell.style.font && cell.style.font.color && cell.style.font.color.argb) {
            
-              if (myCells.indexOf(cell.address) >= 0) {
-                console.log(`Font Color: ${cell.style.font.color.argb} ${cell.address}`);
-                console.log("red ", cell.address)
+  //             if (myCells.indexOf(cell.address) >= 0) {
+  //               console.log(`Font Color: ${cell.style.font.color.argb} ${cell.address}`);
+  //               console.log("red ", cell.address)
                 
-              }
-              else {
+  //             }
+  //             else {
                 
-                nyWorksheet.getCell(cell.address).style.font ={ color: { argb: 'FF000000' } };
-                console.log("changed", cell.address)
-              }
-              console.log(`Font Color: ${cell.style.font.color.argb} ${cell.address}`);
+  //               nyWorksheet.getCell(cell.address).style.font ={ color: { argb: 'FF000000' } };
+  //               console.log("changed", cell.address)
+  //             }
+  //             console.log(`Font Color: ${cell.style.font.color.argb} ${cell.address}`);
    
-          } 
-      });
-  });
+  //         } 
+  //     });
+  // });
 
     let outputPath;
     const currentDate = new Date(); 
@@ -100,8 +111,8 @@ export async function POST(request) {
     apiKey.apiKey = process.env.BREVO_API_KEY;
     
     let sendSmtpEmail = new brevo.SendSmtpEmail(); 
-    sendSmtpEmail.subject = "New Order "+ formattedDate;
-    sendSmtpEmail.htmlContent = "<html><body><h1>Attached is a new order by ...</h1></body></html>";
+    sendSmtpEmail.subject = "New Order "+ session.user.name + " " + formattedDate;
+    sendSmtpEmail.htmlContent = `<html><body><h1>Attached is a new order by ${session.user.name}</h1></body></html>`;
     sendSmtpEmail.sender = { name: 'Order', email: 'akelnik.9@gmail.com' };
     sendSmtpEmail.to = [{ email: 'akelnik.9@gmail.com', name: 'Five Star Souvenirs' }];
 

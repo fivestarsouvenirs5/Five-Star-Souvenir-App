@@ -16,8 +16,8 @@ export default function StoreSelector({ storeList }) {
                     <th>Store Address</th>
                 </tr>
             </thead>
-            {storeList.map((store) => (
-            <tbody>
+            {storeList.map((store, index) => (
+            <tbody key={index}>
                 <tr>
                     <td>{store.store_name}</td>
                     <td>{store.store_address}</td>

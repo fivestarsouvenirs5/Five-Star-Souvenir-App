@@ -17,9 +17,6 @@ async function addStore({id1}) {
     if (!response.ok) {
         console.log("Problem adding store");
     }
-
-    console.log(response)
-    console.log("hiiiiiii")
     
 }
 

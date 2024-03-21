@@ -99,13 +99,11 @@ export default async function ProfileServer() {
                       <td>Phone Number:</td>
                       <td className="pl-5">{user2[0].user_metadata.phonenumber}</td>
                     </tr>
-                    <tr>
-                      <td>
-                      <StoreSelector storeList= {stores} />
-                      </td>
-                    </tr>
                   </tbody>
                 </table>
+
+                  
+                <StoreSelector storeList= {stores} />
 
                 <AddStoreButton id1={user2[0].user_id}/>
 

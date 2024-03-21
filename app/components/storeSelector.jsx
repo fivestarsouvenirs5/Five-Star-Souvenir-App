@@ -1,37 +1,30 @@
 'use client'
-import React, { useState, useEffect } from 'react';
 
-export default function StoreSelector({ storeList }) {
+export default function StoreSelector({ storeList }) { 
     
-    const [selectedStore, setSelectedStore] = useState('');
-    const [selectedStoreAddress, setSelectedStoreAddress] = useState('');
-    
-    useEffect(() => {
-        const selectedStoreObject = storeList.find(store => store.store_name === selectedStore);
-        
-        if (selectedStoreObject) {
-            setSelectedStoreAddress(selectedStoreObject.store_address);
-        }
-        else {
-            setSelectedStoreAddress('');
-        }
-    }, [selectedStore, storeList]);
-    
-    const handleStoreChange = (event) => {
-        setSelectedStore(event.target.value);
-    };
+    if (storeList.length === 0) {
+        return (
+            <div className="flex items-center font-bold">No Stores Added Yet</div>
+        )
+    }
     
     return (
-        <div>
-            <label>Please Select a Store: </label>
-            <select id='selector' onChange={handleStoreChange} value={selectedStore}>
-                <option value="" disabled>--</option>
-                {storeList.map((store) => (
-                <option key={store.store_id} value={store.store_name}>{store.store_name}</option>
-                ))}
-            </select>
-            
-            {selectedStoreAddress && <p>Address: {selectedStoreAddress}</p>}
-        </div>
+        <table className="w-full table-auto border-separate border-spacing-5 border border-slate-400 mt-5 mb-5">
+            <thead className="border-b-2 border-gray-200">
+                <tr>
+                    <th>Store Name</th>
+                    <th>Store Address</th>
+                </tr>
+            </thead>
+            {storeList.map((store) => (
+            <tbody>
+                <tr>
+                    <td>{store.store_name}</td>
+                    <td>{store.store_address}</td>
+                </tr>
+            </tbody>
+            ))}
+
+        </table>
     );
 }

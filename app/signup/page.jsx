@@ -29,24 +29,24 @@ async function signupAfterSubmit() {
 
 
 export default function signup() {
-    const [email, setEmail] = useState("");
-    const handleOnChange = (e) => {
-        setEmail(e.target.value);
-    }
+    // const [email, setEmail] = useState("");
+    // const handleOnChange = (e) => {
+    //     setEmail(e.target.value);
+    // }
 
-    const [message, setMessage] = useState("");
-    const emailValidation = () => {
-        const regEx = /[a-zA-z0-9._%+-]+@[a-z0-9·-]+\.[a-z]{2,8}(.[a-z {2-8}])?/g
-        if (regEx.test(email)) {
-            setMessage("Email is Valid")
-        }
-        else if (!regEx.test(email) && email != " ") {
-            setMessage("Email is Not Valid");
-        }
-        else {
-            setMessage(" ");
-        }
-    }
+    // const [message, setMessage] = useState("");
+    // const emailValidation = () => {
+    //     const regEx = /[a-zA-z0-9._%+-]+@[a-z0-9·-]+\.[a-z]{2,8}(.[a-z {2-8}])?/g
+    //     if (regEx.test(email)) {
+    //         setMessage("Email is Valid")
+    //     }
+    //     else if (!regEx.test(email) && email != " ") {
+    //         setMessage("Email is Not Valid");
+    //     }
+    //     else {
+    //         setMessage(" ");
+    //     }
+    // }
     return(
             <div id="signup-box" className="login-container">
                 <div className="col-xs-12 col-sm-4 col-sm-offset-4 login-box flex flex-col items-center p-6 gap-10 py-20">

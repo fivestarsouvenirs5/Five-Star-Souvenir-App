@@ -1,4 +1,5 @@
 'use client'
+import DeleteStoreButton from './deleteStoreButton';
 
 export default function StoreSelector({ storeList }) { 
     
@@ -14,6 +15,7 @@ export default function StoreSelector({ storeList }) {
                 <tr>
                     <th>Store Name</th>
                     <th>Store Address</th>
+                    <th>🗑️</th>
                 </tr>
             </thead>
             {storeList.map((store, index) => (
@@ -21,6 +23,9 @@ export default function StoreSelector({ storeList }) {
                 <tr>
                     <td>{store.store_name}</td>
                     <td>{store.store_address}</td>
+                    <td>
+                        <DeleteStoreButton storeId={store.store_id}>Delete</DeleteStoreButton>
+                    </td>
                 </tr>
             </tbody>
             ))}

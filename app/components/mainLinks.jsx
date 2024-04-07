@@ -53,44 +53,71 @@ export default async function MainLinks() {
     
     if (!session) {
         return (
-            <div className="flex items-center space-x-1">
-            <img className="h-14 w-28" src="/images/Logo.png" alt="" />
-
-                <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
-                <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
-                <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
-                <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
-            </div>
-        )
-    }
-    else {
-        const admin = await getAppMetadata(session.user.email);
-        // console.log(admin)
-        if (admin == true) {
-            return (
-                <div className="flex items-center space-x-1">
-                <img className="h-14 w-28" src="/images/Logo.png" alt="" />
-    
+            <nav>
+                <div className="hidden md:block flex items-center space-x-1">
                     <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
                     <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
                     <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
                     <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
-                    <a href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</a>
-                    <a href="/users" className="py-5 px-3 text-gray-700 hover:text-gray-900">Users</a> 
                 </div>
+                <div className="md:hidden">
+                    <a href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</a>
+                    <a href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</a>
+                    <a href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</a>
+                    <a href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+                </div>
+            </nav>
+            
+
+        )
+    }
+    else {
+        const admin = await getAppMetadata(session.user.email);
+        if (admin == true) {
+            return (
+                <nav>
+                    <div className="hidden md:block flex items-center space-x-1">
+                        <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
+                        <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
+                        <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
+                        <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+                        <a href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</a>
+                        <a href="/users" className="py-5 px-3 text-gray-700 hover:text-gray-900">Users</a> 
+                    </div>
+                    <div className="md:hidden">
+                        <a href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</a>
+                        <a href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</a>
+                        <a href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</a>
+                        <a href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+                        <a href="/profile" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Profile</a>
+                        <a href="/users" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Users</a>
+                    </div>
+                </nav>
+                
+                
                 
             )
         }
         else {
-            return (<div className="flex items-center space-x-1">
-            <img className="h-14 w-28" src="/images/Logo.png" alt="" />
-
-                <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
-                <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
-                <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
-                <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
-                <a href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</a>
-            </div>)
+            return (
+                <nav>
+                    <div className="hidden md:block flex items-center space-x-1">
+                        <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
+                        <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
+                        <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
+                        <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+                        <a href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</a>
+                    </div>
+                    <div className="md:hidden">
+                        <a href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</a>
+                        <a href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</a>
+                        <a href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</a>
+                        <a href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+                        <a href="/profile" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Profile</a>
+                    </div>
+                </nav>
+                
+            )
         }
 
     }

@@ -1,8 +1,8 @@
 'use client'
 import DeleteStoreButton from './deleteStoreButton';
+import { decode } from 'he'; // Import decode function from 'he' library
 
 export default function StoreSelector({ storeList }) { 
-    
     if (storeList.length === 0) {
         return (
             <div className="flex items-center font-bold">No Stores Added Yet</div>
@@ -18,18 +18,17 @@ export default function StoreSelector({ storeList }) {
                     <th>🗑️</th>
                 </tr>
             </thead>
-            {storeList.map((store, index) => (
-            <tbody key={index}>
-                <tr>
-                    <td>{store.store_name}</td>
-                    <td>{store.store_address}</td>
-                    <td>
-                        <DeleteStoreButton storeId={store.store_id}>Delete</DeleteStoreButton>
-                    </td>
-                </tr>
+            <tbody>
+                {storeList.map((store, index) => (
+                    <tr key={index}>
+                        <td>{decode(store.store_name)}</td>
+                        <td>{decode(store.store_address)}</td>
+                        <td>
+                            <DeleteStoreButton storeId={store.store_id}>Delete</DeleteStoreButton>
+                        </td>
+                    </tr>
+                ))}
             </tbody>
-            ))}
-
         </table>
     );
 }

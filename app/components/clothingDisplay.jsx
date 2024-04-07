@@ -58,34 +58,26 @@ const Category = ( { subcategory, category }) => {
   }
 }
 
-const ImgSrc = ( { subcategory, category, product }) => {
-    if (subcategory == null) {
-      if (category.category_location == 0) {
-        return (
-          <img className="w-60"
-                src={`/images/CATEGORIES/NJ/${encodeURIComponent(product.product_name)}.jpg`} 
-                alt="My Image3"
-                />
-        )
-      }
-      else {
-        return (
-        <img className="w-60"
-                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
-                alt="My Image1"
-                />
-        )
-      }
-      
-    }
-    else {
-      return (
-        <img className="w-60"
-                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(subcategory.subcategory_name)}/${encodeURIComponent(product.product_name)}.jpg`} 
+const ImgSrc = ( {product }) => {
+  if(product.image_id) {
+    return (
+      <Image className="w-60"
+                src={product.image_id}
                 alt="My Image2"
+                width={300}
+                height={400}
                 />
-      )
-    }
+    )
+  }
+  else {
+    return (
+      <img className="w-60"
+                src="/images/CATEGORIES/cat/cat1.jpg"
+                alt="My Image23"
+                />
+    )
+  }
+    
   }
 
 const ClothingDisplay = ({ product, category, subcategory, addItem, clothe}) => {

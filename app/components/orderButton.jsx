@@ -6,6 +6,7 @@ import { Button, Modal } from 'flowbite-react';
 export default function OrderButton() {
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [preOrderOpenModal, setPreOrderOpenModal] = useState(false);
 
   const cart = useShoppingCart()
   const { cartDetails, clearCart } = cart  
@@ -13,6 +14,7 @@ export default function OrderButton() {
 
     try {
       setLoading(true);
+      setPreOrderOpenModal(false);
       const response = await fetch('/api/order', {
         method: 'POST',
         headers: {
@@ -36,9 +38,19 @@ export default function OrderButton() {
 
   return (
     <div>
-      <button onClick={handleOrderButtonClick} className="text-black" disabled={loading}>
+      <button className="text-black" disabled={loading} onClick={() => setPreOrderOpenModal(true)}>
         {loading ? 'Processing...' : 'Order'}
       </button>
+      <Modal show={preOrderOpenModal} onClose={() => setPreOrderOpenModal(false)}>
+      <Modal.Header>Order</Modal.Header>
+                <Modal.Body>
+                    <h3>Are you sure you want to order?</h3>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button onClick={handleOrderButtonClick}>Yes</Button>
+                  <Button onClick={ () => {setPreOrderOpenModal(false)}}>No</Button>
+                </Modal.Footer>
+      </Modal>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Order Complete</Modal.Header>
         <Modal.Body>

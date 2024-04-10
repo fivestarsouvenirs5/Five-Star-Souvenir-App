@@ -20,12 +20,13 @@ export default function Home() {
       <div className="mb-12 p-4 border border-red-500 rounded-md">
         <p className="text-xl">
         Five Star Souvenirs Inc. is a family-owned wholesale corporation known for its over 20 years of expertise in crafting and distributing unique, high-quality souvenirs featuring real images of New York City landmarks. With a commitment to eco-friendly materials and personalized customer relationships, the company sets itself apart by creating colorful, creative, and practical items.
+        </p> 
                   <hr className="my-2 border-black"/>
           
           <span className="mt-2 block">
             Read more in the <a href="/about-us" className="text-red-500 hover:underline">About Us page</a>!
           </span>
-        </p>
+        
       </div>
 
       {/* products page*/}

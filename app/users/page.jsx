@@ -74,6 +74,7 @@ async function forUnapprovedUser() {
 export default function Users() {
 
   const [displayContent, setDisplayContent] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -279,7 +280,7 @@ export default function Users() {
       <div>        
         <h1 className="flex justify-center p-6 text-2xl font-bold">Users Page</h1>
         {displayContent}
-    </div>
+      </div>
       
     )
 }

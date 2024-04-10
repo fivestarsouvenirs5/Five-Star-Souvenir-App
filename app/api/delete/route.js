@@ -13,7 +13,9 @@ export async function DELETE(request) {
       const itemDetails = await request.json()
       
         if (itemDetails.itemType === "Product") {
-            del(itemDetails.myItem.image_id)
+            if (itemDetails.myItem.image_id) {
+                del(itemDetails.myItem.image_id)
+            }
             const deleteProduct = await prisma.products.delete({
                 where: {
                 product_id: itemDetails.myItem.product_id,

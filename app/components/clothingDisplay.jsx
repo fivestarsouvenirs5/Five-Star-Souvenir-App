@@ -4,6 +4,8 @@ import { Button, Modal } from 'flowbite-react';
 import { useState } from 'react';
 import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-cart';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import Image from "next/image";
+
 
 let selected_size = "";
 
@@ -58,7 +60,29 @@ const Category = ( { subcategory, category }) => {
   }
 }
 
-const ImgSrc = ( {product }) => {
+// const ImgSrc = ( {product }) => {
+//   if(product.image_id) {
+//     return (
+//       <Image className="w-60"
+//                 src={product.image_id}
+//                 alt="My Image2"
+//                 width={300}
+//                 height={400}
+//                 />
+//     )
+//   }
+//   else {
+//     return (
+//       <img className="w-60"
+//                 src="/images/CATEGORIES/cat/cat1.jpg"
+//                 alt="My Image23"
+//                 />
+//     )
+//   }
+    
+//   }
+
+const ImgSrc = ( { subcategory, category, product }) => {
   if(product.image_id) {
     return (
       <Image className="w-60"
@@ -70,15 +94,50 @@ const ImgSrc = ( {product }) => {
     )
   }
   else {
-    return (
-      <img className="w-60"
-                src="/images/CATEGORIES/cat/cat1.jpg"
-                alt="My Image23"
+    // return (
+    //   <img className="w-60"
+    //             src="/images/CATEGORIES/cat/cat1.jpg"
+    //             alt="My Image23"
+    //             />
+    // )
+    if (subcategory == null) {
+      if (category.category_location == 0) {
+        return (
+          <Image className="w-60"
+                src={`/images/CATEGORIES/NJ/${encodeURIComponent(product.product_name)}.jpg`} 
+                alt="My Image3"
+                width={300}
+                height={400}
                 />
-    )
+        )
+      }
+      else {
+        return (
+        <Image className="w-60"
+                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
+                alt="My Image1"
+                width={300}
+                height={400}
+                />
+        )
+      }
+      
+    }
+    else {
+      return (
+        <Image className="w-60"
+                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(subcategory.subcategory_name)}/${encodeURIComponent(product.product_name)}.jpg`} 
+                alt="My Image2"
+                width={300}
+                height={400}
+                />
+      )
+    }
   }
     
-  }
+}
+  
+  
 
 const ClothingDisplay = ({ product, category, subcategory, addItem, clothe}) => {
   const {user} = useUser();

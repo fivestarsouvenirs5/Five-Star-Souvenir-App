@@ -36,27 +36,49 @@ async function signupAfterSubmit() {
     return;
   }
 
-  const response = await fetch('/api/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      first_name: firstname,
-      last_name: lastname,
-      user_email: email,
-      user_password: password,
-      phone_number: phonenumber,
-      admin_approval: original_admin_approval
-    })
-  });
-
-  if (!response.ok) {
-    alert('There is a problem signing up. Please check that the information in the fields is valid & that your password is strong enough! Also, you may already have an account :)');
-  } else {
-    alert('Successful signup! Please wait 1-3 business days to be approved by admin.');
-    window.location.assign('/');
+  async function signupAfterSubmit() {
+    // Existing code remains the same
+    
+    try {
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          first_name: firstname,
+          last_name: lastname,
+          user_email: email,
+          user_password: password,
+          phone_number: phonenumber,
+          admin_approval: original_admin_approval
+        })
+      });
+  
+      if (!response.ok) {
+        // Log the response status for debugging
+        console.error('Signup request failed with status:', response.status);
+        
+        // Check if response status is 400 Bad Request (client error)
+        if (response.status === 400) {
+          // Parse response JSON to get error message
+          const { error } = await response.json();
+          alert(`Signup failed: ${error}`);
+        } else {
+          // For other error cases, display a generic error message
+          alert('There is a problem signing up. Please try again later.');
+        }
+      } else {
+        alert('Successful signup! Please wait 1-3 business days to be approved by admin.');
+        window.location.assign('/');
+      }
+    } catch (error) {
+      // Log any unexpected errors
+      console.error('Error during signup:', error);
+      alert('An unexpected error occurred. Please try again later.');
+    }
   }
+  
 }
 
 

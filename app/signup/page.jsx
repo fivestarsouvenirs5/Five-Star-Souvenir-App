@@ -59,10 +59,6 @@ async function signupAfterSubmit() {
   }
 }
 
-
-
-// Existing imports and functions remain the same
-
 // Form component
 function SignupForm() {
     // Function to handle input events and restrict input based on pattern
@@ -76,7 +72,6 @@ function SignupForm() {
       }
   
       if (!pattern.test(value)) {
-        // If input doesn't match pattern, remove the last entered character
         document.getElementById(id).value = value.slice(0, -1);
       }
     };
@@ -157,6 +152,7 @@ function SignupForm() {
             <div className="flex flex-col items-center py-5">
               <div className="captcha-container form-group"></div>
               <button
+                type="button"
                 onClick={signupAfterSubmit}
                 className="w-[100px] h-[50px] font-bold border border-rose-600/50 hover:border-rose-600 ..."
                 id="btn-signup"

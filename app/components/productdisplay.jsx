@@ -123,12 +123,12 @@ const ImgSrc = ( { subcategory, category, product }) => {
 // }
 
 
-const ProductDisplay = ({ product, category, subcategory, addItem}) => {
+const ProductDisplay = ({ product, category, subcategory, addItem, approved}) => {
   const {user} = useUser();
   const [openModal, setOpenModal] = useState(false);
 
 
-  if (user) {
+  if (user && approved === "true") {
      
       //  var size = document.getElementById('selector').value
       var cartDisplayProduct

@@ -70,7 +70,7 @@ const fetchProducts = async (id) => {
         }).catch(function (error) {
             console.error(error);
         });
-        return user[0].app_metadata.admin
+        return user[0]
 
     } catch (err){
         console.log("getting metadata error", err);
@@ -93,14 +93,17 @@ export default async function Subcategory({ params }) {
 
     const category = await fetchCategories(subcategory.catg_id);
     const session = await getSession();
-      var adminMetadata
-      if (session) {
-          adminMetadata = await getAppMetadata(session.user.email);
-      }
-      else {
-          adminMetadata = false;
-      }
 
+    var adminMetadata;
+    var approvalStatus;
+    if (session) {
+        var myUser =  await getAppMetadata(session.user.email);
+        adminMetadata = myUser.app_metadata.admin;
+        approvalStatus = myUser.user_metadata.adminapproval;
+    }
+    else {
+        adminMetadata = false;
+    }
     return (
       <main>
         <h2 className="text-center py-5 lg:text-4xl font-bold">{subcategory.subcategory_name}</h2>
@@ -113,7 +116,7 @@ export default async function Subcategory({ params }) {
                 </div>
             </div>
 
-            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={subcategory} subMainCategory={null} isAdmin={adminMetadata}/>
+            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={subcategory} subMainCategory={null} isAdmin={adminMetadata} isApproved={approvalStatus}/>
       
         </div>
     </main>

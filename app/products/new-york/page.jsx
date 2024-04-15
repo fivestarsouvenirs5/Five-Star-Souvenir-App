@@ -52,7 +52,7 @@ async function getAppMetadata(email) {
         }).catch(function (error) {
             console.error(error);
         });
-        return user[0].app_metadata.admin
+        return user[0]
 
     } catch (err){
         console.log("getting metadata error", err);
@@ -63,9 +63,13 @@ export default async function OrderNY() {
     const categories = await fetchCategories()
     // console.log({categories})
     const session = await getSession();
-    var adminMetadata
+
+    var adminMetadata;
+    var approvalStatus;
     if (session) {
-        adminMetadata = await getAppMetadata(session.user.email);
+        var myUser =  await getAppMetadata(session.user.email);
+        adminMetadata = myUser.app_metadata.admin;
+        approvalStatus = myUser.user_metadata.adminapproval;
     }
     else {
         adminMetadata = false;
@@ -85,7 +89,7 @@ export default async function OrderNY() {
                 </div>
             </div>
 
-            <ProductPageMapping products={null} categoryList={categories} subcategoryList={null} isNY={true} category={null} subcategory={null} subMainCategory={null} isAdmin={adminMetadata}/>
+            <ProductPageMapping products={null} categoryList={categories} subcategoryList={null} isNY={true} category={null} subcategory={null} subMainCategory={null} isAdmin={adminMetadata} isApproved={approvalStatus}/>
             
         </div>
 

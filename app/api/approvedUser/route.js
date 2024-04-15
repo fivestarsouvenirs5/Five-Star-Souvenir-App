@@ -19,8 +19,8 @@ export async function POST(request) {
             })
         };
 
-        console.log("Made it!");
-        console.log(getAccess);
+        // console.log("Made it!");
+        // console.log(getAccess);
 
         let apiKeyInformation = [];
         await axios.request(getAccess).then(function (response) {
@@ -49,7 +49,7 @@ export async function POST(request) {
         }).catch(function (error) {
             console.error(error);
         });
-        console.log(user);
+        // console.log(user);
         // const jsonStringOfUser = JSON.parse(JSON.stringify(user));
         // console.log(jsonStringOfUser)
         // console.log(user.email);

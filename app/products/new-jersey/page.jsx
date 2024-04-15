@@ -59,7 +59,7 @@ const fetchProducts = async () => {
         }).catch(function (error) {
             console.error(error);
         });
-        return user[0].app_metadata.admin
+        return user[0]
 
     } catch (err){
         console.log("getting metadata error", err);
@@ -83,9 +83,12 @@ export default async function NJProductsPage() {
     const category = await fetchCategories();
     const session = await getSession();
 
-    var adminMetadata
+    var adminMetadata;
+    var approvalStatus;
     if (session) {
-        adminMetadata = await getAppMetadata(session.user.email);
+        var myUser =  await getAppMetadata(session.user.email);
+        adminMetadata = myUser.app_metadata.admin;
+        approvalStatus = myUser.user_metadata.adminapproval;
     }
     else {
         adminMetadata = false;
@@ -103,7 +106,7 @@ export default async function NJProductsPage() {
                 </div>
             </div>
 
-            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={false} category={category} subcategory={null} subMainCategory={null} isAdmin={adminMetadata}/>
+            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={false} category={category} subcategory={null} subMainCategory={null} isAdmin={adminMetadata} isApproved={approvalStatus}/>
 
        </div>
     </main>

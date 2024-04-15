@@ -42,7 +42,7 @@ async function getAppMetadata(email) {
             }).catch(function (error) {
                 console.error(error);
             });
-            return user[0].app_metadata.admin
+            return user[0]
     } catch (err){
         console.log("getting metadata error", err);
     }
@@ -51,29 +51,9 @@ async function getAppMetadata(email) {
 export default async function MainLinks() {
     const session = await getSession();
     
-    if (!session) {
-        return (
-            <nav>
-                <div className="hidden md:block flex items-center space-x-1">
-                    <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
-                    <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
-                    <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
-                    <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
-                </div>
-                <div className="md:hidden">
-                    <a href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</a>
-                    <a href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</a>
-                    <a href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</a>
-                    <a href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</a>
-                </div>
-            </nav>
-            
-
-        )
-    }
-    else {
-        const admin = await getAppMetadata(session.user.email);
-        if (admin == true) {
+    if (session) {
+        const myUser = await getAppMetadata(session.user.email);
+        if (myUser.app_metadata.admin == true) {
             return (
                 <nav>
                     <div className="hidden md:block flex items-center space-x-1">
@@ -93,12 +73,9 @@ export default async function MainLinks() {
                         <a href="/users" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Users</a>
                     </div>
                 </nav>
-                
-                
-                
             )
         }
-        else {
+        else if (myUser.user_metadata.adminapproval === "true") {
             return (
                 <nav>
                     <div className="hidden md:block flex items-center space-x-1">
@@ -119,6 +96,46 @@ export default async function MainLinks() {
                 
             )
         }
+        else {
+            return (
+                <nav>
+                    <div className="hidden md:block flex items-center space-x-1">
+                        <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
+                        <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
+                        <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
+                        <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+                    </div>
+                    <div className="md:hidden">
+                        <a href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</a>
+                        <a href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</a>
+                        <a href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</a>
+                        <a href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+                    </div>
+                </nav>
+    
+            )
+        }
+    }
+    else {
+        
+        return (
+            <nav>
+                <div className="hidden md:block flex items-center space-x-1">
+                    <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
+                    <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
+                    <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
+                    <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+                </div>
+                <div className="md:hidden">
+                    <a href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</a>
+                    <a href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</a>
+                    <a href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</a>
+                    <a href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+                </div>
+            </nav>
+            
+
+        )
 
     }
 }

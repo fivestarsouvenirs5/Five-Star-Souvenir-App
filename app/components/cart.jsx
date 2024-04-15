@@ -27,7 +27,7 @@ function CartEntry({ entry, removeItem }) {
     )
   }
 
-export default function Cart() {
+export default function Cart( {approved}) {
     // console.log(cartEntries)
     const { user} = useUser();
     const cart = useShoppingCart()
@@ -42,7 +42,7 @@ export default function Cart() {
       return null;
     }
 
-    if (user) {
+    if (user && approved === "true") {
         
         const { removeItem, cartDetails, clearCart, formattedTotalPrice } = cart  
     

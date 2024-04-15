@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { CartProvider } from '../providers/cartProvider';
 import { getSession } from '@auth0/nextjs-auth0';
+import { ApproveBanner } from '../app/components/approvalBanner';
 
 //components
 import NavBar from './components/navbar';
@@ -25,6 +26,7 @@ export default async function RootLayout({ children }) {
           <body className={inter.className}>
           <CartProvider>
             <NavBar/>
+            <ApproveBanner  />
             {children}
           </CartProvider>
             </body>

@@ -57,7 +57,7 @@ async function getAppMetadata(email) {
 
       let user = [];
       await axios.request(options).then(function (response) {
-          console.log(response.data);
+          // console.log(response.data);
           user = response.data;
       }).catch(function (error) {
           console.error(error);
@@ -72,46 +72,67 @@ async function getAppMetadata(email) {
 
 
 export default async function ProfileServer() {
-  const { user } = await getSession();
-  
-  const user2 = await getAppMetadata(user.email);
+  const session = await getSession();
+  if (session){
+    const user = session.user;
+    const user2 = await getAppMetadata(user.email);
+    console.log(user2)
+    if(user2[0].user_metadata.adminapproval === "true") {
+      const stores = await fetchStores(user2[0].user_id);
 
-  const stores = await fetchStores(user2[0].user_id);
-
-  return (
-      user && (
-          <div className="m-10">
-            
-            <h1 className="mt-3 mb-3 md:font-bold text-2xl">Profile</h1>
-            <div class="h-1 bg-rose-600/50 rounded"/>
-
-            <div className="flex flex-row items-center">
-              <img className="w-30 rounded-full mr-10 ml-5" alt="userImg" src={user2[0].picture} />
-              <div className="flex flex-col px-20 m-10">
-                <h1 className="mb-4 text-2xl md:font-bold">{user2[0].name} {user2[0].given_name}</h1>
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>Email:</td>
-                      <td className="pl-5">{user2[0].email}</td>
-                    </tr>
-                    <tr>
-                      <td>Phone Number:</td>
-                      <td className="pl-5">{user2[0].user_metadata.phonenumber}</td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                  
-                <StoreSelector storeList= {stores} />
-
-                <AddStoreButton id1={user2[0].user_id}/>
-
+      return (
+          user && (
+              <div className="m-10">
                 
+                <h1 className="mt-3 mb-3 md:font-bold text-2xl">Profile</h1>
+                <div class="h-1 bg-rose-600/50 rounded"/>
+
+                <div className="flex flex-row items-center">
+                  <img className="w-30 rounded-full mr-10 ml-5" alt="userImg" src={user2[0].picture} />
+                  <div className="flex flex-col px-20 m-10">
+                    <h1 className="mb-4 text-2xl md:font-bold">{user2[0].name} {user2[0].given_name}</h1>
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>Email:</td>
+                          <td className="pl-5">{user2[0].email}</td>
+                        </tr>
+                        <tr>
+                          <td>Phone Number:</td>
+                          <td className="pl-5">{user2[0].user_metadata.phonenumber}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                      
+                    <StoreSelector storeList= {stores} />
+
+                    <AddStoreButton id1={user2[0].user_id}/>
+
+                    
+                  </div>
+                
+                </div>         
               </div>
-            
-            </div>         
-          </div>
+          )
+      );
+    }
+    else {
+      return (
+        <div>
+          <h2>Page not Available</h2>
+        </div>
       )
-  );
+    }
+    
+  }
+  else {
+    return (
+      <div>
+        <h2>Page not Available</h2>
+      </div>
+    )
+  }
+  
+  
 }

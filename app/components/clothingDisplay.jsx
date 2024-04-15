@@ -139,14 +139,14 @@ const ImgSrc = ( { subcategory, category, product }) => {
   
   
 
-const ClothingDisplay = ({ product, category, subcategory, addItem, clothe}) => {
+const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, approved}) => {
   const {user} = useUser();
   const [openModal, setOpenModal] = useState(false);
 
   // console.log(clothe, product.product_id)
 
   
-  if (user) {
+  if (user && approved === "true") {
       const filteredSizes = clothe.map(item => item.size);
       const filteredPrices = clothe.map(item => item.price);
       const filteredCellNumbers = clothe.map(item => item.clothing_order_form_cell);

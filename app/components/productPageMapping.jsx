@@ -97,7 +97,7 @@ const DeleteButton= ({item, type, admin}) => {
   
 }
 
-const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory, clothingList, subMainCategory, isAdmin }) => {
+const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory, clothingList, subMainCategory, isAdmin, isApproved }) => {
  // const { user} = useUser();
   const cart = useShoppingCart();
   const { addItem, formattedTotalPrice } = cart;
@@ -110,24 +110,24 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
         const filteredClothes = clothingList.filter(item => item.clothing_product_id === product.product_id);
         
         return (
-          <ClothingDisplay product = {product} category = {category} subcategory={null} addItem={addItem} clothe={filteredClothes} />
+          <ClothingDisplay product = {product} category = {category} subcategory={null} addItem={addItem} clothe={filteredClothes} approved={isApproved} />
         )
       }
       else {
         return (
-          <ClothingDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem}/>
+          <ClothingDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem} approved={isApproved}/>
         )
       }
     }
     else {
       if (subcategory == null) {
         return (
-          <ProductDisplay product = {product} category = {category} subcategory={null} addItem={addItem}/>
+          <ProductDisplay product = {product} category = {category} subcategory={null} addItem={addItem} approved={isApproved}/>
         )
       }
       else {
         return (
-          <ProductDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem}/>
+          <ProductDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem} approved={isApproved}/>
         )
       }
       
@@ -152,7 +152,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
             <AddCategoryButton location={1} admin={isAdmin}/>
           </div>
           {/* <div class="border-8 border-sky-500 float-right h-96"></div> */}
-          <Cart />
+          <Cart approved={isApproved}/>
                 
 
         </div>
@@ -177,7 +177,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                     <AddCategoryButton location={0} admin={isAdmin} />
                 </div>
                 {/* <div class="border-8 border-sky-500 float-right h-96"></div> */}
-                <Cart />
+                <Cart approved={isApproved}/>
 
         </div>
       )
@@ -199,7 +199,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                   ))}
                 <AddSubCategoryButton category= {subMainCategory} admin={isAdmin}/>
             </div>
-            <Cart />
+            <Cart approved={isApproved}/>
         </div>
         
       
@@ -225,7 +225,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
             <AddProductButton category={category} subcategory={null} admin={isAdmin} />
             <AddSubCategoryButton category= {category} admin={isAdmin}/>
           </div>
-          <Cart /> 
+          <Cart approved={isApproved}/> 
       </div>
 
     )
@@ -250,7 +250,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
             <AddProductButton category={category} subcategory={subcategory} admin={isAdmin} />
             <AddSubCategoryButton category= {category} admin={isAdmin}/>
           </div>
-          <Cart /> 
+          <Cart approved={isApproved}/> 
 
         </div>
             

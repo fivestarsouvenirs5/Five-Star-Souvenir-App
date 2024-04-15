@@ -77,7 +77,7 @@ async function getAppMetadata(email) {
       }).catch(function (error) {
           console.error(error);
       });
-      return user[0].app_metadata.admin
+      return user[0]
 
   } catch (err){
       console.log("getting metadata error", err);
@@ -95,14 +95,16 @@ const category = await fetchCategories(id);
 const subcategories = await fetchSubcategories(id);
 const session = await getSession();
 
-  var adminMetadata
-  if (session) {
-      adminMetadata = await getAppMetadata(session.user.email);
-  }
-  else {
-      adminMetadata = false;
-  }
-
+var adminMetadata;
+var approvalStatus;
+if (session) {
+    var myUser =  await getAppMetadata(session.user.email);
+    adminMetadata = myUser.app_metadata.admin;
+    approvalStatus = myUser.user_metadata.adminapproval;
+}
+else {
+    adminMetadata = false;
+}
   if (subcategories === undefined || subcategories.length == 0) {
     const products = await fetchProducts(id);
     const clothing = await fetchClothing(id);
@@ -118,7 +120,7 @@ const session = await getSession();
                 </div>
             </div>
 
-            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={null} clothingList={clothing} subMainCategory={null} isAdmin={adminMetadata}/>
+            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={null} clothingList={clothing} subMainCategory={null} isAdmin={adminMetadata} isApproved={approvalStatus}/>
             
 
         </div>    
@@ -141,7 +143,7 @@ else {
                 </div>
             </div>
 
-            <ProductPageMapping products={null} categoryList={null} subcategoryList={subcategories} isNY={true} category={null} subcategory={null} clothingList={clothing} subMainCategory={category} isAdmin={adminMetadata}/>
+            <ProductPageMapping products={null} categoryList={null} subcategoryList={subcategories} isNY={true} category={null} subcategory={null} clothingList={clothing} subMainCategory={category} isAdmin={adminMetadata} isApproved={approvalStatus}/>
             
 
         </div>

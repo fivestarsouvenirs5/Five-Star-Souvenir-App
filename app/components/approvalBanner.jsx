@@ -1,12 +1,8 @@
-import axios from "axios"
+import { getSession } from '@auth0/nextjs-auth0';
 
-export async function POST(request) {
-    //console.log('reached server post request'); 
-        const myRequest = await request.json(); // Assuming cartDetails is sent in the request body
-        //console.log(myRequest.useremail);
-        
-        var axios = require("axios").default;
-
+async function getUserMetadata(email) {
+    var axios = require("axios").default;
+    try {
         var getAccess = {
             method: 'POST',
             url: 'https://' + process.env.AUTH0_DOMAIN + '/oauth/token',
@@ -18,41 +14,54 @@ export async function POST(request) {
                 audience: process.env.AUTH0_API_ID 
             })
         };
-
-        // console.log("Made it!");
-        // console.log(getAccess);
-
+    
         let apiKeyInformation = [];
         await axios.request(getAccess).then(function (response) {
             apiKeyInformation = response.data;
         }).catch(function (error) {
             console.error(error);
         })
-
-        var axios = require("axios").default;
-
-        //app_metadata.admin_approved
+    
         var options = {
             method: 'GET',
-            url: 'https://dev-ruajdlwtnuw587py.us.auth0.com/api/v2/users?fields=name,given_name,email,user_metadata.phonenumber',
-            params: {q: 'user_metadata.adminapproval: "false"', search_engine: 'v3'},
+            url: 'https://dev-ruajdlwtnuw587py.us.auth0.com/api/v2/users-by-email',
+            params: {email: email},
             headers: {authorization: 'Bearer ' + apiKeyInformation.access_token}
         };
-
+  
         const headers = {
             'Content-Type': 'application/json',
         };
-
+  
         let user = [];
         await axios.request(options).then(function (response) {
-            //console.log(response.data);
+            // console.log(response.data);
             user = response.data;
         }).catch(function (error) {
             console.error(error);
         });
-        // console.log(user);
-        // const jsonStringOfUser = JSON.parse(JSON.stringify(user));
-        // console.log(jsonStringOfUser)
-        // console.log(user.email);
-        return new Response(JSON.stringify(user), {headers});
-   }
+        return user[0].user_metadata.adminapproval
+  
+    } catch (err){
+        console.log("getting metadata error", err);
+    }
+  }
+
+export async function ApproveBanner() {
+    const session = await getSession();
+    if (session){
+      const user = session.user;
+      const approvalStatus = await getUserMetadata(user.email);
+      console.log(approvalStatus)
+      if (approvalStatus === "false") {
+        return (
+            <div className="bg-red-500 text-white py-2 text-center">
+              Your account is pending approval. Please wait to be approved.
+            </div>
+          ) 
+      }
+    }
+    else {
+        return <div></div>
+    }
+};

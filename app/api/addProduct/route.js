@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
 export async function POST(request) {
     try {
         const newProductDetails = await request.formData();
-        console.log(newProductDetails);
+        // console.log(newProductDetails);
 
         // Extract file data from the request body
         const fileData = newProductDetails.get("file");
@@ -25,7 +25,7 @@ export async function POST(request) {
                 // contentType: 'image/jpeg',
               });
         }
-        console.log(blob);
+        // console.log(blob);
 
         const product = await prisma.products.create({
             data: {

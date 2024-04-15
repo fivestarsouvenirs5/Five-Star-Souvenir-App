@@ -55,7 +55,7 @@ async function getAppMetadata(email) {
   
         let user = [];
         await axios.request(options).then(function (response) {
-            console.log(response.data);
+            // console.log(response.data);
             user = response.data;
         }).catch(function (error) {
             console.error(error);
@@ -63,7 +63,7 @@ async function getAppMetadata(email) {
         return user
   
     } catch (err){
-        console.log("getting metadata error", err);
+        // console.log("getting metadata error", err);
     }
   }
 

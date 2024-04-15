@@ -73,7 +73,7 @@ const fetchProducts = async (id) => {
         return user[0]
 
     } catch (err){
-        console.log("getting metadata error", err);
+        // console.log("getting metadata error", err);
     }
   }
 
@@ -83,7 +83,7 @@ export default async function Subcategory({ params }) {
           ? params?.subcategory_id[ 0 ]
           : params?.subcategory_id,
       )
-    console.log(id)
+    // console.log(id)
 
     const products = await fetchProducts(id);
     // console.log(products);

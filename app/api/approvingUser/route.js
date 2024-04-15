@@ -66,12 +66,12 @@ export async function POST(request) {
         }
     })
     .then(response => {
-        console.log('User metadata updated successfully:', response.data);
+        // console.log('User metadata updated successfully:', response.data);
         userData = response.data;
-        console.log(userData.user_metadata.adminapproval);
+        // console.log(userData.user_metadata.adminapproval);
     })
     .catch(error => {
-        console.error('Error updating user metadata:', error.response.data)
+        // console.error('Error updating user metadata:', error.response.data)
     })
 
     return new Response(JSON.stringify({userMetadataUpdated: 'userapproved'}), {headers});

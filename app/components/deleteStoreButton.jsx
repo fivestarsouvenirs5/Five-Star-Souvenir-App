@@ -13,7 +13,7 @@ async function deleteStore({storeId}) {
         body: JSON.stringify({ store_id: storeId})
     });
     if (!response.ok) {
-        console.log("Problem deleting store");
+        // console.log("Problem deleting store");
     }
     
 }

@@ -6,14 +6,14 @@ export default function Contact() {
         
         <main>
             <div className="py-20 px-20 grid grid-cols-1 lg:grid-cols-2">
-                <form className="flex flex-col gap-8">
+                <div className="flex flex-col gap-8">
                     
-                <h1 className="mt-3 font-bold text-2xl">Contact</h1>
-                <div class="h-1 bg-rose-600/50 rounded"/>
+                    <h1 className="mt-3 font-bold text-2xl">Contact</h1>
+                    <div class="h-1 bg-rose-600/50 rounded"/>
                     
                     
-                    <form action="https://api.web3forms.com/submit" method="POST">
-                        <input type="hidden" name="access_key" value={v} />
+                        <form action="https://api.web3forms.com/submit" method="POST">
+                            <input type="hidden" name="access_key" value={v} />
                         
                         {/* name */}
                         <div className="flex flex-col gap-2 py-2">
@@ -41,8 +41,8 @@ export default function Contact() {
                                 Submit
                             </button>
                         </div>
-                    </form>
-                </form>
+                        </form>
+                </div>
             </div>
         </main>
     )

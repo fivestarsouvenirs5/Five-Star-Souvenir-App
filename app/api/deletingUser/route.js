@@ -60,12 +60,12 @@ export async function POST(request) {
         }
     })
     .then(response => {
-        console.log('User deleted successfully:', response.data);
+        // console.log('User deleted successfully:', response.data);
         userData = response.data;
-        console.log(userData);
+        // console.log(userData);
     })
     .catch(error => {
-        console.error('Error deleted user:', error.response.data);
+        // console.error('Error deleted user:', error.response.data);
     })
     return new Response(JSON.stringify({userDeleted: 'userdeleted'}), {headers});
 }

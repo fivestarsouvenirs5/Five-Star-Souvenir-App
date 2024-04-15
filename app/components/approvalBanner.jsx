@@ -43,7 +43,7 @@ async function getUserMetadata(email) {
         return user[0].user_metadata.adminapproval
   
     } catch (err){
-        console.log("getting metadata error", err);
+        // console.log("getting metadata error", err);
     }
   }
 
@@ -52,7 +52,7 @@ export async function ApproveBanner() {
     if (session){
       const user = session.user;
       const approvalStatus = await getUserMetadata(user.email);
-      console.log(approvalStatus)
+    //   console.log(approvalStatus)
       if (approvalStatus === "false") {
         return (
             <div className="bg-red-500 text-white py-2 text-center">

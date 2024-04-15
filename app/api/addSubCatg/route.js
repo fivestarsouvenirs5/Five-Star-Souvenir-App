@@ -18,7 +18,7 @@ export async function POST(request) {
       return new Response();
     }
     catch (error) {
-      console.log("adding subcategory error", error)
+      // console.log("adding subcategory error", error)
     }
      
         

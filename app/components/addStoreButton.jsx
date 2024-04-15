@@ -24,8 +24,7 @@ async function addStore({ id1 }) {
         console.log("Problem adding store");
     }
 
-    console.log(response);
-    console.log("hiiiiiii");
+    // console.log(response);
 }
 
 // Function to sanitize user input

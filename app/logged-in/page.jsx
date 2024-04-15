@@ -16,7 +16,7 @@ const fetchProducts = async () => {
 export default async function Loggedin() {
     const products = await fetchProducts()
 
-    console.log({products})
+    // console.log({products})
 //     const { data, error } = useSWR('/api/products', fetcher)
 //   if (error) return <div>error {error}</div>
 //   if (!data) return <div>Loading ...</div>

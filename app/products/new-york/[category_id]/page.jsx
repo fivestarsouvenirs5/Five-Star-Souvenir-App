@@ -80,7 +80,7 @@ async function getAppMetadata(email) {
       return user[0]
 
   } catch (err){
-      console.log("getting metadata error", err);
+      // console.log("getting metadata error", err);
   }
 }
 

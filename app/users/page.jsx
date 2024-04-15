@@ -47,7 +47,7 @@ async function getAppMetadata(email) {
       return user[0].app_metadata.admin
 
   } catch (err){
-      console.log("getting metadata error", err);
+      // console.log("getting metadata error", err);
   }
 }
 

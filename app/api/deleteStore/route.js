@@ -15,7 +15,7 @@ export async function DELETE(request) {
             headers: { "Content-Type": "application/json" },
         });
     }  catch (error) {
-        console.log("deleting error", error.message)
+        // console.log("deleting error", error.message)
         return new Response(JSON.stringify({ error: error.message }), {
           status: 500,
           headers: { "Content-Type": "application/json" },

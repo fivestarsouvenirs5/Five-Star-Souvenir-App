@@ -65,7 +65,7 @@ async function getAppMetadata(email) {
       return user
 
   } catch (err){
-      console.log("getting metadata error", err);
+      // console.log("getting metadata error", err);
   }
 }
 
@@ -76,7 +76,7 @@ export default async function ProfileServer() {
   if (session){
     const user = session.user;
     const user2 = await getAppMetadata(user.email);
-    console.log(user2)
+    // console.log(user2)
     if(user2[0].user_metadata.adminapproval === "true") {
       const stores = await fetchStores(user2[0].user_id);
 

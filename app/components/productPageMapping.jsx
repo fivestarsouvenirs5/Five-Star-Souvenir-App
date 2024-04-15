@@ -151,7 +151,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
             ))}
             <AddCategoryButton location={1} admin={isAdmin}/>
           </div>
-          {/* <div class="border-8 border-sky-500 float-right h-96"></div> */}
+          {/* <div className="border-8 border-sky-500 float-right h-96"></div> */}
           <Cart approved={isApproved}/>
                 
 
@@ -176,7 +176,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                     ))}
                     <AddCategoryButton location={0} admin={isAdmin} />
                 </div>
-                {/* <div class="border-8 border-sky-500 float-right h-96"></div> */}
+                {/* <div className="border-8 border-sky-500 float-right h-96"></div> */}
                 <Cart approved={isApproved}/>
 
         </div>

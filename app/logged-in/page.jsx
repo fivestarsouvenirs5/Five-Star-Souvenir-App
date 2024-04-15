@@ -22,8 +22,8 @@ export default async function Loggedin() {
 //   if (!data) return <div>Loading ...</div>
   return (
     <main>
-        <h2 class="text-red-600">Click the button!</h2>
-        <h1 class="text-orange-600">Product Data</h1>
+        <h2 className="text-red-600">Click the button!</h2>
+        <h1 className="text-orange-600">Product Data</h1>
         <ul>
             {products.map((product) => (
                 <li key={product.product_id}>

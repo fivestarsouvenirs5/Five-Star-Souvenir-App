@@ -85,7 +85,7 @@ export default async function ProfileServer() {
               <div className="m-10">
                 
                 <h1 className="mt-3 mb-3 md:font-bold text-2xl">Profile</h1>
-                <div class="h-1 bg-rose-600/50 rounded"/>
+                <div className="h-1 bg-rose-600/50 rounded"/>
 
                 <div className="flex flex-row items-center">
                   <img className="w-30 rounded-full mr-10 ml-5" alt="userImg" src={user2[0].picture} />

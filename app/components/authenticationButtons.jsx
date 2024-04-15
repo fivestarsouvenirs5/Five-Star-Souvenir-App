@@ -22,7 +22,7 @@ export default function AuthenticationButtons() {
                 <Modal.Header>Please Enter Your Email</Modal.Header>
                 <Modal.Body>    
                         <div className="flex flex-col gap-2 py-2">
-                            <label class="font-bold">Email</label>
+                            <label className="font-bold">Email</label>
                             <input type="email" className="form-control border-2 border-rose-600/50" id="signup-email" placeholder="Enter your email"></input>
                         </div>
                 </Modal.Body>

@@ -12,7 +12,7 @@ export default function AuthenticationButtons() {
             <a href="/signup" className="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Signup</a>
             {/* <a href="/api/auth/login" className="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded">Login</a> */}
                 
-            <button className="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded" onClick={() => setOpenModal(true)}> 
+            <button className="py-2 px-3 bg-blue-400 hover:bg-blue-300 text-blue-900 hover:text-blue-800 rounded" onClick={() =>  window.location.assign("/api/auth/login")}> 
                 Login
             </button>
             

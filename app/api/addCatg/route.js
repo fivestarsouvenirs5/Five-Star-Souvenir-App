@@ -23,14 +23,18 @@
 //   }
 import { promises as fs } from 'fs';
 import prisma from '../../utils/prisma'
+import { escape } from 'he';
 
 export async function POST(request) {
     try {
         const newCatgDetails = await request.json();
+
+        const sanitizedName = escape(newCatgDetails.name);
+
         // Create the category in the database
         const catg = await prisma.category.create({
             data: {
-                category: newCatgDetails.name,
+                category: sanitizedName,
                 category_location: newCatgDetails.newLocation,
             },
         });

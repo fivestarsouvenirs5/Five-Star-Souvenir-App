@@ -1,6 +1,6 @@
 'use client'
 import DeleteStoreButton from './deleteStoreButton';
-import { decode } from 'he'; // Import decode function from 'he' library
+import { decode } from 'he';
 
 export default function StoreSelector({ storeList }) { 
     if (storeList.length === 0) {

@@ -266,8 +266,8 @@
 //   }
   
 //   export default SignupForm;
-  
-'use client';
+
+'use client'
 import React, { useState } from 'react';
 
 function SignupForm() {
@@ -285,9 +285,15 @@ function SignupForm() {
         passwordValid: false,
     });
 
+    const [passwordValidations, setPasswordValidations] = useState({
+        minLength: false,
+        lowercase: false,
+        uppercase: false,
+        specialChar: false,
+    });
+
     const handleInput = (event) => {
         const { id, value } = event.target;
-        let pattern;
 
         if (id === 'signup-email') {
             setEmail(value);
@@ -301,6 +307,7 @@ function SignupForm() {
                 ...prevValidations,
                 passwordValid: validatePassword(value),
             }));
+            updatePasswordValidations(value);
         } else if (id === 'first_name') {
             setFirstName(value);
             setValidations((prevValidations) => ({
@@ -316,11 +323,27 @@ function SignupForm() {
         }
 
         if (id !== 'signup-password' && id !== 'signup-email') {
-            pattern = /^[A-Za-z\s-]+$/;
+            const pattern = /^[A-Za-z\s-]+$/;
             if (pattern && !pattern.test(value)) {
                 document.getElementById(id).value = value.slice(0, -1);
             }
         }
+    };
+
+    const updatePasswordValidations = (value) => {
+        setPasswordValidations({
+            minLength: value.length >= 8,
+            lowercase: /[a-z]/.test(value),
+            uppercase: /[A-Z]/.test(value),
+            specialChar: /[!@#$%^&*()_+}{"':;?/><.,]/.test(value),
+        });
+
+        // Check if all password validations are true
+        const isPasswordValid = Object.values(passwordValidations).every((valid) => valid);
+        setValidations((prevValidations) => ({
+            ...prevValidations,
+            passwordValid: isPasswordValid,
+        }));
     };
 
     const validateEmail = (email) => {
@@ -333,14 +356,14 @@ function SignupForm() {
         return phoneNumberPattern.test(phoneNumber);
     };
 
-    const validatePassword = (password) => {
-        const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{"':;?/><.,]).{8,}$/;
-        return passwordPattern.test(password);
-    };
-
     const validateName = (name) => {
         const namePattern = /^[A-Za-z-]+$/;
         return namePattern.test(name);
+    };
+
+    const validatePassword = (password) => {
+        const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{"':;?/><.,]).{8,}$/;
+        return passwordPattern.test(password);
     };
 
     const signupAfterSubmit = async () => {
@@ -458,24 +481,26 @@ function SignupForm() {
                     </div>
 
                     <div className="flex flex-col gap-2 py-2">
-                        <label className="font-bold">Password</label>
-                        <input
-                            type="password"
-                            className={`form-control border-2 ${validations.passwordValid ? 'border-green-500' : 'border-rose-600/50'}`}
-                            id="signup-password"
-                            placeholder="Enter your password"
-                            value={password}
-                            onChange={handleInput}
-                            required
-                            style={{ color: 'black' }}
-                        ></input>
-                        <ul className="text-sm">
-                            <li style={{ color: validations.passwordValid ? 'green' : 'red' }}>Minimum 8 characters</li>
-                            <li style={{ color: validations.passwordValid ? 'green' : 'red' }}>At least 1 lowercase letter</li>
-                            <li style={{ color: validations.passwordValid ? 'green' : 'red' }}>At least 1 uppercase letter</li>
-                            <li style={{ color: validations.passwordValid ? 'green' : 'red' }}>At least 1 special character</li>
-                        </ul>
-                    </div>
+                    <label className="font-bold">Password</label>
+                    <input
+                        type="password"
+                        className={`form-control border-2 ${
+                            passwordValidations.minLength && passwordValidations.lowercase && passwordValidations.uppercase && passwordValidations.specialChar ? 'border-green-500' : 'border-rose-600/50'
+                        }`}
+                        id="signup-password"
+                        placeholder="Enter your password"
+                        value={password}
+                        onChange={handleInput}
+                        required
+                        style={{ color: 'black' }}
+                    ></input>
+                    <ul className="text-sm">
+                        <li style={{ color: passwordValidations.minLength ? 'green' : 'red' }}>Minimum 8 characters</li>
+                        <li style={{ color: passwordValidations.lowercase ? 'green' : 'red' }}>At least 1 lowercase letter</li>
+                        <li style={{ color: passwordValidations.uppercase ? 'green' : 'red' }}>At least 1 uppercase letter</li>
+                        <li style={{ color: passwordValidations.specialChar ? 'green' : 'red' }}>At least 1 special character</li>
+                    </ul>
+                </div>
 
                     <div className="flex flex-col items-center py-5">
                         <div className="captcha-container form-group"></div>

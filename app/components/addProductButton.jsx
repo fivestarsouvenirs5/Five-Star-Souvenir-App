@@ -7,11 +7,24 @@ export default function AddProductButton({ category, subcategory, admin }) {
     const { user } = useUser();
     const [openModal, setOpenModal] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [cellValid, setCellValid] = useState(true);
 
     if (user && admin) {
         const handleFileChange = (event) => {
             const file = event.target.files[0];
             setSelectedFile(file);
+        };
+        const isValidCell = (cell) => {
+            const cellRegex = /^[A-Z]+\d*$/; // Any number of capital letters followed by any number of digits
+            return cellRegex.test(cell);
+        };
+
+        const handleCellChange = (event) => {
+            const cellValue = event.target.value;
+            // Convert the input value to uppercase
+            event.target.value = cellValue.toUpperCase();
+            // Check cell validity and update state
+            setCellValid(isValidCell(cellValue));
         };
 
         const addProduct = async () => {
@@ -85,7 +98,12 @@ export default function AddProductButton({ category, subcategory, admin }) {
                                 <br></br>
 
                                 <label className='font-bold'>What is the cell in the order form that corresponds to this item? </label>
-                                <input type="text" id="newProductCell"></input>
+                                <input
+                                    type="text"
+                                    id="newProductCell"
+                                    onChange={handleCellChange}
+                                />
+                                {!cellValid && <span style={{ color: 'red' }}>Invalid cell format. Please enter capital letters followed by digits.</span>}
                                 </div>
                             </div>
                         </div>

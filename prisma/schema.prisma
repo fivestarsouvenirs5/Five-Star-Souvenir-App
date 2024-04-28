@@ -99,8 +99,11 @@ model clothing_product_size {
 }
 
 model stores {
-  store_id      Int     @id @default(autoincrement())
-  user_id       String? @db.VarChar(45)
-  store_name    String? @db.VarChar(45)
-  store_address String? @db.VarChar(45)
+  store_id     Int     @id @default(autoincrement())
+  user_id      String? @db.VarChar(45)
+  store_name   String  @db.VarChar(45)
+  store_street String  @db.VarChar(45)
+  store_city   String  @db.VarChar(45)
+  store_state  String  @db.VarChar(45)
+  store_zip    String  @db.VarChar(5)
 }

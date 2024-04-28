@@ -9,6 +9,19 @@ const fetchCategories = async (id) => {
   })
   return categories
 }
+
+const fetchStores = async (id) => {
+  try {
+    const stores = await prisma.stores.findMany({
+      where: { user_id: id },
+    });
+    return stores;
+  } catch (error) {
+    // Handle error
+    console.error("Error fetching stores:", error);
+    throw error; // Re-throw the error if needed
+  }
+};
  
 const fetchSubcategories = async (id) => {
   const subcategories = await prisma.subcategories.findMany({
@@ -97,11 +110,13 @@ const session = await getSession();
 
 var adminMetadata;
 var approvalStatus;
+var stores;
 if (session) {
     var myUser =  await getAppMetadata(session.user.email);
     adminMetadata = myUser.app_metadata.admin;
     approvalStatus = myUser.user_metadata.adminapproval;
-}
+    stores = await fetchStores(myUser.user_id);
+  }
 else {
     adminMetadata = false;
 }
@@ -120,7 +135,7 @@ else {
                 </div>
             </div>
 
-            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={null} clothingList={clothing} subMainCategory={null} isAdmin={adminMetadata} isApproved={approvalStatus}/>
+            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={null} clothingList={clothing} subMainCategory={null} isAdmin={adminMetadata} isApproved={approvalStatus} stores={stores}/>
             
 
         </div>    
@@ -143,7 +158,7 @@ else {
                 </div>
             </div>
 
-            <ProductPageMapping products={null} categoryList={null} subcategoryList={subcategories} isNY={true} category={null} subcategory={null} clothingList={clothing} subMainCategory={category} isAdmin={adminMetadata} isApproved={approvalStatus}/>
+            <ProductPageMapping products={null} categoryList={null} subcategoryList={subcategories} isNY={true} category={null} subcategory={null} clothingList={clothing} subMainCategory={category} isAdmin={adminMetadata} isApproved={approvalStatus} stores={stores}/>
             
 
         </div>

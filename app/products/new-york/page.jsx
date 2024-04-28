@@ -2,6 +2,21 @@ import prisma from '../../utils/prisma'
 import ProductPageMapping from '../../components/productPageMapping'
 import { getSession } from '@auth0/nextjs-auth0';
 
+
+const fetchStores = async (id) => {
+    try {
+      const stores = await prisma.stores.findMany({
+        where: { user_id: id },
+      });
+      return stores;
+    } catch (error) {
+      // Handle error
+      console.error("Error fetching stores:", error);
+      throw error; // Re-throw the error if needed
+    }
+  };
+
+
 const fetchCategories = async () => {
     let categories = await prisma.category.findMany({
         where: {category_location: 1}
@@ -66,10 +81,12 @@ export default async function OrderNY() {
 
     var adminMetadata;
     var approvalStatus;
+    var stores;
     if (session) {
         var myUser =  await getAppMetadata(session.user.email);
         adminMetadata = myUser.app_metadata.admin;
         approvalStatus = myUser.user_metadata.adminapproval;
+        stores = await fetchStores(myUser.user_id);
     }
     else {
         adminMetadata = false;
@@ -89,7 +106,7 @@ export default async function OrderNY() {
                 </div>
             </div>
 
-            <ProductPageMapping products={null} categoryList={categories} subcategoryList={null} isNY={true} category={null} subcategory={null} subMainCategory={null} isAdmin={adminMetadata} isApproved={approvalStatus}/>
+            <ProductPageMapping products={null} categoryList={categories} subcategoryList={null} isNY={true} category={null} subcategory={null} subMainCategory={null} isAdmin={adminMetadata} isApproved={approvalStatus} stores={stores}/>
             
         </div>
 

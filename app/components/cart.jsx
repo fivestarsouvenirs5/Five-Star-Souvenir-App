@@ -6,6 +6,40 @@ import {useEffect} from 'react'
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 
+function StoreSelector ({storeList}) {
+  const [selectedStore, setSelectedStore] = useState('');
+  const [selectedStoreAddress, setSelectedStoreAddress] = useState('');
+  
+  useEffect(() => {
+    const selectedStoreObject = storeList.find(store => store.store_name === selectedStore);
+    
+    if (selectedStoreObject) {
+        setSelectedStoreAddress(selectedStoreObject.store_address);
+    }
+    else {
+        setSelectedStoreAddress('');
+    }
+  }, [selectedStore, storeList]);
+  
+  const handleStoreChange = (event) => {
+      setSelectedStore(event.target.value);
+  };
+  
+  return (
+      <div>
+          <label>Please Select a Store: </label>
+          <select id='storeselector' onChange={handleStoreChange} value={selectedStore}>
+              <option value="" disabled>--</option>
+              {storeList.map((store) => (
+              <option key={store.store_id} value={store.store_name}>{store.store_name}</option>
+              ))}
+          </select>
+          
+          {selectedStoreAddress && <p>Address: {selectedStoreAddress}</p>}
+      </div>
+  );
+}
+
 function CartEntry({ entry, removeItem }) {
  
   // console.log(entry.product_data.location)
@@ -27,7 +61,7 @@ function CartEntry({ entry, removeItem }) {
     )
   }
 
-export default function Cart( {approved}) {
+export default function Cart( {approved, storeList}) {
     // console.log(cartEntries)
     const { user} = useUser();
     const cart = useShoppingCart()
@@ -59,6 +93,7 @@ export default function Cart( {approved}) {
           <div className="flex flex-col lg:h-screen h-auto lg:px-8 md:px-7 px-4 lg:py-20 md:py-10 py-6 justify-between overflow-y-auto rounded-md">
             <div>
               <p className="lg:text-5xl text-4xl font-bold leading-10 text-gray-800 dark:text-black mb-2">Summary</p>
+              <StoreSelector storeList={storeList} />
               <p className="lg:text-2xl text-xl font-black leading-8 text-gray-800 dark:text-black mb-4">Items in Cart:</p>
             </div>
             {cartEntries.length === 0 ? <p>Cart is empty.</p> : null}

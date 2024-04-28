@@ -97,8 +97,9 @@ const DeleteButton= ({item, type, admin}) => {
   
 }
 
-const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory, clothingList, subMainCategory, isAdmin, isApproved }) => {
+const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory, clothingList, subMainCategory, isAdmin, isApproved, stores }) => {
  // const { user} = useUser();
+ console.log(stores);
   const cart = useShoppingCart();
   const { addItem, formattedTotalPrice } = cart;
   // const admin = getAppMetadata(user.email)
@@ -152,7 +153,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
             <AddCategoryButton location={1} admin={isAdmin}/>
           </div>
           {/* <div className="border-8 border-sky-500 float-right h-96"></div> */}
-          <Cart approved={isApproved}/>
+          <Cart approved={isApproved} storeList={stores}/>
                 
 
         </div>

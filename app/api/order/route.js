@@ -4,11 +4,33 @@ import path from 'path';
 import  process  from 'process';
 import os from 'os';
 import { getSession } from '@auth0/nextjs-auth0';
+import { Resend } from 'resend';
+
+const fetchStore = async (id) => {
+  try {
+    const store = await prisma.stores.findMany({
+      where: { store_name: id },
+    });
+    return store[0];
+  } catch (error) {
+    // Handle error
+    console.error("Error fetching stores:", error);
+    throw error; // Re-throw the error if needed
+  }
+};
+
+
 
 export async function POST(request) {
   try {
     const session = await getSession();
-    const cartDetails = await request.json(); // Assuming cartDetails is sent in the request body
+    const req = await request.json();
+    const cartDetails = req.cart;
+    const storeName = req.selectedStore; 
+    console.log(storeName)
+    const store = await fetchStore(storeName); 
+    console.log("mystore")
+    console.log(store);
     let nyWorkbook = new ExcelJS.Workbook();
     let njWorkbook = new ExcelJS.Workbook();
     
@@ -24,8 +46,7 @@ export async function POST(request) {
     let ny = false;
 
     // var myCells = []
-    Object.values(cartDetails ?? {}).forEach((array) => {
-      Object.values(array ?? {}).forEach((entry) => {
+    Object.values(cartDetails ?? {}).forEach((entry) => {
         if (entry.product_data.location === 1) {
           // myCells.push(entry.product_data.cell)
           // console.log(entry.product_data.cell)
@@ -60,7 +81,6 @@ export async function POST(request) {
             ],
           };
         }
-      });
     });
 
   //   nyWorksheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
@@ -93,17 +113,36 @@ export async function POST(request) {
     const formattedDate = `${month}-${day}-${year}`;
     if (ny) {
       nyWorksheet.getCell('AG5').value = `Date: ${month}-${day}-${year}`
-      nyWorksheet.getCell('D3').value = `Name: ${session.user.name}`
+      nyWorksheet.getCell('D3').value = `Name: ${store.store_name}`
+      //address
+      nyWorksheet.getCell('D5').value = `Address: ${store.store_street} ${store.store_city}, ${store.store_state} ${store.store_zip}`;
       outputPath = path.join(os.tmpdir(), 'current_order_ny.xlsx');
       await nyWorkbook.xlsx.writeFile(outputPath);
     } else {
       njWorksheet.getCell('V3').value = `Date: ${month}-${day}-${year}`
-      njWorksheet.getCell('D3').value = `Name: ${session.user.name}`
+      njWorksheet.getCell('D3').value = `Name: ${store.storeName}`
+      //address
+      njWorksheet.getCell('D5').value = `Address: ${store.store_street} ${store.store_city}, ${store.store_state} ${store.store_zip}`
       outputPath = path.join(os.tmpdir(), 'current_order_nj.xlsx');
       await njWorkbook.xlsx.writeFile(outputPath);
     }
 
     const fileContents = fs.readFileSync(outputPath, { encoding: 'base64' });
+
+    // const resend = new Resend(process.env.RESEND_API_KEY)
+
+    // let data = await resend.emails.send({
+    //   from: 'orders@fivestarsouvenirs.com',
+    //   to: ['orders@fivestarsouvenirs.com'],
+    //   subject: `New Order ${session.user.name} ${formattedDate}`,
+    //   html: `<html><body><h1>Attached is a new order by ${session.user.name}</h1></body></html>`,
+    //   attachments: [
+    //     {
+    //       filename: `newOrder_${session.user.name}_${month}_${day}_${year}.xlsx`,
+    //       content: fileContents,
+    //     },
+    //   ],
+    // });
 
     const brevo = require('@getbrevo/brevo');
     let apiInstance = new brevo.TransactionalEmailsApi();
@@ -111,12 +150,12 @@ export async function POST(request) {
     apiKey.apiKey = process.env.BREVO_API_KEY;
     
     let sendSmtpEmail = new brevo.SendSmtpEmail(); 
-    sendSmtpEmail.subject = "New Order "+ session.user.name + " " + formattedDate;
-    sendSmtpEmail.htmlContent = `<html><body><h1>Attached is a new order by ${session.user.name}</h1></body></html>`;
+    sendSmtpEmail.subject = "New Order "+ store.store_name + " " + formattedDate;
+    sendSmtpEmail.htmlContent = `<html><body><h1>Attached is a new order by ${store.store_name}</h1></body></html>`;
     sendSmtpEmail.sender = { name: 'Order', email: 'akelnik.9@gmail.com' };
     sendSmtpEmail.to = [{ email: 'akelnik.9@gmail.com', name: 'Five Star Souvenirs' }];
 
-    const attachedFileName = `newOrder_${session.user.name}_${month}_${day}_${year}.xlsx`;
+    const attachedFileName = `newOrder_${store.store_name}_${month}_${day}_${year}.xlsx`;
 
     sendSmtpEmail.attachment = [{ name: attachedFileName, content: fileContents }];
     

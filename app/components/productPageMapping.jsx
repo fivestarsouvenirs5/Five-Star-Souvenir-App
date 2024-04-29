@@ -178,7 +178,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                     <AddCategoryButton location={0} admin={isAdmin} />
                 </div>
                 {/* <div className="border-8 border-sky-500 float-right h-96"></div> */}
-                <Cart approved={isApproved}/>
+                <Cart approved={isApproved} storeList={stores}/>
 
         </div>
       )
@@ -200,7 +200,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                   ))}
                 <AddSubCategoryButton category= {subMainCategory} admin={isAdmin}/>
             </div>
-            <Cart approved={isApproved}/>
+            <Cart approved={isApproved} storeList={stores}/>
         </div>
         
       
@@ -226,7 +226,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
             <AddProductButton category={category} subcategory={null} admin={isAdmin} />
             <AddSubCategoryButton category= {category} admin={isAdmin}/>
           </div>
-          <Cart approved={isApproved}/> 
+          <Cart approved={isApproved} storeList={stores}/> 
       </div>
 
     )
@@ -251,7 +251,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
             <AddProductButton category={category} subcategory={subcategory} admin={isAdmin} />
             <AddSubCategoryButton category= {category} admin={isAdmin}/>
           </div>
-          <Cart approved={isApproved}/> 
+          <Cart approved={isApproved} storeList={stores}/> 
 
         </div>
             

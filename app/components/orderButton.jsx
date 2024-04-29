@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-cart';
 import { Button, Modal } from 'flowbite-react';
 
-export default function OrderButton() {
+export default function OrderButton({store}) {
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [preOrderOpenModal, setPreOrderOpenModal] = useState(false);
-
+//  console.log(store)
   const cart = useShoppingCart()
   const { cartDetails, clearCart } = cart  
   const handleOrderButtonClick = async () => {
@@ -20,7 +20,7 @@ export default function OrderButton() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({cartDetails})
+        body: JSON.stringify({cart: cartDetails, selectedStore: store})
       });
       if (!response.ok) {
         throw new Error('Failed to fetch order data');

@@ -6,11 +6,12 @@ async function sendAdminEmail(newUserDetails, response) {
     const resend = new Resend(process.env.RESEND_API_KEY)
 
     await resend.emails.send({
-      from: 'akelnik.9@gmail.com',
-      to: ['akelnik.9@gmail.com'],
+      from: 'info@fivestarsouvenirs.com',
+      to: ['info@fivestarsouvenirs.com'],
       subject: 'New user request',
       html: `<html><body> <h2>Name: ${newUserDetails.first_name} ${newUserDetails.last_name}</h2> <h2>Email: ${newUserDetails.user_email}</h2><h2>Phone: ${newUserDetails.phone_number}</h2> <h2>Store Name: name</h2><h2>Store Address: *street* *city* *state* *zip*</h2></body></html>`,
     });
+    
     // const brevo = require('@getbrevo/brevo');
     // let apiInstance = new brevo.TransactionalEmailsApi();
     // let apiKey = apiInstance.authentications['apiKey'];

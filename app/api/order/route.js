@@ -129,40 +129,40 @@ export async function POST(request) {
 
     const fileContents = fs.readFileSync(outputPath, { encoding: 'base64' });
 
-    // const resend = new Resend(process.env.RESEND_API_KEY)
+    const resend = new Resend(process.env.RESEND_API_KEY)
 
-    // let data = await resend.emails.send({
-    //   from: 'orders@fivestarsouvenirs.com',
-    //   to: ['orders@fivestarsouvenirs.com'],
-    //   subject: `New Order ${session.user.name} ${formattedDate}`,
-    //   html: `<html><body><h1>Attached is a new order by ${session.user.name}</h1></body></html>`,
-    //   attachments: [
-    //     {
-    //       filename: `newOrder_${session.user.name}_${month}_${day}_${year}.xlsx`,
-    //       content: fileContents,
-    //     },
-    //   ],
-    // });
+    let data = await resend.emails.send({
+      from: 'orders@fivestarsouvenirs.com',
+      to: ['orders@fivestarsouvenirs.com'],
+      subject: `New Order ${store.store_name} ${formattedDate}`,
+      html: `<html><body><h1>Attached is a new order by ${store.store_name}</h1></body></html>`,
+      attachments: [
+        {
+          filename: `newOrder_${store.store_name}_${month}_${day}_${year}.xlsx`,
+          content: fileContents,
+        },
+      ],
+    });
 
-    const brevo = require('@getbrevo/brevo');
-    let apiInstance = new brevo.TransactionalEmailsApi();
-    let apiKey = apiInstance.authentications['apiKey'];
-    apiKey.apiKey = process.env.BREVO_API_KEY;
+    // const brevo = require('@getbrevo/brevo');
+    // let apiInstance = new brevo.TransactionalEmailsApi();
+    // let apiKey = apiInstance.authentications['apiKey'];
+    // apiKey.apiKey = process.env.BREVO_API_KEY;
     
-    let sendSmtpEmail = new brevo.SendSmtpEmail(); 
-    sendSmtpEmail.subject = "New Order "+ store.store_name + " " + formattedDate;
-    sendSmtpEmail.htmlContent = `<html><body><h1>Attached is a new order by ${store.store_name}</h1></body></html>`;
-    sendSmtpEmail.sender = { name: 'Order', email: 'akelnik.9@gmail.com' };
-    sendSmtpEmail.to = [{ email: 'akelnik.9@gmail.com', name: 'Five Star Souvenirs' }];
+    // let sendSmtpEmail = new brevo.SendSmtpEmail(); 
+    // sendSmtpEmail.subject = "New Order "+ store.store_name + " " + formattedDate;
+    // sendSmtpEmail.htmlContent = `<html><body><h1>Attached is a new order by ${store.store_name}</h1></body></html>`;
+    // sendSmtpEmail.sender = { name: 'Order', email: 'akelnik.9@gmail.com' };
+    // sendSmtpEmail.to = [{ email: 'akelnik.9@gmail.com', name: 'Five Star Souvenirs' }];
 
-    const attachedFileName = `newOrder_${store.store_name}_${month}_${day}_${year}.xlsx`;
+    // const attachedFileName = `newOrder_${store.store_name}_${month}_${day}_${year}.xlsx`;
 
-    sendSmtpEmail.attachment = [{ name: attachedFileName, content: fileContents }];
+    // sendSmtpEmail.attachment = [{ name: attachedFileName, content: fileContents }];
     
     const headers = { 'Content-Type': 'application/json' };
 
-    const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
-    console.log('API called successfully.');
+    // const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
+    // console.log('API called successfully.');
 
     return new Response(JSON.stringify(data), { headers });
   } catch (error) {

@@ -99,7 +99,6 @@ const DeleteButton= ({item, type, admin}) => {
 
 const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory, clothingList, subMainCategory, isAdmin, isApproved, stores }) => {
  // const { user} = useUser();
- console.log(stores);
   const cart = useShoppingCart();
   const { addItem, formattedTotalPrice } = cart;
   // const admin = getAppMetadata(user.email)

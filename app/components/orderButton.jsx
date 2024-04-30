@@ -1,15 +1,67 @@
 'use client'
 import { useState } from 'react';
+import {useEffect} from 'react'
 import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-cart';
 import { Button, Modal } from 'flowbite-react';
 
-export default function OrderButton({store}) {
+function StoreSelector ({storeList}) {
+  const [selectedStore, setSelectedStore] = useState('');
+  const [selectedStoreAddress, setSelectedStoreAddress] = useState('');
+  
+  useEffect(() => {
+    const selectedStoreObject = storeList.find(store => store.store_name === selectedStore);
+    
+    if (selectedStoreObject) {
+        setSelectedStoreAddress(selectedStoreObject.store_address);
+    }
+    else {
+        setSelectedStoreAddress('');
+    }
+  }, [selectedStore, storeList]);
+  
+  const handleStoreChange = (event) => {
+      setSelectedStore(event.target.value);
+  };
+  
+  return (
+      <div>
+          <label>Please Select a Store: </label>
+          <select id='storeselector' onChange={handleStoreChange} value={selectedStore}>
+              <option value="" disabled>--</option>
+              {storeList.map((store) => (
+              <option key={store.store_id} value={store.store_name}>{store.store_name}</option>
+              ))}
+          </select>
+          
+          {selectedStoreAddress && <p>Address: {selectedStoreAddress}</p>}
+      </div>
+  );
+}
+
+export default function OrderButton({store, storeList}) {
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [preOrderOpenModal, setPreOrderOpenModal] = useState(false);
-//  console.log(store)
   const cart = useShoppingCart()
   const { cartDetails, clearCart } = cart  
+  const [selectedStore, setSelectedStore] = useState('');
+  const [selectedStoreAddress, setSelectedStoreAddress] = useState('');
+  
+  useEffect(() => {
+    const selectedStoreObject = storeList.find(store => store.store_name === selectedStore);
+    if (selectedStoreObject) {
+        setSelectedStoreAddress(selectedStoreObject.store_address);
+    }
+    else {
+        setSelectedStoreAddress('');
+    }
+  }, [selectedStore, storeList]);
+
+  const handleStoreChange = (event) => {
+    setSelectedStore(event.target.value);
+  };
+
+
   const handleOrderButtonClick = async () => {
 
     try {
@@ -45,6 +97,8 @@ export default function OrderButton({store}) {
       <Modal.Header>Order</Modal.Header>
                 <Modal.Body>
                     <h3>Are you sure you want to order?</h3>
+                    <StoreSelector storeList={storeList} />
+
                 </Modal.Body>
                 <Modal.Footer>
                   <Button onClick={handleOrderButtonClick}>Yes</Button>

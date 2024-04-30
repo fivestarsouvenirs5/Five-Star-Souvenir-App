@@ -6,39 +6,39 @@ import {useEffect} from 'react'
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 
-function StoreSelector ({storeList}) {
-  const [selectedStore, setSelectedStore] = useState('');
-  const [selectedStoreAddress, setSelectedStoreAddress] = useState('');
+// function StoreSelector ({storeList}) {
+//   const [selectedStore, setSelectedStore] = useState('');
+//   const [selectedStoreAddress, setSelectedStoreAddress] = useState('');
   
-  useEffect(() => {
-    const selectedStoreObject = storeList.find(store => store.store_name === selectedStore);
+//   useEffect(() => {
+//     const selectedStoreObject = storeList.find(store => store.store_name === selectedStore);
     
-    if (selectedStoreObject) {
-        setSelectedStoreAddress(selectedStoreObject.store_address);
-    }
-    else {
-        setSelectedStoreAddress('');
-    }
-  }, [selectedStore, storeList]);
+//     if (selectedStoreObject) {
+//         setSelectedStoreAddress(selectedStoreObject.store_address);
+//     }
+//     else {
+//         setSelectedStoreAddress('');
+//     }
+//   }, [selectedStore, storeList]);
   
-  const handleStoreChange = (event) => {
-      setSelectedStore(event.target.value);
-  };
+//   const handleStoreChange = (event) => {
+//       setSelectedStore(event.target.value);
+//   };
   
-  return (
-      <div>
-          <label>Please Select a Store: </label>
-          <select id='storeselector' onChange={handleStoreChange} value={selectedStore}>
-              <option value="" disabled>--</option>
-              {storeList.map((store) => (
-              <option key={store.store_id} value={store.store_name}>{store.store_name}</option>
-              ))}
-          </select>
+//   return (
+//       <div>
+//           <label>Please Select a Store: </label>
+//           <select id='storeselector' onChange={handleStoreChange} value={selectedStore}>
+//               <option value="" disabled>--</option>
+//               {storeList.map((store) => (
+//               <option key={store.store_id} value={store.store_name}>{store.store_name}</option>
+//               ))}
+//           </select>
           
-          {selectedStoreAddress && <p>Address: {selectedStoreAddress}</p>}
-      </div>
-  );
-}
+//           {selectedStoreAddress && <p>Address: {selectedStoreAddress}</p>}
+//       </div>
+//   );
+// }
 
 function CartEntry({ entry, removeItem }) {
  
@@ -83,9 +83,6 @@ export default function Cart( {approved, storeList}) {
       // Returns null on first render, so the client and server match
       return null;
     }
- 
-    
-   
     
     const handleStoreChange = (event) => {
         setSelectedStore(event.target.value);
@@ -113,17 +110,17 @@ export default function Cart( {approved, storeList}) {
             <div>
               <p className="lg:text-5xl text-4xl font-bold leading-10 text-gray-800 dark:text-black mb-2">Summary</p>
               {/* <StoreSelector storeList={storeList} /> */}
-              <div>
+              {/* <div>
                   <label>Please Select a Store: </label>
                   <select id='storeselector' onChange={handleStoreChange} value={selectedStore}>
                       <option value="" disabled>--</option>
                       {storeList.map((store) => (
                       <option key={store.store_id} value={store.store_name}>{store.store_name}</option>
                       ))}
-                  </select>
+                  </select> */}
                   
                   {/* {selectedStoreAddress && <p>Address: {selectedStoreAddress}</p>} */}
-              </div>
+              {/* </div> */}
                       <p className="lg:text-2xl text-xl font-black leading-8 text-gray-800 dark:text-black mb-4">Items in Cart:</p>
             </div>
             {cartEntries.length === 0 ? <p>Cart is empty.</p> : null}
@@ -146,7 +143,7 @@ export default function Cart( {approved, storeList}) {
                 <svg className="w-8 h-8 text-gray-800 dark:text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1"/>
                 </svg>
-                <OrderButton store = {selectedStore}/>
+                <OrderButton store = {selectedStore} storeList={storeList}/>
               </div>
             </div>
           </div>

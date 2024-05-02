@@ -66,27 +66,27 @@ export default function Cart( {approved, storeList}) {
     const { user} = useUser();
     const cart = useShoppingCart()
     const [hydrated, setHydrated] = useState(false);
-    const [selectedStore, setSelectedStore] = useState('');
-    const [selectedStoreAddress, setSelectedStoreAddress] = useState('');
+    // const [selectedStore, setSelectedStore] = useState('');
+    // const [selectedStoreAddress, setSelectedStoreAddress] = useState('');
 
     useEffect(() => {
-      const selectedStoreObject = storeList.find(store => store.store_name === selectedStore);
+      // const selectedStoreObject = storeList.find(store => store.store_name === selectedStore);
       setHydrated(true);
-      if (selectedStoreObject) {
-          setSelectedStoreAddress(selectedStoreObject.store_address);
-      }
-      else {
-          setSelectedStoreAddress('');
-      }
-    }, [selectedStore, storeList]);
+      // if (selectedStoreObject) {
+      //     setSelectedStoreAddress(selectedStoreObject.store_address);
+      // }
+      // else {
+      //     setSelectedStoreAddress('');
+      // }
+    }, [storeList]);
     if (!hydrated) {
       // Returns null on first render, so the client and server match
       return null;
     }
     
-    const handleStoreChange = (event) => {
-        setSelectedStore(event.target.value);
-    };
+    // const handleStoreChange = (event) => {
+    //     setSelectedStore(event.target.value);
+    // };
     
 
     if (user && approved === "true") {
@@ -143,7 +143,7 @@ export default function Cart( {approved, storeList}) {
                 <svg className="w-8 h-8 text-gray-800 dark:text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1"/>
                 </svg>
-                <OrderButton store = {selectedStore} storeList={storeList}/>
+                <OrderButton storeList={storeList}/>
               </div>
             </div>
           </div>

@@ -4,41 +4,41 @@ import {useEffect} from 'react'
 import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-cart';
 import { Button, Modal } from 'flowbite-react';
 
-function StoreSelector ({storeList}) {
-  const [selectedStore, setSelectedStore] = useState('');
-  const [selectedStoreAddress, setSelectedStoreAddress] = useState('');
+// function StoreSelector ({storeList}) {
+//   const [selectedStore, setSelectedStore] = useState('');
+//   const [selectedStoreAddress, setSelectedStoreAddress] = useState('');
   
-  useEffect(() => {
-    const selectedStoreObject = storeList.find(store => store.store_name === selectedStore);
+//   useEffect(() => {
+//     const selectedStoreObject = storeList.find(store => store.store_name === selectedStore);
     
-    if (selectedStoreObject) {
-        setSelectedStoreAddress(selectedStoreObject.store_address);
-    }
-    else {
-        setSelectedStoreAddress('');
-    }
-  }, [selectedStore, storeList]);
+//     if (selectedStoreObject) {
+//         setSelectedStoreAddress(selectedStoreObject.store_address);
+//     }
+//     else {
+//         setSelectedStoreAddress('');
+//     }
+//   }, [selectedStore, storeList]);
   
-  const handleStoreChange = (event) => {
-      setSelectedStore(event.target.value);
-  };
+//   const handleStoreChange = (event) => {
+//       setSelectedStore(event.target.value);
+//   };
   
-  return (
-      <div>
-          <label>Please Select a Store: </label>
-          <select id='storeselector' onChange={handleStoreChange} value={selectedStore}>
-              <option value="" disabled>--</option>
-              {storeList.map((store) => (
-              <option key={store.store_id} value={store.store_name}>{store.store_name}</option>
-              ))}
-          </select>
+//   return (
+//       <div>
+//           <label>Please Select a Store: </label>
+//           <select id='storeselector' onChange={handleStoreChange} value={selectedStore}>
+//               <option value="" disabled>--</option>
+//               {storeList.map((store) => (
+//               <option key={store.store_id} value={store.store_name}>{store.store_name}</option>
+//               ))}
+//           </select>
           
-          {selectedStoreAddress && <p>Address: {selectedStoreAddress}</p>}
-      </div>
-  );
-}
+//           {selectedStoreAddress && <p>Address: {selectedStoreAddress}</p>}
+//       </div>
+//   );
+// }
 
-export default function OrderButton({store, storeList}) {
+export default function OrderButton({storeList}) {
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [preOrderOpenModal, setPreOrderOpenModal] = useState(false);
@@ -72,7 +72,7 @@ export default function OrderButton({store, storeList}) {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({cart: cartDetails, selectedStore: store})
+        body: JSON.stringify({cart: cartDetails, selectedStore: selectedStore})
       });
       if (!response.ok) {
         throw new Error('Failed to fetch order data');
@@ -97,7 +97,17 @@ export default function OrderButton({store, storeList}) {
       <Modal.Header>Order</Modal.Header>
                 <Modal.Body>
                     <h3>Are you sure you want to order?</h3>
-                    <StoreSelector storeList={storeList} />
+                    <div>
+                        <label>Please Select a Store: </label>
+                        <select id='storeselector' onChange={handleStoreChange} value={selectedStore}>
+                            <option value="" disabled>--</option>
+                            {storeList.map((store) => (
+                            <option key={store.store_id} value={store.store_name}>{store.store_name}</option>
+                            ))}
+                        </select>
+                        
+                        {selectedStoreAddress && <p>Address: {selectedStoreAddress}</p>}
+                    </div>
 
                 </Modal.Body>
                 <Modal.Footer>

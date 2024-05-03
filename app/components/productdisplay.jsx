@@ -336,6 +336,15 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
          // }
        }
      }
+    const [inputValue, setInputValue] = useState('');
+
+    const handleChange = (event) => {
+      const { value } = event.target;
+      // Check if the input contains a dash
+      if (/^[0-9]*$/.test(value)) {
+        setInputValue(value);
+      }
+    };
 
     return (
       <>
@@ -363,7 +372,7 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
                 <Stock product={product} /> {/* Displaying decoded stock status */}
                 <form>
                   <label>Qty: </label>
-                  <input type='number' min='1' placeholder='1' name='quantity' className='rounded-sm w-[81px] h-7' id='qtyinput' />
+                  <input type='text' min='1' placeholder='1' name='quantity' className='rounded-sm w-[81px] h-7' id='qtyinput' value={inputValue} onChange={handleChange}/>
                 </form>
               </div>
             </div>

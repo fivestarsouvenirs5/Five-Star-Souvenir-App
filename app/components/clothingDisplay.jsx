@@ -246,7 +246,7 @@
 
 // export default ClothingDisplay
 'use client'
-import React from 'react';
+import React, { lazy } from 'react';
 import { Button, Modal } from 'flowbite-react';
 import { useState } from 'react';
 import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-cart';
@@ -403,8 +403,11 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, appr
           <Modal.Footer>
             <Button onClick={() => {
               // Adding item to cart
-              let qty = parseInt(document.getElementById('qtyinput').value)
               let size = document.getElementById('selector').value
+              if (!size) {
+                size = 'S'
+              }
+              let qty = parseInt(document.getElementById('qtyinput').value)
               const clothingPrice = filteredPrices[filteredSizes.indexOf(size)];
               const clothingCellNumber = filteredCellNumbers[filteredSizes.indexOf(size)];
 

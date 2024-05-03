@@ -111,8 +111,8 @@ export default function OrderButton({storeList}) {
 
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button onClick={handleOrderButtonClick}>Yes</Button>
-                  <Button onClick={ () => {setPreOrderOpenModal(false)}}>No</Button>
+                  <Button onClick={handleOrderButtonClick} disabled={!selectedStore}>Yes</Button>
+                  <Button onClick={() => setPreOrderOpenModal(false)}>No</Button>
                 </Modal.Footer>
       </Modal>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>

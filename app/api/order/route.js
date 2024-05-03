@@ -5,6 +5,7 @@ import  process  from 'process';
 import os from 'os';
 import { getSession } from '@auth0/nextjs-auth0';
 import { Resend } from 'resend';
+import prisma from '../../utils/prisma'
 
 const fetchStore = async (id) => {
   try {

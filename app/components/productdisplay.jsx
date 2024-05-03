@@ -307,6 +307,7 @@ const ImgSrc = ({ subcategory, category, product }) => {
 const ProductDisplay = ({ product, category, subcategory, addItem, approved }) => {
   const { user } = useUser();
   const [openModal, setOpenModal] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
   if (user && approved === "true") {
     // Other code remains unchanged
@@ -336,7 +337,7 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
          // }
        }
      }
-    const [inputValue, setInputValue] = useState('');
+   
 
     const handleChange = (event) => {
       const { value } = event.target;

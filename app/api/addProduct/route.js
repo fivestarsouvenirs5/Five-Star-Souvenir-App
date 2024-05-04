@@ -86,11 +86,18 @@ export async function POST(request) {
                 in_stock: sanitizedStock,
                 subcategory_id: parseInt(newProductDetails.get("productSubCatgID")),
                 order_form_cell: newProductDetails.get("cell"),
+                clothing_size_id: parseInt(newProductDetails.get("clothingSize")),
                 image_id: blob.url
             },
         });
 
-        return NextResponse.json(blob);
+
+        return new Response(JSON.stringify({ product_id: product.product_id }), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
     } catch (error) {
         console.error("Error adding product:", error);
         return new Response("Internal Server Error", { status: 500 });

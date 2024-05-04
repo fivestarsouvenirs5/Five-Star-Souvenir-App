@@ -2,12 +2,18 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'flowbite-react';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { formatCurrencyString } from 'use-shopping-cart';
 
-export default function AddProductButton({ category, subcategory, admin }) {
+
+export default function AddProductButton({ category, subcategory, admin,}) {
     const { user } = useUser();
-    const [openModal, setOpenModal] = useState(false);
+    const [openProductModal, setOpenProductModal] = useState(false);
+    const [openClothesModal, setOpenClothesModal] = useState(false);
+    const [openSizesModal, setOpenSizesModal] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [cellValid, setCellValid] = useState(true);
+    const [productID, setProductID] = useState(null);
+    const [sizes, setSizes] = useState([]);
 
     if (user && admin) {
         const handleFileChange = (event) => {
@@ -27,7 +33,32 @@ export default function AddProductButton({ category, subcategory, admin }) {
             setCellValid(isValidCell(cellValue));
         };
 
-        const addProduct = async () => {
+
+        const SizeTable = () => {
+
+            return (
+                <table className="w-full table-auto border-separate border-spacing-5 border border-slate-400 mt-5 mb-5">
+                <thead className="border-b-2 border-gray-200">
+                    <tr>
+                        <th>Size</th>
+                        <th>Price</th>
+                        <th>Cell</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {sizes.map((size) => (
+                        <tr key={size.size_id}>
+                            <td>{size.size}</td>
+                            <td>{formatCurrencyString({ value: size.price, currency: 'USD' })}</td>
+                            <td>{size.clothing_order_form_cell}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        )
+        }
+        
+        const addProduct = async (isClothing) => {
             const productName = document.getElementById('newProductName').value;
             const productPrice = parseFloat(document.getElementById('newProductPrice').value);
             const productStock = document.getElementById('newProductStock').value;
@@ -42,32 +73,63 @@ export default function AddProductButton({ category, subcategory, admin }) {
                 sID = null;
                 sName = null;
             }
-        
-            const formData = new FormData();
-            formData.append("file", selectedFile)
-            formData.append("name", productName)
-            formData.append("price", productPrice)
-            formData.append("stock", productStock)
-            formData.append("cell", productCell)
-            formData.append("productCatgID", category.category_id)
-            formData.append("productCatgName", category.category)
-            formData.append("productSubCatgID", sID)
-            formData.append("productSubCatgName", sName)
+    
+            var formData = new FormData();
+                formData.append("file", selectedFile)
+                formData.append("name", productName)
+                formData.append("price", productPrice)
+                formData.append("stock", productStock)
+                formData.append("cell", productCell)
+                formData.append("productCatgID", category.category_id)
+                formData.append("productCatgName", category.category)
+                formData.append("productSubCatgID", sID)
+                formData.append("productSubCatgName", sName)
 
-            const response = await fetch('/api/addProduct', {
+                if (isClothing === "true") {
+                    formData.append("clothingSize", 1)
+                }
+                else {
+                    formData.append("clothingSize", 0)
+                }
+        
+            
+
+            var response = await fetch('/api/addProduct', {
                 method: 'POST',
                 body: formData
             });
+             var responseData = await response.json();
+            return responseData.product_id;
+        }
+
+        const addSize = async () => {
+            const clothingSize = document.getElementById('newClotheSize').value;
+            const clothingPrice = parseFloat(document.getElementById('newClothePrice').value);
+            const clothingCell = document.getElementById('newClotheCell').value;
+
+            console.log("saved var" + productID)
+
+            const response = await fetch('/api/addSize', {
+                method: 'POST',
+                body: JSON.stringify({size: clothingSize, price: clothingPrice, cell: clothingCell, product_id: productID, catgID: category.category_id })
+            });
+
+            if (response.ok) {
+                const newSize = await response.json();
+                console.log("newSize: " + newSize)
+                setSizes(prevSizes => [...prevSizes, newSize]); 
+            }
+
         }
     
         return (
             <div>
                 <div className='className="bg-gray-200 border p-4 w-64"'>
-                <button className="border-b-2 text-lg font-bold " onClick={() => setOpenModal(true)}>
+                <button className="border-b-2 text-lg font-bold " onClick={() => setOpenProductModal(true)}>
                     Add New Product
                 </button>
                 </div>
-                <Modal show={openModal} onClose={() => setOpenModal(false)}>
+                <Modal show={openProductModal} onClose={() => setOpenProductModal(false)}>
                     <Modal.Header>New Product</Modal.Header>
                     <Modal.Body>
                         <div className="flex justify-between">
@@ -110,10 +172,80 @@ export default function AddProductButton({ category, subcategory, admin }) {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
+                            onClick={async () => {
+                                var isClothes = document.getElementById("clothing?").checked;
+                                
+                                if (isClothes) {
+                                    var id = await addProduct("true");
+                                    setProductID(id);
+                                    setOpenProductModal(false);
+                                    setOpenClothesModal(true);
+                                }
+                                else {
+                                    addProduct("false");
+                                    setOpenProductModal(false);
+                                    window.location.reload();
+                                } 
+                              
+                            }}
+                        >
+                            Add
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+                {/* modal for adding clothes */}
+                <Modal show={openClothesModal} onClose={() => setOpenClothesModal(false)}>
+                    <Modal.Header>Please add sizes for the clothing item.</Modal.Header>
+                    <Modal.Body>
+                        <SizeTable />
+                        <button onClick={ () => {
+                            setOpenClothesModal(false);
+                            setOpenSizesModal(true);
+                        }}>+ Add</button>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button
                             onClick={() => {
-                                addProduct();
-                                setOpenModal(false);
-                                window.location.reload();
+                               setOpenClothesModal(false);
+                               window.location.reload;
+                            }}
+                        >
+                            Done
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+                <Modal show={openSizesModal} onClose={() => setOpenSizesModal(false)}>
+                    <Modal.Header>Please fill out the information below for one size entry.</Modal.Header>
+                    <Modal.Body>
+                   
+                                <div >
+
+                                <label className='font-bold'>Please Enter Size: </label>
+                                <input type="text" id="newClotheSize"></input>
+                                <br></br>
+                                <br></br>
+
+                                <label className='font-bold'>Price (¢): </label>
+                                <input type="number" id="newClothePrice"></input>
+                                <br></br>
+                                <br></br>
+\
+
+                                <label className='font-bold'>What is the cell in the order form that corresponds to this item? </label>
+                                <input
+                                    type="text"
+                                    id="newClotheCell"
+                                    onChange={handleCellChange}
+                                />
+                                {!cellValid && <span style={{ color: 'red' }}>Invalid cell format. Please enter capital letters followed by digits.</span>}
+                                </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button
+                            onClick={() => {
+                                addSize();
+                               setOpenSizesModal(false);
+                               setOpenClothesModal(true);
                             }}
                         >
                             Add

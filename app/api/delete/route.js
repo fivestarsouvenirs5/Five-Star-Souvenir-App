@@ -8,6 +8,14 @@ async function fetchParentCategory(id) {
     })
     return category
 }
+
+async function fetchSizes(id) {
+    let sizes = await prisma.clothing_product_size.findMany({
+        where: { clothing_product_id: id}
+    })
+    return sizes;
+}
+
 export async function DELETE(request) {
     try {
       const itemDetails = await request.json()
@@ -15,6 +23,18 @@ export async function DELETE(request) {
         if (itemDetails.itemType === "Product") {
             if (itemDetails.myItem.image_id) {
                 del(itemDetails.myItem.image_id)
+            }
+            var sizes = await fetchSizes(itemDetails.myItem.product_id)
+
+            if (itemDetails.myItem.clothing_size_id === 1) {
+              sizes.map(async (size) => {
+                const deleteSize = await prisma.clothing_product_size.delete ({
+                    where: {
+                        size_id: size.size_id
+                    }
+                });
+              })
+                
             }
             const deleteProduct = await prisma.products.delete({
                 where: {

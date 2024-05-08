@@ -13,25 +13,8 @@ import { Button, Modal } from 'flowbite-react';
 import { useState } from 'react';
 import { useShoppingCart } from 'use-shopping-cart';
 import { useUser } from '@auth0/nextjs-auth0/client';
-
-// async function getAppMetadata(email) {
-//   try {
-//       const response = await fetch('/api/getUserInfo', {
-//           method: 'POST',
-//           headers: {
-//             'Content-Type': 'application/json'
-//           },
-//           body: JSON.stringify({email})
-//         });
-       
-//         //console.log(response.status);
-//         const myResponse = await response.json();
-//         console.log(myResponse.myUser.app_metadata.admin)
-//         return myResponse.myUser.app_metadata.admin;
-//   } catch (err){
-//       console.log("getting metadata error", err);
-//   }
-// }
+import EditProductButton from './editProductButton';
+import EditClothingButton from './editClothingButton';
 
 const DeleteButton= ({item, type, admin}) => {
   const { user} = useUser();
@@ -218,6 +201,8 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                         {/* <ProductDisplay product = {product} category = {category} subcategory={null} addItem={addItem}/> */}
                       </div>
                       <DeleteButton item={product} type={"Product"} admin={isAdmin} />
+                      <EditProductButton product={product} admin={isAdmin}/>
+                      <EditClothingButton product={product} admin={isAdmin}/>
                     </div>
                     
                   </div>
@@ -244,6 +229,8 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                         {/* <ProductDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem}/> */}
                       </div>
                       <DeleteButton item ={product} type={"Product"} admin={isAdmin} />
+                      <EditProductButton product={product} admin={isAdmin} />
+                      <EditClothingButton product={product} admin={isAdmin} />
                     </div>
                     </div>
                 ))}

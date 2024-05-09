@@ -1,4 +1,3 @@
-
 'use client'
 import React, { useState } from 'react';
 
@@ -9,12 +8,23 @@ function SignupForm() {
     const [password, setPassword] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
 
+    const [storeName, setStoreName] = useState('');
+    const [storeAddress, setStoreAddress] = useState('');
+    const [storeCity, setStoreCity] = useState('');
+    const [storeState, setStoreState] = useState('');
+    const [storeZipCode, setStoreZipCode] = useState('');
+
     const [validations, setValidations] = useState({
         firstNameValid: false,
         lastNameValid: false,
         emailValid: false,
         phoneNumberValid: false,
         passwordValid: false,
+        storeNameValid: false,
+        storeAddressValid: false,
+        storeCityValid: false,
+        storeStateValid: false,
+        storeZipCodeValid: false,
     });
 
     const [passwordValidations, setPasswordValidations] = useState({
@@ -54,12 +64,45 @@ function SignupForm() {
             }));
         }
 
-        // if (id !== 'signup-password' && id !== 'signup-email') {
-        //     const pattern = /^[A-Za-z\s-]+$/;
-        //     if (pattern && !pattern.test(value)) {
-        //         document.getElementById(id).value = value.slice(0, -1);
-        //     }
-        // }
+
+        else if (id === 'store-name') {
+          setStoreName(value);
+          setValidations((prevValidations) => ({
+              ...prevValidations,
+              storeNameValid: validateStoreName(value),
+          }));
+          
+      } else if (id === 'store-address') {
+          setStoreAddress(value);
+          setValidations((prevValidations) => ({
+              ...prevValidations,
+              storeAddressValid: value.trim() !== '',
+          }));
+      } else if (id === 'store-city') {
+          setStoreCity(value);
+          setValidations((prevValidations) => ({
+              ...prevValidations,
+              storeCityValid: value.trim() !== '',
+          }));
+      } else if (id === 'store-state') {
+          setStoreState(value);
+          setValidations((prevValidations) => ({
+              ...prevValidations,
+              storeStateValid: value.trim() !== '',
+          }));
+      } else if (id === 'store-zipcode') {
+          setStoreZipCode(value);
+          setValidations((prevValidations) => ({
+              ...prevValidations,
+              storeZipCodeValid: /^\d{5}$/.test(value.trim()),
+          }));
+      }
+      if (id !== 'signup-password' && id !== 'signup-email') {
+        const pattern = /^[A-Za-z\s-]+$/;
+        if (pattern && !pattern.test(value)) {
+            document.getElementById(id).value = value.slice(0, -1);
+        }
+    }
     };
 
     const updatePasswordValidations = (value) => {
@@ -98,27 +141,44 @@ function SignupForm() {
         return passwordPattern.test(password);
     };
 
+    const validateStoreName = (storeName) => {
+      const namePattern = /^[A-Za-z-]+$/;
+      return namePattern.test(storeName);
+  };
+
     const signupAfterSubmit = async () => {
         // Validation checks
-        // if (!validations.firstNameValid || !validations.lastNameValid) {
-        //     alert('First name and last name should only contain letters and hyphens.');
-        //     return;
-        // }
+        if (!validations.firstNameValid || !validations.lastNameValid) {
+            alert('First name and last name should only contain letters and hyphens.');
+            return;
+        }
 
-        // if (!validateEmail(email)) {
-        //     alert('Please enter a valid email address.');
-        //     return;
-        // }
+        if (!validateEmail(email)) {
+            alert('Please enter a valid email address.');
+            return;
+        }
 
-        // if (!validatePhoneNumber(phoneNumber)) {
-        //     alert('Phone number should contain exactly 10 digits.');
-        //     return;
-        // }
+        if (!validatePhoneNumber(phoneNumber)) {
+            alert('Phone number should contain exactly 10 digits.');
+            return;
+        }
 
-        // if (!validations.passwordValid) {
-        //     alert('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one special character, and one number.');
-        //     return;
-        // }
+        if (!validations.passwordValid) {
+            alert('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one special character, and one number.');
+            return;
+        }
+
+        if (
+          
+          !validations.storeNameValid ||
+          !validations.storeAddressValid ||
+          !validations.storeCityValid ||
+          !validations.storeStateValid ||
+          !validations.storeZipCodeValid
+      ) {
+          alert('Please fill out all required fields correctly.');
+          return;
+      }
 
         const response = await fetch('/api/signup', {
             method: 'POST',
@@ -131,6 +191,11 @@ function SignupForm() {
                 user_email: email,
                 user_password: password,
                 phone_number: phoneNumber,
+                store_name: storeName,
+                store_address: storeAddress,
+                store_city: storeCity,
+                store_state: storeState,
+                store_zipcode: storeZipCode,
                 admin_approval: 'false',
             }),
         });
@@ -210,6 +275,77 @@ function SignupForm() {
                             maxLength={10}
                         ></input>
                         {validatePhoneNumber(phoneNumber) && <span className="text-green-500">Valid phone number</span>}
+                    </div>
+
+
+                    <div className="flex flex-col gap-2 py-2">
+                        <label className="font-bold">Store Name</label>
+                        <input
+                            type="text"
+                            className={`form-control border-2 ${validations.storeNameValid ? 'border-green-500' : 'border-rose-600/50'}`}
+                            id="store-name"
+                            placeholder="Enter store name"
+                            value={storeName}
+                            onChange={handleInput}
+                            required
+                            style={{ color: 'black' }}
+                        ></input>
+                    </div>
+
+                    <div className="flex flex-col gap-2 py-2">
+                        <label className="font-bold">Store Address</label>
+                        <input
+                            type="text"
+                            className={`form-control border-2 ${validations.storeAddressValid ? 'border-green-500' : 'border-rose-600/50'}`}
+                            id="store-address"
+                            placeholder="Enter store address"
+                            value={storeAddress}
+                            onChange={handleInput}
+                            required
+                            style={{ color: 'black' }}
+                        ></input>
+                    </div>
+
+                    <div className="flex flex-col gap-2 py-2">
+                        <label className="font-bold">Store City</label>
+                        <input
+                            type="text"
+                            className={`form-control border-2 ${validations.storeCityValid ? 'border-green-500' : 'border-rose-600/50'}`}
+                            id="store-city"
+                            placeholder="Enter store city"
+                            value={storeCity}
+                            onChange={handleInput}
+                            required
+                            style={{ color: 'black' }}
+                        ></input>
+                    </div>
+
+                    <div className="flex flex-col gap-2 py-2">
+                        <label className="font-bold">Store State</label>
+                        <input
+                            type="text"
+                            className={`form-control border-2 ${validations.storeStateValid ? 'border-green-500' : 'border-rose-600/50'}`}
+                            id="store-state"
+                            placeholder="Enter store state"
+                            value={storeState}
+                            onChange={handleInput}
+                            required
+                            style={{ color: 'black' }}
+                        ></input>
+                    </div>
+
+                    <div className="flex flex-col gap-2 py-2">
+                        <label className="font-bold">Store Zip Code</label>
+                        <input
+                            type="text"
+                            className={`form-control border-2 ${validations.storeZipCodeValid ? 'border-green-500' : 'border-rose-600/50'}`}
+                            id="store-zipcode"
+                            placeholder="Enter store zip code"
+                            value={storeZipCode}
+                            onChange={handleInput}
+                            required
+                            style={{ color: 'black' }}
+                        ></input>
                     </div>
 
                     <div className="flex flex-col gap-2 py-2">

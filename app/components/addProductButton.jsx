@@ -209,6 +209,7 @@ export default function AddProductButton({ category, subcategory, admin,}) {
                                setOpenClothesModal(false);
                                window.location.reload;
                             }}
+                            disabled={sizes.length === 0}
                         >
                             Done
                         </Button>
@@ -229,7 +230,6 @@ export default function AddProductButton({ category, subcategory, admin,}) {
                                 <input type="number" id="newClothePrice"></input>
                                 <br></br>
                                 <br></br>
-\
 
                                 <label className='font-bold'>What is the cell in the order form that corresponds to this item? </label>
                                 <input

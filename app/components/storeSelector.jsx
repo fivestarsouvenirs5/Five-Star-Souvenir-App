@@ -14,7 +14,10 @@ export default function StoreSelector({ storeList }) {
             <thead className="border-b-2 border-gray-200">
                 <tr>
                     <th>Store Name</th>
-                    <th>Store Address</th>
+                    <th>Store Street</th>
+                    <th>Store City</th>
+                    <th>Store State</th>
+                    <th>Store Zip Code</th>
                     <th>🗑️</th>
                 </tr>
             </thead>

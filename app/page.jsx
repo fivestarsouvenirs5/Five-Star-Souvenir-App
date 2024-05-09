@@ -1,9 +1,23 @@
 'use client'
 import {useState} from 'react'
 import {useEffect} from 'react'
+import prisma from '../../utils/prisma'
 
-export default function Home() {
+const fetchFeaturedProducts = async (id) => {
+  try {
+    const featuredProducts = await prisma.products.findMany({
+      where: { featured_product: id}
+    });
+  } catch (error) {
+    // Handle error
+    console.error("Error fetching featured products:", error);
+    throw error; // Re-throw the error if needed
+  }
+}
+
+export default async function Home() {
   const [hydrated, setHydrated] = useState(false);
+  const featuredProductsList = await fetchFeaturedProducts(1);
   useEffect(() => {
     // This forces a rerender, so the date is rendered
     // the second time but not the first
@@ -38,6 +52,7 @@ export default function Home() {
       {/* featured products*/}
       <div className="mb-8 p-4 border border-red-500 rounded-md bg-white">
         <h2 className="text-xl text-black mb-40">Featured Products</h2>
+        {/* var featuredProductsList = await fetchFeaturedProducts(1); */}
         {/* You can add content inside this box if needed */}
       </div>
 

@@ -13,25 +13,8 @@ import { Button, Modal } from 'flowbite-react';
 import { useState } from 'react';
 import { useShoppingCart } from 'use-shopping-cart';
 import { useUser } from '@auth0/nextjs-auth0/client';
-
-// async function getAppMetadata(email) {
-//   try {
-//       const response = await fetch('/api/getUserInfo', {
-//           method: 'POST',
-//           headers: {
-//             'Content-Type': 'application/json'
-//           },
-//           body: JSON.stringify({email})
-//         });
-       
-//         //console.log(response.status);
-//         const myResponse = await response.json();
-//         console.log(myResponse.myUser.app_metadata.admin)
-//         return myResponse.myUser.app_metadata.admin;
-//   } catch (err){
-//       console.log("getting metadata error", err);
-//   }
-// }
+import EditProductButton from './editProductButton';
+import EditClothingButton from './editClothingButton';
 
 const DeleteButton= ({item, type, admin}) => {
   const { user} = useUser();
@@ -97,7 +80,7 @@ const DeleteButton= ({item, type, admin}) => {
   
 }
 
-const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory, clothingList, subMainCategory, isAdmin, isApproved }) => {
+const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory, clothingList, subMainCategory, isAdmin, isApproved, stores }) => {
  // const { user} = useUser();
   const cart = useShoppingCart();
   const { addItem, formattedTotalPrice } = cart;
@@ -152,7 +135,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
             <AddCategoryButton location={1} admin={isAdmin}/>
           </div>
           {/* <div className="border-8 border-sky-500 float-right h-96"></div> */}
-          <Cart approved={isApproved}/>
+          <Cart approved={isApproved} storeList={stores}/>
                 
 
         </div>
@@ -177,7 +160,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                     <AddCategoryButton location={0} admin={isAdmin} />
                 </div>
                 {/* <div className="border-8 border-sky-500 float-right h-96"></div> */}
-                <Cart approved={isApproved}/>
+                <Cart approved={isApproved} storeList={stores}/>
 
         </div>
       )
@@ -199,7 +182,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                   ))}
                 <AddSubCategoryButton category= {subMainCategory} admin={isAdmin}/>
             </div>
-            <Cart approved={isApproved}/>
+            <Cart approved={isApproved} storeList={stores}/>
         </div>
         
       
@@ -218,6 +201,8 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                         {/* <ProductDisplay product = {product} category = {category} subcategory={null} addItem={addItem}/> */}
                       </div>
                       <DeleteButton item={product} type={"Product"} admin={isAdmin} />
+                      <EditProductButton product={product} admin={isAdmin}/>
+                      <EditClothingButton product={product} admin={isAdmin}/>
                     </div>
                     
                   </div>
@@ -225,7 +210,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
             <AddProductButton category={category} subcategory={null} admin={isAdmin} />
             <AddSubCategoryButton category= {category} admin={isAdmin}/>
           </div>
-          <Cart approved={isApproved}/> 
+          <Cart approved={isApproved} storeList={stores}/> 
       </div>
 
     )
@@ -244,13 +229,15 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                         {/* <ProductDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem}/> */}
                       </div>
                       <DeleteButton item ={product} type={"Product"} admin={isAdmin} />
+                      <EditProductButton product={product} admin={isAdmin} />
+                      <EditClothingButton product={product} admin={isAdmin} />
                     </div>
                     </div>
                 ))}
             <AddProductButton category={category} subcategory={subcategory} admin={isAdmin} />
             <AddSubCategoryButton category= {category} admin={isAdmin}/>
           </div>
-          <Cart approved={isApproved}/> 
+          <Cart approved={isApproved} storeList={stores}/> 
 
         </div>
             

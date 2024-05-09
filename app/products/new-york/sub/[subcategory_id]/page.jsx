@@ -4,6 +4,19 @@ import ProductPageMapping from '../../../../components/productPageMapping'
 import { getSession } from '@auth0/nextjs-auth0';
 
 
+const fetchStores = async (id) => {
+    try {
+      const stores = await prisma.stores.findMany({
+        where: { user_id: id },
+      });
+      return stores;
+    } catch (error) {
+      // Handle error
+      console.error("Error fetching stores:", error);
+      throw error; // Re-throw the error if needed
+    }
+  };
+
 const fetchSubcategories = async (id) => {
     let subcategories = await prisma.subcategories.findUnique({
         where: {subcategory_id: id}
@@ -96,10 +109,12 @@ export default async function Subcategory({ params }) {
 
     var adminMetadata;
     var approvalStatus;
+    var stores;
     if (session) {
         var myUser =  await getAppMetadata(session.user.email);
         adminMetadata = myUser.app_metadata.admin;
         approvalStatus = myUser.user_metadata.adminapproval;
+        stores = await fetchStores(myUser.user_id);
     }
     else {
         adminMetadata = false;
@@ -116,7 +131,7 @@ export default async function Subcategory({ params }) {
                 </div>
             </div>
 
-            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={subcategory} subMainCategory={null} isAdmin={adminMetadata} isApproved={approvalStatus}/>
+            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={true} category={category} subcategory={subcategory} subMainCategory={null} isAdmin={adminMetadata} isApproved={approvalStatus} stores={stores}/>
       
         </div>
     </main>

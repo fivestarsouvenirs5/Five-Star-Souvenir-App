@@ -10,8 +10,12 @@
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.3.0",
+<<<<<<< HEAD
     "@getbrevo/brevo": "^2.0.0-beta.4",
     "@prisma/client": "^5.13.0",
+=======
+    "@prisma/client": "^5.9.1",
+>>>>>>> 22372bba7e2bfa7f3a62fe18c55724e272b7c46e
     "@stripe/stripe-js": "^2.4.0",
     "@vercel/blob": "^0.22.1",
     "auth0-js": "^9.24.1",
@@ -31,6 +35,7 @@
     "postcss": "8.4.31",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "resend": "^3.2.0",
     "swr": "^2.2.4",
     "tailwindcss": "3.3.5",
     "use-shopping-cart": "^3.2.0"

@@ -8,7 +8,10 @@ export async function POST(request) {
             data: {
                 user_id: newStoreDetails.newId,
                 store_name: newStoreDetails.newName,
-                store_address: newStoreDetails.newAddress,
+                store_street: newStoreDetails.newStreet,
+                store_city: newStoreDetails.newCity,
+                store_state: newStoreDetails.newState,
+                store_zip: newStoreDetails.newZip,
             },
         });
 

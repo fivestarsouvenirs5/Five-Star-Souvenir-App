@@ -10,12 +10,7 @@
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.3.0",
-<<<<<<< HEAD
-    "@getbrevo/brevo": "^2.0.0-beta.4",
-    "@prisma/client": "^5.13.0",
-=======
     "@prisma/client": "^5.9.1",
->>>>>>> 22372bba7e2bfa7f3a62fe18c55724e272b7c46e
     "@stripe/stripe-js": "^2.4.0",
     "@vercel/blob": "^0.22.1",
     "auth0-js": "^9.24.1",

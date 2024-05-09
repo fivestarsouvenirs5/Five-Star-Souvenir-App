@@ -1,7 +1,6 @@
-'use client'
-import {useState} from 'react'
-import {useEffect} from 'react'
-import prisma from '../../utils/prisma'
+// import {useState} from 'react'
+// import {useEffect} from 'react'
+import prisma from './utils/prisma'
 
 const fetchFeaturedProducts = async (id) => {
   try {
@@ -16,17 +15,17 @@ const fetchFeaturedProducts = async (id) => {
 }
 
 export default async function Home() {
-  const [hydrated, setHydrated] = useState(false);
+  // const [hydrated, setHydrated] = useState(false);
   const featuredProductsList = await fetchFeaturedProducts(1);
-  useEffect(() => {
-    // This forces a rerender, so the date is rendered
-    // the second time but not the first
-    setHydrated(true);
-  }, []);
-  if (!hydrated) {
-    // Returns null on first render, so the client and server match
-    return null;
-  }
+  // useEffect(() => {
+  //   // This forces a rerender, so the date is rendered
+  //   // the second time but not the first
+  //   setHydrated(true);
+  // }, []);
+  // if (!hydrated) {
+  //   // Returns null on first render, so the client and server match
+  //   return null;
+  // }
   return (
     <main className="max-w-screen-xl mx-auto p-8 font-serif">
       {/* welcome blurb -> about us page */}

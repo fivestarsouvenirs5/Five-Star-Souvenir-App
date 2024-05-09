@@ -55,6 +55,7 @@ model products {
   image_id           String?              @db.VarChar(500)
   price              Float?               @db.Float
   order_form_cell    String               @db.VarChar(45)
+  featured_product   Int                  @default(0)
   product_order_xref product_order_xref[]
   category           category             @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_category")
   subcategories      subcategories?       @relation(fields: [subcategory_id], references: [subcategory_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_subcategory")
@@ -99,8 +100,11 @@ model clothing_product_size {
 }
 
 model stores {
-  store_id      Int     @id @default(autoincrement())
-  user_id       String? @db.VarChar(45)
-  store_name    String? @db.VarChar(45)
-  store_address String? @db.VarChar(45)
+  store_id     Int     @id @default(autoincrement())
+  user_id      String? @db.VarChar(45)
+  store_name   String  @db.VarChar(45)
+  store_street String  @db.VarChar(45)
+  store_city   String  @db.VarChar(45)
+  store_state  String  @db.VarChar(45)
+  store_zip    String  @db.VarChar(5)
 }

@@ -72,6 +72,7 @@ async function forUnapprovedUser() {
 const UsersPage = () => {
     const [displayContent, setDisplayContent] = useState(null);
         const [openModal, setOpenModal] = useState(false);
+        const [refresh, setRefresh] = useState(false);
 
         useEffect(() => {
         const fetchData = async () => {
@@ -123,15 +124,18 @@ const UsersPage = () => {
                                 else {
                                 if (myResponse.noUserMessage == "usernotfound") {
                                     alert("It seems that you are not registered. Please make sure there are not typos in the email or go to signup to register.");
+                                    setRefresh(!refresh);
                                     window.location.assign("/signup");
                                 }
                                 else {
                                     if (myResponse.userMetadataUpdated == "userapproved") {
                                     alert("User approved!");
+                                    setRefresh(!refresh);
                                     window.location.assign("/users");
                                     }
                                     else if (myResponse.userMetadataNotUpdated == "userstillunapproved") {
                                     alert("User still unapproved :(")
+                                    setRefresh(!refresh);
                                     window.location.assign("/users")
                                     }
                                 }
@@ -169,15 +173,18 @@ const UsersPage = () => {
                                 else {
                                 if (myResponse.noUserMessage == "usernotfound") {
                                     alert("It seems that you are not registered. Please make sure there are no typos in the email or go to signup to register.");
+                                    setRefresh(!refresh);
                                     window.location.assign("/signup")
                                 }
                                 else {
                                     if (myResponse.userDeleted == "userdeleted") {
                                     alert("User deleted!");
+                                    setRefresh(!refresh);
                                     window.location.assign("/users");
                                     }
                                     else if (myResponse.userNotDeleted == "usernotdeleted") {
                                     alert("User did not get deleted properly :(")
+                                    setRefresh(!refresh);
                                     window.location.assign("/users")
                                     }
                                 }
@@ -235,15 +242,18 @@ const UsersPage = () => {
                                 else {
                                 if (myResponse.noUserMessage == "usernotfound") {
                                     alert("It seems that you are not registered. Please make sure there are no typos in the email or go to signup to register.");
+                                    setRefresh(!refresh);
                                     window.location.assign("/signup")
                                 }
                                 else {
                                     if (myResponse.userDeleted == "userdeleted") {
                                     alert("User deleted!");
+                                    setRefresh(!refresh);
                                     window.location.assign("/users");
                                     }
                                     else if (myResponse.userNotDeleted == "usernotdeleted") {
                                     alert("User did not get deleted properly :(")
+                                    setRefresh(!refresh);
                                     window.location.assign("/users")
                                     }
                                 }

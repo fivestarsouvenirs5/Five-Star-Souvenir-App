@@ -63,35 +63,23 @@ const ImgSrc = async ({ product }) => {
               alt="My Image2"
               width={300}
               height={400}
-              />
+              >
+                <a href={'/products/${encodeURIComponent}'}></a>
+              </Image>
     )
   }
-  
+}
+
+const Categ = async ({product}) => {
+  const cat = await fetchCategories(product.category_id);
+  return (
+    <div>{cat.category}</div>
+  )
 }
 
 export default async function Home() {
   // const [hydrated, setHydrated] = useState(false);
   const featuredProductsList = await fetchFeaturedProducts();
-
-  const filteredCategoriesId = featuredProductsList.map(product => product.category_id);
-  // const categories = await fetchCategories(featuredProductsList.map(((product) => product.category_id)));
-
-  const categories = [];
-
-  for (let i = 1; i < filteredCategoriesId.length; i++) {
-      categories.push(await fetchCategories(i));
-  }
-  // console.log(categories[0].category);
-
-  var index;
-  
-  // const filteredSubcategoriesId = featuredProductsList.map(product => product.subcategory_id);
-  
-
-  // map filteredcategories which is all the cateogry ids into fetchCategories and store that all in a list called categories 
-  // and then from that list i would find the index of our current featureproduct in the featueredproduct list and take that 
-  // index and find the matching positional value in the new cateogies list and bam our catogories name
-
 
   // useEffect(() => {
   //   // This forces a rerender, so the date is rendered
@@ -125,22 +113,17 @@ export default async function Home() {
 
       {/* featured products*/}
       <div className="mb-8 p-4 border border-red-500 rounded-md bg-white">
-        <h2 className="text-xl text-black mb-40">Featured Products</h2>
-        {/* var featuredProductsList = await fetchFeaturedProducts(1); */}
-        {/* You can add content inside this box if needed */}
+        <h2 className="text-xl text-black mb-5">Featured Products</h2>
         <div className="grid grid-cols-1 sm:grid-cols-6 gap-5">
           {featuredProductsList.map((featproduct) => (
-                    <div className="h-1/2" key={featproduct.product_id} >
-                      <div className = "bg-white-600 rounded-2xl pl-2 pr-2 pt-2">
-                        <div className="flex items-center justify-center pb-4 text-[25px]">
-                          {featproduct.product_name}
-                          <ImgSrc product={featproduct} />
-                          {/* <img src="/images/CATEGORIES/Ashtray Black/1.jpg" alt=""/> */}
-                        </div>
-                      </div>
-                      
-                    </div>
-                ))}
+            <div className="h-1/2" key={featproduct.product_id} >
+              <div className="border-2 bg-red-100 flex flex-col items-center">
+                <ImgSrc className="w-80 h-80" product={featproduct} />
+                <label className="flex justify items-center">{featproduct.product_name}</label>
+                <Categ product={featproduct}/>
+              </div>
+            </div>
+          ))}
         </div>  
       </div>
 

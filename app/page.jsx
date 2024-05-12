@@ -63,9 +63,7 @@ const ImgSrc = async ({ product }) => {
               alt="My Image2"
               width={300}
               height={400}
-              >
-                <a href={'/products/${encodeURIComponent}'}></a>
-              </Image>
+              />
     )
   }
 }
@@ -118,7 +116,7 @@ export default async function Home() {
           {featuredProductsList.map((featproduct) => (
             <div className="h-1/2" key={featproduct.product_id} >
               <div className="border-2 bg-red-100 flex flex-col items-center">
-                <ImgSrc className="w-80 h-80" product={featproduct} />
+                <ImgSrc product={featproduct} />
                 <label className="flex justify items-center">{featproduct.product_name}</label>
                 <Categ product={featproduct}/>
               </div>

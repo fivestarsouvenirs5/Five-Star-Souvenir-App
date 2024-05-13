@@ -105,8 +105,8 @@ export default function Cart( {approved, storeList}) {
           
         
         return(
-          <div className="lg:w-96 md:w-8/12 w-full bg-red-100 float-right h-7/8 mt-4 mb-20  top-20 right-10">
-          <div className="flex flex-col lg:h-screen h-auto lg:px-8 md:px-7 px-4 lg:py-20 md:py-10 py-6 justify-between overflow-y-auto rounded-md">
+          // <div className="lg:w-96 md:w-8/12 w-full bg-red-100 float-right mt-4 mb-20  top-20 right-10">
+          <div className="flex flex-col lg:h-screen h-auto lg:px-8 md:px-7 px-4 lg:py-20 md:py-10 py-6 justify-between overflow-y-auto rounded-md top-20 right-10 mt-4 mb-20 bg-red-100 float-right lg:w-3/6 md:w-8/12">
             <div>
               <p className="lg:text-5xl text-4xl font-bold leading-10 text-gray-800 dark:text-black mb-2">Summary</p>
               {/* <StoreSelector storeList={storeList} /> */}
@@ -147,7 +147,7 @@ export default function Cart( {approved, storeList}) {
               </div>
             </div>
           </div>
-        </div>
+        // </div>
       )
     }
     else {

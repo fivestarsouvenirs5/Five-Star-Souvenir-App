@@ -84,197 +84,199 @@ const UsersPage = () => {
                 <>
 
                 {/* unapproved users table */}
-                <div className="flex justify-center">
-                <h1>Unapproved Users:</h1>
-                <table className="w-full table-auto border-separate border-spacing-5 border border-slate-400">
-                    
-                    <thead className="bg-gray-50 border-b-2 border-gray-200">
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                    </tr>
-                    </thead>
-                {unapproved.map((user, index) => (
-                    <tbody key={index}>
-                        <tr>
-                        <td>{user.name}</td>
-                        <td>{user.email}</td>
-                        <td>{user.user_metadata.phonenumber}</td>
-                        <td>
-                            <Button className='py-2 px-3 bg-green-400 hover:bg-green-300 text-white-900 hover:text-white-800 rounded' onClick={async() => {
-                            var useremail = user.email;
-                            // console.log(useremail);
+                <div className="flex m-10">
+                    <h1 m-10>Unapproved Users:</h1>
+                    <div className="flex-grow ml-5">
+                        <table className="w-full table-auto border-separate border-spacing-5 border border-slate-400 ml-2 mb-2">
+                            <thead className="bg-gray-50 border-b-2 border-gray-200">
+                            <tr>
+                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Name</th>
+                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Email</th>
+                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Phone Number</th>
+                            </tr>
+                            </thead>
+                        {unapproved.map((user, index) => (
+                            <tbody key={index}>
+                                <tr className="bg-gray-50">
+                                <td>{user.name}</td>
+                                <td>{user.email}</td>
+                                <td>{user.user_metadata.phonenumber}</td>
+                                <td>
+                                    <Button className='py-2 px-3 bg-green-400 hover:bg-green-300 text-white-900 hover:text-white-800 rounded' onClick={async() => {
+                                    var useremail = user.email;
+                                    // console.log(useremail);
 
-                            try {
-                                const response = await fetch('/api/approvingUser', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({useremail})
-                                });
+                                    try {
+                                        const response = await fetch('/api/approvingUser', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({useremail})
+                                        });
 
-                                const myResponse = await response.json();
+                                        const myResponse = await response.json();
 
-                                if (!response.ok) {
-                                alert("This is an incorrect email.");
-                                throw new Error('Failed to fetch the email of this user');
-                                }
-                                else {
-                                if (myResponse.noUserMessage == "usernotfound") {
-                                    alert("It seems that you are not registered. Please make sure there are not typos in the email or go to signup to register.");
-                                    setRefresh(!refresh);
-                                    window.location.assign("/signup");
-                                }
-                                else {
-                                    if (myResponse.userMetadataUpdated == "userapproved") {
-                                    alert("User approved!");
-                                    setRefresh(!refresh);
-                                    window.location.assign("/users");
+                                        if (!response.ok) {
+                                        alert("This is an incorrect email.");
+                                        throw new Error('Failed to fetch the email of this user');
+                                        }
+                                        else {
+                                        if (myResponse.noUserMessage == "usernotfound") {
+                                            alert("It seems that you are not registered. Please make sure there are not typos in the email or go to signup to register.");
+                                            setRefresh(!refresh);
+                                            window.location.assign("/signup");
+                                        }
+                                        else {
+                                            if (myResponse.userMetadataUpdated == "userapproved") {
+                                            alert("User approved!");
+                                            setRefresh(!refresh);
+                                            window.location.assign("/users");
+                                            }
+                                            else if (myResponse.userMetadataNotUpdated == "userstillunapproved") {
+                                            alert("User still unapproved :(")
+                                            setRefresh(!refresh);
+                                            window.location.assign("/users")
+                                            }
+                                        }
+                                        }
+                                    } catch (error) {
+                                        console.error('Error fetching the email of this user:', error);
+                                    } finally {
+
                                     }
-                                    else if (myResponse.userMetadataNotUpdated == "userstillunapproved") {
-                                    alert("User still unapproved :(")
-                                    setRefresh(!refresh);
-                                    window.location.assign("/users")
+                                    }}>Approve</Button>
+                                
+                                    {/* <Button className='py-2 px-3 bg-green-400 hover:bg-green-300 text-white-900 hover:text-white-800 rounded'>Approve</Button> */}
+                                    {/* <button className="py-2 px-3 bg-green-400 hover:bg-green-300 text-white-900 hover:text-white-800 rounded"> Approve</button> */}
+                                </td>
+                                <td>
+                                    <Button className='py-2 px-3 bg-red-400 hover:bg-red-300 text-white-900 hover:text-white-800 rounded' onClick={async () => {
+                                    var useremail = user.email;
+                                    // console.log(useremail)
+
+                                    try {
+                                        const response = await fetch('/api/deletingUser', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({useremail})
+                                        });
+
+                                        const myResponse = await response.json();
+
+                                        if (!response.ok) {
+                                        alert("This is an incorrect email.");
+                                        throw new Error('Failed to fetch the email of this user');
+                                        }
+                                        else {
+                                        if (myResponse.noUserMessage == "usernotfound") {
+                                            alert("It seems that you are not registered. Please make sure there are no typos in the email or go to signup to register.");
+                                            setRefresh(!refresh);
+                                            window.location.assign("/signup")
+                                        }
+                                        else {
+                                            if (myResponse.userDeleted == "userdeleted") {
+                                            alert("User deleted!");
+                                            setRefresh(!refresh);
+                                            window.location.assign("/users");
+                                            }
+                                            else if (myResponse.userNotDeleted == "usernotdeleted") {
+                                            alert("User did not get deleted properly :(")
+                                            setRefresh(!refresh);
+                                            window.location.assign("/users")
+                                            }
+                                        }
+                                        }
+                                    } catch (error) {
+                                        console.error('Error fetching the email of this user:', error);
+                                    } finally {
+                                        //idk
                                     }
-                                }
-                                }
-                            } catch (error) {
-                                console.error('Error fetching the email of this user:', error);
-                            } finally {
-
-                            }
-                            }}>Approve</Button>
-                        
-                            {/* <Button className='py-2 px-3 bg-green-400 hover:bg-green-300 text-white-900 hover:text-white-800 rounded'>Approve</Button> */}
-                            {/* <button className="py-2 px-3 bg-green-400 hover:bg-green-300 text-white-900 hover:text-white-800 rounded"> Approve</button> */}
-                        </td>
-                        <td>
-                            <Button className='py-2 px-3 bg-red-400 hover:bg-red-300 text-white-900 hover:text-white-800 rounded' onClick={async () => {
-                            var useremail = user.email;
-                            // console.log(useremail)
-
-                            try {
-                                const response = await fetch('/api/deletingUser', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({useremail})
-                                });
-
-                                const myResponse = await response.json();
-
-                                if (!response.ok) {
-                                alert("This is an incorrect email.");
-                                throw new Error('Failed to fetch the email of this user');
-                                }
-                                else {
-                                if (myResponse.noUserMessage == "usernotfound") {
-                                    alert("It seems that you are not registered. Please make sure there are no typos in the email or go to signup to register.");
-                                    setRefresh(!refresh);
-                                    window.location.assign("/signup")
-                                }
-                                else {
-                                    if (myResponse.userDeleted == "userdeleted") {
-                                    alert("User deleted!");
-                                    setRefresh(!refresh);
-                                    window.location.assign("/users");
-                                    }
-                                    else if (myResponse.userNotDeleted == "usernotdeleted") {
-                                    alert("User did not get deleted properly :(")
-                                    setRefresh(!refresh);
-                                    window.location.assign("/users")
-                                    }
-                                }
-                                }
-                            } catch (error) {
-                                console.error('Error fetching the email of this user:', error);
-                            } finally {
-                                //idk
-                            }
-                            }}>Delete</Button>
-                            {/* <Button className='py-2 px-3 bg-red-400 hover:bg-red-300 text-white-900 hover:text-white-800 rounded'>Deny/Delete</Button> */}
-                        </td>
-                        </tr>
-                    </tbody>
-                    ))}
-                </table></div>
+                                    }}>Delete</Button>
+                                    {/* <Button className='py-2 px-3 bg-red-400 hover:bg-red-300 text-white-900 hover:text-white-800 rounded'>Deny/Delete</Button> */}
+                                </td>
+                                </tr>
+                            </tbody>
+                            ))}
+                        </table>
+                    </div>
+                </div>
 
                 {/* approved users table */}
-                <div className="flex justify-center">
-                <h1>Approved Users:</h1>
-                <table className="w-full table-auto border-separate border-spacing-5 border border-slate-400">
-                    <thead className="bg-gray-50 border-b-2 border-gray-200">
-                    <tr className="">
-                        <th className="p-3 text-sm font-semibold tracking-wide text-left">Name</th>
-                        <th className="p-3 text-sm font-semibold tracking-wide text-left">Email</th>
-                        <th className="p-3 text-sm font-semibold tracking-wide text-left">Phone Number</th>
-                    </tr>
-                    </thead>
-                {approved.map((user, index) => (
-                    <tbody key={index}>
-                        <tr className="bg-gray-50">
-                        <td className="p-3 text-sm text-gray-700">{user.name}</td>
-                        <td>{user.email}</td>
-                        <td>{user.user_metadata.phonenumber}</td>
-                        <td>
-                            <Button className='py-2 px-3 bg-red-400 hover:bg-red-300 text-white-900 hover:text-white-800 rounded' onClick={async () => {
-                            var useremail = user.email;
-                            // console.log(useremail)
+                <div className="flex m-10">
+                    <h1 m-10>Approved Users:</h1>
+                    <div className="flex-grow ml-10">
+                        <table className="w-full table-auto border-separate border-spacing-5 border border-slate-400m ml-2 mb-2">
+                            <thead className="bg-gray-50 border-b-2 border-gray-200">
+                            <tr>
+                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Name</th>
+                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Email</th>
+                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Phone Number</th>
+                            </tr>
+                            </thead>
+                            {approved.map((user, index) => (
+                            <tbody key={index}>
+                                <tr className="bg-gray-50">
+                                <td>{user.name}</td>
+                                <td>{user.email}</td>
+                                <td>{user.user_metadata.phonenumber}</td>
+                                <td>
+                                    <Button className='py-2 px-3 bg-red-400 hover:bg-red-300 text-white-900 hover:text-white-800 rounded' onClick={async () => {
+                                    var useremail = user.email;
+                                    // console.log(useremail)
 
-                            try {
-                                const response = await fetch('/api/deletingUser', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({useremail})
-                                });
+                                    try {
+                                        const response = await fetch('/api/deletingUser', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({useremail})
+                                        });
 
-                                const myResponse = await response.json();
+                                        const myResponse = await response.json();
 
-                                if (!response.ok) {
-                                alert("This is an incorrect email.");
-                                throw new Error('Failed to fetch the email of this user');
-                                }
-                                else {
-                                if (myResponse.noUserMessage == "usernotfound") {
-                                    alert("It seems that you are not registered. Please make sure there are no typos in the email or go to signup to register.");
-                                    setRefresh(!refresh);
-                                    window.location.assign("/signup")
-                                }
-                                else {
-                                    if (myResponse.userDeleted == "userdeleted") {
-                                    alert("User deleted!");
-                                    setRefresh(!refresh);
-                                    window.location.assign("/users");
+                                        if (!response.ok) {
+                                        alert("This is an incorrect email.");
+                                        throw new Error('Failed to fetch the email of this user');
+                                        }
+                                        else {
+                                        if (myResponse.noUserMessage == "usernotfound") {
+                                            alert("It seems that you are not registered. Please make sure there are no typos in the email or go to signup to register.");
+                                            setRefresh(!refresh);
+                                            window.location.assign("/signup")
+                                        }
+                                        else {
+                                            if (myResponse.userDeleted == "userdeleted") {
+                                            alert("User deleted!");
+                                            setRefresh(!refresh);
+                                            window.location.assign("/users");
+                                            }
+                                            else if (myResponse.userNotDeleted == "usernotdeleted") {
+                                            alert("User did not get deleted properly :(")
+                                            setRefresh(!refresh);
+                                            window.location.assign("/users")
+                                            }
+                                        }
+                                        }
+                                    } catch (error) {
+                                        console.error('Error fetching the email of this user:', error);
+                                    } finally {
+                                        //idk
                                     }
-                                    else if (myResponse.userNotDeleted == "usernotdeleted") {
-                                    alert("User did not get deleted properly :(")
-                                    setRefresh(!refresh);
-                                    window.location.assign("/users")
-                                    }
-                                }
-                                }
-                            } catch (error) {
-                                console.error('Error fetching the email of this user:', error);
-                            } finally {
-                                //idk
-                            }
-                            }}>Delete</Button>
-                            {/* <Button className='py-2 px-3 bg-red-400 hover:bg-red-300 text-white-900 hover:text-white-800 rounded'>Delete</Button> */}
-                        </td>
-                        </tr>
-                        
-                    </tbody>
-                    ))}
-                </table></div>
-
-                
-
-                </>
+                                    }}>Delete</Button>
+                                    {/* <Button className='py-2 px-3 bg-red-400 hover:bg-red-300 text-white-900 hover:text-white-800 rounded'>Delete</Button> */}
+                                </td>
+                                </tr>
+                                
+                            </tbody>
+                            ))}
+                        </table>
+                    </div>
+                </div>
+            </>
             );
             } catch (error) {
             console.error('Error handling click:', error);

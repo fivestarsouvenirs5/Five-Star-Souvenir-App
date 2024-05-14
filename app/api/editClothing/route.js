@@ -28,6 +28,7 @@ export async function POST(request) {
         const oldProductCatgID = parseInt(newProductDetails.get("oldProductCatgID"));
         const oldProductID = parseInt(newProductDetails.get("oldProductID"));
         const catg = await fetchCategory(oldProductCatgID)
+        const oldImage = newProductDetails.get("image");
 
         // Extract file data from the request body
         const fileData = newProductDetails.get("file");
@@ -48,7 +49,7 @@ export async function POST(request) {
             image = blob.url;
         }
         else {
-            image = null;
+            image = oldImage;
         }
         
 

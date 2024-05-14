@@ -40,6 +40,7 @@ export default function EditProductButton({product, admin}) {
         formData.append("oldProductID", product.product_id);
         formData.append("oldProductCatgID", product.category_id);
         formData.append("oldProductSubCatgID", product.subcategory_id);
+        formData.append("image", product.image_id);
     
         const response = await fetch('/api/editProduct', {
             method: 'POST',

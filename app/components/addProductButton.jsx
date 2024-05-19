@@ -5,7 +5,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { formatCurrencyString } from 'use-shopping-cart';
 
 
-export default function AddProductButton({ category, subcategory, admin,}) {
+export default function AddProductButton({ category, subcategory, admin}) {
     const { user } = useUser();
     const [openProductModal, setOpenProductModal] = useState(false);
     const [openClothesModal, setOpenClothesModal] = useState(false);
@@ -14,6 +14,7 @@ export default function AddProductButton({ category, subcategory, admin,}) {
     const [cellValid, setCellValid] = useState(true);
     const [productID, setProductID] = useState(null);
     const [sizes, setSizes] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     if (user && admin) {
         const handleFileChange = (event) => {
@@ -63,6 +64,13 @@ export default function AddProductButton({ category, subcategory, admin,}) {
             const productPrice = parseFloat(document.getElementById('newProductPrice').value);
             const productStock = document.getElementById('newProductStock').value;
             const productCell = document.getElementById('newProductCell').value;
+            const isFeatured = document.getElementById("featured?").checked
+
+            let featured = 0;
+
+            if (isFeatured) {
+                featured = 1
+            }
             var sID;
             var sName;
             if (subcategory !== null){
@@ -84,6 +92,7 @@ export default function AddProductButton({ category, subcategory, admin,}) {
                 formData.append("productCatgName", category.category)
                 formData.append("productSubCatgID", sID)
                 formData.append("productSubCatgName", sName)
+                formData.append("featured", featured)
 
                 if (isClothing === "true") {
                     formData.append("clothingSize", 1)
@@ -99,7 +108,7 @@ export default function AddProductButton({ category, subcategory, admin,}) {
                 body: formData
             });
              var responseData = await response.json();
-            return responseData.product_id;
+             return responseData.product_id;
         }
 
         const addSize = async () => {
@@ -159,6 +168,11 @@ export default function AddProductButton({ category, subcategory, admin,}) {
                                 <br></br>
                                 <br></br>
 
+                                <label className='font-bold'>Is this a featured product? </label>
+                                <input type="checkbox" id="featured?"></input>
+                                <br></br>
+                                <br></br>
+
                                 <label className='font-bold'>What is the cell in the order form that corresponds to this item? </label>
                                 <input
                                     type="text"
@@ -182,14 +196,16 @@ export default function AddProductButton({ category, subcategory, admin,}) {
                                     setOpenClothesModal(true);
                                 }
                                 else {
-                                    addProduct("false");
+                                    setLoading(true)
+                                    await addProduct("false");
                                     setOpenProductModal(false);
-                                    window.location.reload();
+                                    setLoading(false)
+                                     window.location.reload();
                                 } 
                               
                             }}
                         >
-                            Add
+                            {loading ? "Processing..." : "Add"}
                         </Button>
                     </Modal.Footer>
                 </Modal>
@@ -207,7 +223,7 @@ export default function AddProductButton({ category, subcategory, admin,}) {
                         <Button
                             onClick={() => {
                                setOpenClothesModal(false);
-                               window.location.reload;
+                               window.location.reload();
                             }}
                             disabled={sizes.length === 0}
                         >
@@ -242,13 +258,15 @@ export default function AddProductButton({ category, subcategory, admin,}) {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
-                            onClick={() => {
-                                addSize();
+                            onClick={async () => {
+                                setLoading(true)
+                                await addSize();
                                setOpenSizesModal(false);
+                               setLoading(false)
                                setOpenClothesModal(true);
                             }}
                         >
-                            Add
+                            {loading ? "Processing..." : "Add"}
                         </Button>
                     </Modal.Footer>
                 </Modal>

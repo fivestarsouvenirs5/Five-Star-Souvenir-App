@@ -123,7 +123,7 @@ export default function OrderButton({storeList}) {
         <Modal.Footer>
           <Button onClick={() => {
             setOpenModal(false);
-            window.location.assign("/products/new-york")
+            
           }}>Continue Shopping</Button>
         </Modal.Footer>
       </Modal>

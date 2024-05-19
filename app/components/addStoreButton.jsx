@@ -45,11 +45,12 @@ export default function AddStoreButton({ id1 }) {
 
     const handleStreetChange = (event) => {
         const value = event.target.value;
-        // only letters
-        if (/^[a-zA-Z ]*$/.test(value)) {
+        // letters, numbers, dashes, apostrophes, and spaces
+        if (/^[a-zA-Z0-9\-\'\s]*$/.test(value)) {
             setNewStoreStreet(value);
         }
     };
+    
 
     const handleCityChange = (event) => {
         const value = event.target.value;
@@ -85,6 +86,8 @@ export default function AddStoreButton({ id1 }) {
             newStoreState.trim() !== '' &&
             newStoreZip.trim() !== '';
     };
+
+    const [loading, setLoading] = useState(false);
 
     if (user) {
         return (
@@ -127,13 +130,15 @@ export default function AddStoreButton({ id1 }) {
                         </table>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={() => {
-                            addStore({ id1, newName: newStoreName, newStreet: newStoreStreet, newCity: newStoreCity, newState: newStoreState, newZip: newStoreZip });
+                        <Button onClick={async () => {
+                            setLoading(true);
+                            await addStore({ id1, newName: newStoreName, newStreet: newStoreStreet, newCity: newStoreCity, newState: newStoreState, newZip: newStoreZip });
                             setOpenModal(false);
+                            setLoading(false);
                             window.location.reload();
                         }}
                         disabled={!isFormValid()}
-                        >Add</Button>
+                        >{loading ? 'Processing...' : 'Add'}</Button>
                     </Modal.Footer>
                 </Modal>
             </div>

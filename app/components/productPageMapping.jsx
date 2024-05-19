@@ -19,6 +19,7 @@ import EditClothingButton from './editClothingButton';
 const DeleteButton= ({item, type, admin}) => {
   const { user} = useUser();
   const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
 
   var name;
@@ -33,6 +34,7 @@ const DeleteButton= ({item, type, admin}) => {
   }
   if (user && admin) {
     async function handleClick() {
+      setLoading(true)
       const response = await fetch('/api/delete', {
         method: 'DELETE',
         headers: {
@@ -51,6 +53,7 @@ const DeleteButton= ({item, type, admin}) => {
         } else {
             console.log('Item Deleted Successfully');
             setOpenModal(false)
+            setLoading(false)
             window.location.reload()
         }
       }
@@ -65,7 +68,7 @@ const DeleteButton= ({item, type, admin}) => {
                     <h3>Are you sure you want to delete {type} {name}?</h3>
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button onClick={handleClick}>Yes</Button>
+                  <Button onClick={handleClick}>{loading ? "Processing..." : "Yes"}</Button>
                   <Button onClick={ () => {setOpenModal(false)}}>No</Button>
                 </Modal.Footer>
               </Modal>
@@ -84,6 +87,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
  // const { user} = useUser();
   const cart = useShoppingCart();
   const { addItem, formattedTotalPrice } = cart;
+  const [myProducts, setMyProducts] = useState(products);
   // const admin = getAppMetadata(user.email)
   // console.log(admin)
 
@@ -207,7 +211,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                     
                   </div>
               ))}
-            <AddProductButton category={category} subcategory={null} admin={isAdmin} />
+            <AddProductButton category={category} subcategory={null} admin={isAdmin} setProducts={setMyProducts} />
             <AddSubCategoryButton category= {category} admin={isAdmin}/>
           </div>
           <Cart approved={isApproved} storeList={stores}/> 
@@ -234,7 +238,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                     </div>
                     </div>
                 ))}
-            <AddProductButton category={category} subcategory={subcategory} admin={isAdmin} />
+            <AddProductButton category={category} subcategory={subcategory} admin={isAdmin} setProducts={setMyProducts}/>
             <AddSubCategoryButton category= {category} admin={isAdmin}/>
           </div>
           <Cart approved={isApproved} storeList={stores}/> 
@@ -246,3 +250,4 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
 }
 
 export default ProductPageMapping
+

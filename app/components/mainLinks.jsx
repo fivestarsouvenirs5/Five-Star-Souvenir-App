@@ -1,4 +1,6 @@
 import { getSession } from '@auth0/nextjs-auth0';
+import Link from "next/link";
+
 async function getAppMetadata(email) {
     var axios = require("axios").default;
     try {
@@ -57,20 +59,20 @@ export default async function MainLinks() {
             return (
                 <nav>
                     <div className="hidden md:block flex items-center space-x-1">
-                        <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
-                        <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
-                        <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
-                        <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
-                        <a href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</a>
-                        <a href="/users" className="py-5 px-3 text-gray-700 hover:text-gray-900">Users</a> 
+                        <Link href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</Link>
+                        <Link href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</Link>
+                        <Link href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
+                        <Link href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
+                        <Link href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
+                        <Link href="/users" className="py-5 px-3 text-gray-700 hover:text-gray-900">Users</Link> 
                     </div>
                     <div className="md:hidden">
-                        <a href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</a>
-                        <a href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</a>
-                        <a href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</a>
-                        <a href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</a>
-                        <a href="/profile" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Profile</a>
-                        <a href="/users" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Users</a>
+                        <Link href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</Link>
+                        <Link href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</Link>
+                        <Link href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
+                        <Link href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
+                        <Link href="/profile" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
+                        <Link href="/users" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Users</Link>
                     </div>
                 </nav>
             )
@@ -79,18 +81,18 @@ export default async function MainLinks() {
             return (
                 <nav>
                     <div className="hidden md:block flex items-center space-x-1">
-                        <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
-                        <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
-                        <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
-                        <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
-                        <a href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</a>
+                        <Link href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</Link>
+                        <Link href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</Link>
+                        <Link href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
+                        <Link href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
+                        <Link href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
                     </div>
                     <div className="md:hidden">
-                        <a href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</a>
-                        <a href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</a>
-                        <a href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</a>
-                        <a href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</a>
-                        <a href="/profile" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Profile</a>
+                        <Link href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</Link>
+                        <Link href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</Link>
+                        <Link href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
+                        <Link href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
+                        <Link href="/profile" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
                     </div>
                 </nav>
                 
@@ -100,16 +102,16 @@ export default async function MainLinks() {
             return (
                 <nav>
                     <div className="hidden md:block flex items-center space-x-1">
-                        <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
-                        <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
-                        <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
-                        <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+                        <Link href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</Link>
+                        <Link href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</Link>
+                        <Link href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
+                        <Link href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
                     </div>
                     <div className="md:hidden">
-                        <a href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</a>
-                        <a href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</a>
-                        <a href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</a>
-                        <a href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+                        <Link href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</Link>
+                        <Link href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</Link>
+                        <Link href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
+                        <Link href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
                     </div>
                 </nav>
     
@@ -121,16 +123,16 @@ export default async function MainLinks() {
         return (
             <nav>
                 <div className="hidden md:block flex items-center space-x-1">
-                    <a href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</a>
-                    <a href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</a>
-                    <a href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</a>
-                    <a href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+                    <Link href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</Link>
+                    <Link href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</Link>
+                    <Link href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
+                    <Link href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
                 </div>
                 <div className="md:hidden">
-                    <a href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</a>
-                    <a href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</a>
-                    <a href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</a>
-                    <a href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</a>
+                    <Link href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</Link>
+                    <Link href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</Link>
+                    <Link href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
+                    <Link href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
                 </div>
             </nav>
             

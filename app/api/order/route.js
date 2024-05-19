@@ -24,14 +24,14 @@ const fetchStore = async (id) => {
 
 export async function POST(request) {
   try {
-    const session = await getSession();
+    // const session = await getSession();
     const req = await request.json();
     const cartDetails = req.cart;
     const storeName = req.selectedStore; 
-    console.log(storeName)
+    // console.log(storeName)
     const store = await fetchStore(storeName); 
-    console.log("mystore")
-    console.log(store);
+    // console.log("mystore")
+    // console.log(store);
     let nyWorkbook = new ExcelJS.Workbook();
     let njWorkbook = new ExcelJS.Workbook();
     
@@ -121,7 +121,7 @@ export async function POST(request) {
       await nyWorkbook.xlsx.writeFile(outputPath);
     } else {
       njWorksheet.getCell('V3').value = `Date: ${month}-${day}-${year}`
-      njWorksheet.getCell('D3').value = `Name: ${store.storeName}`
+      njWorksheet.getCell('D3').value = `Name: ${store.store_name}`
       //address
       njWorksheet.getCell('D5').value = `Address: ${store.store_street} ${store.store_city}, ${store.store_state} ${store.store_zip}`
       outputPath = path.join(os.tmpdir(), 'current_order_nj.xlsx');

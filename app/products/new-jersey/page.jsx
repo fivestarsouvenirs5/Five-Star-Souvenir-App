@@ -3,6 +3,7 @@ import prisma from '../../utils/prisma'
 import ProductPageMapping from '../../components/productPageMapping'
 import { getSession } from '@auth0/nextjs-auth0';
 
+
 const fetchCategories = async () => {
     let categories = await prisma.category.findUnique({
         where: {category_id: 36}
@@ -80,7 +81,15 @@ const fetchProducts = async () => {
   }
   
   
-  
+  const fetchClothing = async (id) => {
+    const clothes = await prisma.clothing_product_size.findMany({
+      where: {category_id: id},
+      // NEED TO CHANGE OBV i think itd be best to add a column to the clothing_product_size table that gives the products cateogry id so that
+      // here we can just say where: {category_id: id} so it can find it better
+      // but idk if adding a column to the table will mess up the database stuff so i shall just leave this for now
+    })
+    return clothes
+  }
 
 export default async function NJProductsPage() {
     // const id = Number(
@@ -91,6 +100,7 @@ export default async function NJProductsPage() {
     // console.log(id)
 
     const products = await fetchProducts();
+    const clothing = await fetchClothing(36);
     // console.log(products);
 
     const category = await fetchCategories();
@@ -121,7 +131,7 @@ export default async function NJProductsPage() {
                 </div>
             </div>
 
-            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={false} category={category} subcategory={null} subMainCategory={null} isAdmin={adminMetadata} isApproved={approvalStatus} stores={stores}/>
+            <ProductPageMapping products={products} categoryList={null} subcategoryList={null} isNY={false} category={category} subcategory={null} subMainCategory={null} isAdmin={adminMetadata} isApproved={approvalStatus} stores={stores} clothingList={clothing}/>
 
        </div>
     </main>

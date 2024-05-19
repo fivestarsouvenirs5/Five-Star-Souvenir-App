@@ -29,6 +29,7 @@ export async function POST(request) {
         const oldProductID = parseInt(newProductDetails.get("oldProductID"));
         const catg = await fetchCategory(oldProductCatgID)
         const oldImage = newProductDetails.get("image");
+        const featured = parseInt(newProductDetails.get("featured"));
 
         // Extract file data from the request body
         const fileData = newProductDetails.get("file");
@@ -49,7 +50,13 @@ export async function POST(request) {
             image = blob.url;
         }
         else {
-            image = oldImage;
+            if (oldImage === "null") {
+                image = null;
+            }
+            else {
+                image = oldImage;
+            }
+            
         }
         
 
@@ -58,6 +65,7 @@ export async function POST(request) {
             data: {
                 product_name: sanitizedName,
                 in_stock: sanitizedStock,
+                featured_product: featured,
                 image_id: image
             },
         });

@@ -62,6 +62,7 @@ export async function POST(request) {
         const sanitizedCatgName = escape(newProductDetails.get("productCatgName"));
         const sanitizedSubCatgName = escape(newProductDetails.get("productSubCatgName"));
         const sanitizedStock = escape(newProductDetails.get("stock"))
+        const featured = parseInt(newProductDetails.get("featured"));
 
         // Extract file data from the request body
         const fileData = newProductDetails.get("file");
@@ -87,9 +88,11 @@ export async function POST(request) {
                 subcategory_id: parseInt(newProductDetails.get("productSubCatgID")),
                 order_form_cell: newProductDetails.get("cell"),
                 clothing_size_id: parseInt(newProductDetails.get("clothingSize")),
+                featured_product: featured,
                 image_id: blob.url
             },
         });
+        
 
 
         return new Response(JSON.stringify({ product_id: product.product_id }), {

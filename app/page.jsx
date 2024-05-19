@@ -3,6 +3,7 @@
 import prisma from './utils/prisma'
 import React from 'react'
 import Image from "next/image";
+import Link from "next/link"
 
 const fetchFeaturedProducts = async () => {
   try {
@@ -68,10 +69,32 @@ const ImgSrc = async ({ product }) => {
   }
 }
 
+
 const Categ = async ({product}) => {
   const cat = await fetchCategories(product.category_id);
   return (
     <div>{cat.category}</div>
+  )
+}
+
+const Display = ({product}) => {
+  var link;
+  if (product.category_id === 36) {
+    link = "/products/new-jersey"
+  }
+  else if (product.subcategory_id !== null) {
+    link = `/products/new-york/sub/${product.subcategory_id}`
+  }
+  else {
+    link = `/products/new-york/${product.category_id}`
+  }
+
+  return(
+    <Link href={link}>
+      <ImgSrc product={product} />
+      <Categ product={product}/>
+      <label className="flex justify items-center">{product.product_name}</label>
+    </Link>
   )
 }
 
@@ -99,13 +122,13 @@ export default async function Home() {
         <hr className="my-2 border-black"/>
           
         <span className="mt-2 block">
-          Read more in the <a href="/about-us" className="text-red-500 hover:underline">About Us page</a>!
+          Read more in the <Link href="/about-us" className="text-red-500 hover:underline">About Us page</Link>!
         </span>
         
       </div>
 
       {/* products page*/}
-      <div className="mb-4 text-xl">View our products in <a href="/products/new-york" className="text-red-500 hover:underline">our Products Page</a>!
+      <div className="mb-4 text-xl">View our products in <Link href="/products/new-york" className="text-red-500 hover:underline">our Products Page</Link>!
       </div>
 
 
@@ -116,9 +139,8 @@ export default async function Home() {
           {featuredProductsList.map((featproduct) => (
             <div className="h-1/2" key={featproduct.product_id} >
               <div className="border-2 bg-red-100 flex flex-col items-center">
-                <ImgSrc product={featproduct} />
-                <label className="flex justify items-center">{featproduct.product_name}</label>
-                <Categ product={featproduct}/>
+                <Display product={featproduct} />
+                
               </div>
             </div>
           ))}
@@ -127,7 +149,7 @@ export default async function Home() {
 
       {/* Contact us page*/}
       <div className="text-xl">
-        If you are interested in any of our products, please contact Five Star Souvenirs through the <a href="/contact" className="text-red-500 hover:underline">Contact Page</a>  to discuss more details!
+        If you are interested in any of our products, please contact Five Star Souvenirs through the <Link href="/contact" className="text-red-500 hover:underline">Contact Page</Link>  to discuss more details!
       </div>
 
     </main>

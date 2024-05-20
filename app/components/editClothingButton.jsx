@@ -124,13 +124,9 @@ export default function EditClothingButton({ product, admin }) {
         }
     };
 
-    useEffect(() => {
-        fetchSizesData();
-    }, []);
-
     const SizeTable = () => {
         return (
-            <div>
+            <div className="">
                 <table className="w-full table-auto border-separate border-spacing-5 border border-slate-400 mt-5 mb-5">
                     <thead className="border-b-2 border-gray-200">
                         <tr>
@@ -189,6 +185,10 @@ export default function EditClothingButton({ product, admin }) {
             const file = event.target.files[0];
             setSelectedFile(file);
         };
+
+        useEffect(() => {
+            fetchSizesData();
+        }, []);
 
         return (
             <div>

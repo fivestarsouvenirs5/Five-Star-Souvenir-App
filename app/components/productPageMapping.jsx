@@ -91,6 +91,23 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
   // const admin = getAppMetadata(user.email)
   // console.log(admin)
 
+  const EditButton = ({product, admin, clothingList}) => {
+    const filteredClothes = clothingList.filter(item => item.clothing_product_id === product.product_id);
+    console.log(filteredClothes);
+    // const filteredSizes = filteredClothes.map(item => item.size);
+    // // console.log("sizes" + filteredSizes)
+    if (product.clothing_size_id == 1) {
+        return (
+        <EditClothingButton product={product} admin={admin} sizes={filteredClothes}/>
+      )
+    }
+    else {
+      return (
+        <EditProductButton product={product} admin={admin} />
+      )
+    }
+  }
+
   const Cloth = ({ product, category, subcategory, addItem, clothingList }) => {
     if (product.clothing_size_id == 1) {
       if (subcategory == null) {
@@ -205,8 +222,9 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                         {/* <ProductDisplay product = {product} category = {category} subcategory={null} addItem={addItem}/> */}
                       </div>
                       <DeleteButton item={product} type={"Product"} admin={isAdmin} />
-                      <EditProductButton product={product} admin={isAdmin}/>
-                      <EditClothingButton product={product} admin={isAdmin}/>
+                      <EditButton product={product} admin={isAdmin} clothingList={clothingList}/>
+                      {/* <EditProductButton product={product} admin={isAdmin}/>
+                      <EditClothingButton product={product} admin={isAdmin}/> */}
                     </div>
                     
                   </div>
@@ -233,8 +251,9 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                         {/* <ProductDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem}/> */}
                       </div>
                       <DeleteButton item ={product} type={"Product"} admin={isAdmin} />
-                      <EditProductButton product={product} admin={isAdmin} />
-                      <EditClothingButton product={product} admin={isAdmin} />
+                      <EditButton product={product} admin={isAdmin} clothingList={clothingList}/>
+                      {/* <EditProductButton product={product} admin={isAdmin} />
+                      <EditClothingButton product={product} admin={isAdmin} /> */}
                     </div>
                     </div>
                 ))}

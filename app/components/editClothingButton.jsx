@@ -5,124 +5,130 @@ import { Button, Modal } from 'flowbite-react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { formatCurrencyString } from 'use-shopping-cart';
 
-const EditSizeButton = ({ size, setOpenModal, updateSizes }) => {
-    const [openSizesModal, setOpenSizesModal] = useState(false);
-    const [cellValid, setCellValid] = useState(true);
-    const [loading, setLoading] = useState(false);
 
-    const isValidCell = (cell) => {
-        const cellRegex = /^[A-Z]+\d*$/; // Any number of capital letters followed by any number of digits
-        return cellRegex.test(cell);
-    };
 
-    const handleCellChange = (event) => {
-        const cellValue = event.target.value;
-        // Convert the input value to uppercase
-        event.target.value = cellValue.toUpperCase();
-        // Check cell validity and update state
-        setCellValid(isValidCell(cellValue));
-    };
-
-    async function editSize() {
-        var clotheSize = document.getElementById('newClotheSize').value;
-        var clothePrice = document.getElementById('newClothePrice').value;
-        var clotheCell= document.getElementById('newClotheCell').value;
-
-        if (clotheSize === "") {
-            clotheSize = size.size;
-        }
-        if (clothePrice === "") {
-            clothePrice = size.price;
-        }
-        if (clotheCell === "") {
-            clotheCell = size.clothing_order_form_cell;
-        }
-
-        var formData = new FormData();
-        formData.append("size", clotheSize);
-        formData.append("price", clothePrice);
-        formData.append("cell", clotheCell);
-        formData.append("oldSizeID", size.size_id);
-
-        const response = await fetch('/api/editSize', {
-            method: 'POST',
-            body: formData,
-        });
-        if (!response.ok) {
-            console.log("Problem editing Size");
-        }
-    }
-
-    return (
-        <div>
-            <button onClick={() => setOpenSizesModal(true)}>✏️</button>
-            <Modal show={openSizesModal} onClose={() => setOpenSizesModal(false)}>
-                <Modal.Header>Edit Size Entry.</Modal.Header>
-                <Modal.Body>
-                    <div>
-                        <label className='font-bold'>Size: </label>
-                        <input type="text" id="newClotheSize" placeholder={size.size}></input>
-                        <br></br>
-                        <br></br>
-
-                        <label className='font-bold'>Price (¢): </label>
-                        <input type="number" id="newClothePrice" placeholder={size.price}></input>
-                        <br></br>
-                        <br></br>
-
-                        <label className='font-bold'>Cell: </label>
-                        <input
-                            type="text"
-                            id="newClotheCell"
-                            placeholder={size.clothing_order_form_cell}
-                            onChange={handleCellChange}
-                        />
-                        {!cellValid && <span style={{ color: 'red' }}>Invalid cell format. Please enter capital letters followed by digits.</span>}
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button
-                        onClick={async () => {
-                            setLoading(true);
-                            await editSize();
-                            setOpenSizesModal(false);
-                            updateSizes();
-                            setOpenModal(true);
-                            setLoading(false);
-                        }}
-                    >
-                        {loading ? "Processing..." : "Confirm"}
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </div>
-    );
-};
-
-export default function EditClothingButton({ product, admin }) {
+export default function EditClothingButton({ product, admin, sizes }) {
     const { user } = useUser();
     const [openModal, setOpenModal] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
-    const [sizes, setSizes] = useState([]);
+    const [mySizes, setMySizes] = useState(sizes);
     const [isFeatured, setIsFeatured] = useState(product.featured_product === 1);
     const [loading, setLoading] = useState(false);
 
-    const fetchSizesData = async () => {
-        try {
-            const response = await fetch(`/api/getSizes`, {
-                method: 'POST',
-                body: JSON.stringify({ productID: product.product_id }),
-            });
-            if (response.ok) {
-                const sizesData = await response.json();
-                setSizes(sizesData);
-            } else {
-                console.error('Failed to fetch sizes');
+    const EditSizeButton = ({ size, updateSizes }) => {
+        const [openSizesModal, setOpenSizesModal] = useState(false);
+        const [cellValid, setCellValid] = useState(true);
+        const [loading, setLoading] = useState(false);
+    
+        const isValidCell = (cell) => {
+            const cellRegex = /^[A-Z]+\d*$/; // Any number of capital letters followed by any number of digits
+            return cellRegex.test(cell);
+        };
+    
+        const handleCellChange = (event) => {
+            const cellValue = event.target.value;
+            // Convert the input value to uppercase
+            event.target.value = cellValue.toUpperCase();
+            // Check cell validity and update state
+            setCellValid(isValidCell(cellValue));
+        };
+    
+        async function editSize() {
+            var clotheSize = document.getElementById('newClotheSize').value;
+            var clothePrice = document.getElementById('newClothePrice').value;
+            var clotheCell= document.getElementById('newClotheCell').value;
+    
+            if (clotheSize === "") {
+                clotheSize = size.size;
             }
-        } catch (error) {
-            console.error('Error fetching sizes:', error);
+            if (clothePrice === "") {
+                clothePrice = size.price;
+            }
+            if (clotheCell === "") {
+                clotheCell = size.clothing_order_form_cell;
+            }
+    
+            var formData = new FormData();
+            formData.append("size", clotheSize);
+            formData.append("price", clothePrice);
+            formData.append("cell", clotheCell);
+            formData.append("oldSizeID", size.size_id);
+            formData.append("productID", size.clothing_product_id)
+    
+            const response = await fetch('/api/editSize', {
+                method: 'POST',
+                body: formData,
+            });
+            if (!response.ok) {
+                console.log("Problem editing Size");
+            }
+            var responseData = await response.json();
+            updateSizes(responseData.newSizes);
+    
         }
+    
+        return (
+            <div>
+                <button onClick={() => { setOpenSizesModal(true);}}>✏️</button>
+                <Modal show={openSizesModal} onClose={() => setOpenSizesModal(false)}>
+                    <Modal.Header>Edit Size Entry.</Modal.Header>
+                    <Modal.Body>
+                        <div>
+                            <label className='font-bold'>Size: </label>
+                            <input type="text" id="newClotheSize" placeholder={size.size}></input>
+                            <br></br>
+                            <br></br>
+    
+                            <label className='font-bold'>Price (¢): </label>
+                            <input type="number" id="newClothePrice" placeholder={size.price}></input>
+                            <br></br>
+                            <br></br>
+    
+                            <label className='font-bold'>Cell: </label>
+                            <input
+                                type="text"
+                                id="newClotheCell"
+                                placeholder={size.clothing_order_form_cell}
+                                onChange={handleCellChange}
+                            />
+                            {!cellValid && <span style={{ color: 'red' }}>Invalid cell format. Please enter capital letters followed by digits.</span>}
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button
+                            onClick={async () => {
+                                setLoading(true);
+                                await editSize();
+                                setOpenSizesModal(false);
+                                // updateSizes();
+                                setOpenModal(true);
+                                setLoading(false);
+                            }}
+                        >
+                            {loading ? "Processing..." : "Confirm"}
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        );
     };
+
+    // const fetchSizesData = async () => {
+    //     try {
+    //         const response = await fetch(`/api/getSizes`, {
+    //             method: 'POST',
+    //             body: JSON.stringify({ productID: product.product_id }),
+    //         });
+    //         if (response.ok) {
+    //             const sizesData = await response.json();
+    //             setSizes(sizesData);
+    //         } else {
+    //             console.error('Failed to fetch sizes');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error fetching sizes:', error);
+    //     }
+    // };
 
     const SizeTable = () => {
         return (
@@ -136,12 +142,12 @@ export default function EditClothingButton({ product, admin }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {sizes.map((size) => (
+                        {mySizes.map((size) => (
                             <tr key={size.size_id}>
                                 <td>{size.size}</td>
                                 <td>{formatCurrencyString({ value: size.price, currency: 'USD' })}</td>
                                 <td>{size.clothing_order_form_cell}</td>
-                                <td><EditSizeButton size={size} setOpenModal={setOpenModal} updateSizes={fetchSizesData} /></td>
+                                <td><EditSizeButton size={size} setOpenModal={setOpenModal} updateSizes={setMySizes} /></td>
                             </tr>
                         ))}
                     </tbody>
@@ -186,16 +192,16 @@ export default function EditClothingButton({ product, admin }) {
             setSelectedFile(file);
         };
 
-        useEffect(() => {
-            fetchSizesData();
-        }, []);
+        // useEffect(() => {
+        //     fetchSizesData();
+        // }, []);
 
         return (
             <div>
                 <button className="bg-blue-500 text-white px-2 py-1 rounded-md mb-4" onClick={() => setOpenModal(true)}>
                     Edit
                 </button>
-                <Modal show={openModal} onClose={() => setOpenModal(false)}>
+                <Modal size='6xl' show={openModal} onClose={() => setOpenModal(false)}>
                     <Modal.Header>Product {product.product_name}</Modal.Header>
                     <Modal.Body>
                         <div className="flex justify-between">
@@ -204,7 +210,7 @@ export default function EditClothingButton({ product, admin }) {
                                 <input type="file" onChange={handleFileChange} accept="image/*"></input>
                                 <br></br>
                                 <br></br>
-                                <SizeTable />
+                                <SizeTable className="m-10 mt-20"/>
                             </div>
                             <div>
                                 <div className='ml-[-80px]'>

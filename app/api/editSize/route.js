@@ -27,6 +27,7 @@ export async function POST(request) {
         const newSize = newSizeDetails.get("size");
         const newCell = newSizeDetails.get("cell");
         const oldSizeID = parseInt(newSizeDetails.get("oldSizeID"));
+        const productID = parseInt(newSizeDetails.get("productID"))
         // const oldProductSizeID = parseInt(newSizeDetails.get("oldProductSizeID"));
         // const oldSizeCatgID = parseInt(newSizeDetails.get("oldSizeCatgID"));
         
@@ -40,8 +41,14 @@ export async function POST(request) {
             },
         });
 
+        const newSizes = await prisma.clothing_product_size.findMany({
+            where: {
+                clothing_product_id: productID
+            }
+        })
 
-        return new Response("success", {
+
+        return new Response(JSON.stringify({ newSizes: newSizes}), {
             status: 200,
         });
     } catch (error) {

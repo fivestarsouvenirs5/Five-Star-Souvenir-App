@@ -129,12 +129,12 @@ const UsersPage = () => {
                                         }
                                         else {
                                             if (myResponse.userMetadataUpdated == "userapproved") {
-                                            alert("User approved!");
+                                    
                                             setRefresh(!refresh);
                                             window.location.assign("/users");
                                             }
                                             else if (myResponse.userMetadataNotUpdated == "userstillunapproved") {
-                                            alert("User still unapproved :(")
+                               
                                             setRefresh(!refresh);
                                             window.location.assign("/users")
                                             }
@@ -178,7 +178,6 @@ const UsersPage = () => {
                                         }
                                         else {
                                             if (myResponse.userDeleted == "userdeleted") {
-                                            alert("User deleted!");
                                             setRefresh(!refresh);
                                             window.location.assign("/users");
                                             }
@@ -250,7 +249,7 @@ const UsersPage = () => {
                                         }
                                         else {
                                             if (myResponse.userDeleted == "userdeleted") {
-                                            alert("User deleted!");
+                                  
                                             setRefresh(!refresh);
                                             window.location.assign("/users");
                                             }

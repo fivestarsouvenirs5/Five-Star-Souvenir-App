@@ -34,39 +34,47 @@ const fetchCategories = async (id) => {
 
 const ImgSrc = async ({ product }) => {
   const cat = await fetchCategories(product.category_id);
-  if (product.subcategory_id === null) {
-    if (cat.category_location == 0) {
-      return (
-        <Image className="w-60"
-              src={`/images/CATEGORIES/NJ/${encodeURIComponent(product.product_name)}.jpg`} 
-              alt="My Image3"
-              width={300}
-              height={400}
-              />
-      )
-    }
-    else { // no subcategory, location is NY
-      return (
-      <Image className="w-60"
-              src={`/images/CATEGORIES/${encodeURIComponent(cat.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
-              alt="My Image1"
-              width={300}
-              height={400}
-              />
-      )
-    }
-  }
-  else { // subcategory_id is not null
-    const subcat = await fetchSubcategories(product.subcategory_id);
+  if (product.image_id) {
     return (
-      <Image className="w-60"
-              src={`/images/CATEGORIES/${encodeURIComponent(cat.category)}/${encodeURIComponent(subcat[0].subcategory_name)}/${encodeURIComponent(product.product_name)}.jpg`} 
-              alt="My Image2"
-              width={300}
-              height={400}
-              />
+      <Image className="w-60" src={product.image_id} alt="Product Image" width={300} height={400} />
     )
   }
+  else {
+    if (product.subcategory_id === null) {
+      if (cat.category_location == 0) {
+        return (
+          <Image className="w-60"
+                src={`/images/CATEGORIES/NJ/${encodeURIComponent(product.product_name)}.jpg`} 
+                alt="My Image3"
+                width={300}
+                height={400}
+                />
+        )
+      }
+      else { // no subcategory, location is NY
+        return (
+        <Image className="w-60"
+                src={`/images/CATEGORIES/${encodeURIComponent(cat.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
+                alt="My Image1"
+                width={300}
+                height={400}
+                />
+        )
+      }
+    }
+    else { // subcategory_id is not null
+      const subcat = await fetchSubcategories(product.subcategory_id);
+      return (
+        <Image className="w-60"
+                src={`/images/CATEGORIES/${encodeURIComponent(cat.category)}/${encodeURIComponent(subcat[0].subcategory_name)}/${encodeURIComponent(product.product_name)}.jpg`} 
+                alt="My Image2"
+                width={300}
+                height={400}
+                />
+      )
+    }
+  }
+  
 }
 
 

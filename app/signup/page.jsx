@@ -284,7 +284,7 @@ function SignupForm() {
                     <ul className="list-disc">
                         <li>First name, last name, and store name may only include letters and apostrophes</li>
                         <li>Telephone number may not include dashes, and must be 10 numbers long</li>
-                        <li>If you don't select a state in the dropdown, it will default to New Jersey</li>
+                        <li>If you don&apos;t select a state in the dropdown, it will default to New Jersey</li>
                     </ul>
                 </div>
                       

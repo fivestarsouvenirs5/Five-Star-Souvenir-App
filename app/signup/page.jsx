@@ -227,19 +227,42 @@ function SignupForm() {
                 user_email: email,
                 user_password: password,
                 phone_number: phoneNumber,
-                // store_name: storeName,
-                // store_address: storeAddress,
-                // store_city: storeCity,
-                // store_state: storeState,
-                // store_zipcode: storeZipCode,
+                store_name: storeName,
+                store_address: storeAddress,
+                store_city: storeCity,
+                store_state: storeState,
+                store_zipcode: storeZipCode,
                 admin_approval: 'false',
             }),
         });
+        
+    
 
         if (!response.ok) {
             alert(response.error);
         } else {
             alert('Successful signup! Please wait 1-3 business days to be approved by admin.');
+            const user = await response.json();
+            async function addStore({ id1, newName, newStreet, newCity, newState, newZip }) {
+                const response = await fetch('/api/addStore', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ newId: id1, newName: newName, 
+                                                        newStreet: newStreet, 
+                                                        newCity: newCity, 
+                                                        newState: newState, 
+                                                        newZip: newZip })
+                });
+            
+                if (!response.ok) {
+                    console.log("Problem adding store");
+                }
+            }
+
+            await addStore({ id1: user.user_id, newName: storeName, newStreet: storeAddress, newCity: storeCity, newState: storeState, newZip: storeZipCode });
+    
             window.location.assign('/');
         }
     };

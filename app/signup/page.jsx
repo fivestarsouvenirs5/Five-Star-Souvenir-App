@@ -178,12 +178,12 @@ function SignupForm() {
 
     const signupAfterSubmit = async () => {
         // Validation checks
-        if (!validations.firstNameValid || !validations.lastNameValid || !validateEmail(email)
-            || !validatePhoneNumber(phoneNumber) || !validations.passwordValid || !validations.storeNameValid ||
-        !validations.storeAddressValid || !validations.storeCityValid || !validations.storeStateValid || !validations.storeZipCodeValid) {
-            alert('All fields must be completed.');
-            return;
-        }
+        // if (!validations.firstNameValid || !validations.lastNameValid || !validateEmail(email)
+        //     || !validatePhoneNumber(phoneNumber) || !validations.passwordValid || !validations.storeNameValid ||
+        // !validations.storeAddressValid || !validations.storeCityValid || !validations.storeStateValid || !validations.storeZipCodeValid) {
+        //     alert('All fields must be completed.');
+        //     return;
+        // }
         if (!validations.firstNameValid || !validations.lastNameValid) {
             alert('First name and last name should only contain letters and hyphens.');
             return;
@@ -242,26 +242,26 @@ function SignupForm() {
             alert(response.error);
         } else {
             alert('Successful signup! Please wait 1-3 business days to be approved by admin.');
-            const user = await response.json();
-            async function addStore({ id1, newName, newStreet, newCity, newState, newZip }) {
-                const response = await fetch('/api/addStore', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ newId: id1, newName: newName, 
-                                                        newStreet: newStreet, 
-                                                        newCity: newCity, 
-                                                        newState: newState, 
-                                                        newZip: newZip })
-                });
+            // const user = await response.json();
+            // async function addStore({ id1, newName, newStreet, newCity, newState, newZip }) {
+            //     const response = await fetch('/api/addStore', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json'
+            //         },
+            //         body: JSON.stringify({ newId: id1, newName: newName, 
+            //                                             newStreet: newStreet, 
+            //                                             newCity: newCity, 
+            //                                             newState: newState, 
+            //                                             newZip: newZip })
+            //     });
             
-                if (!response.ok) {
-                    console.log("Problem adding store");
-                }
-            }
+            //     if (!response.ok) {
+            //         console.log("Problem adding store");
+            //     }
+            //}
 
-            await addStore({ id1: user.user_id, newName: storeName, newStreet: storeAddress, newCity: storeCity, newState: storeState, newZip: storeZipCode });
+            // await addStore({ id1: user.user_id, newName: storeName, newStreet: storeAddress, newCity: storeCity, newState: storeState, newZip: storeZipCode });
     
             window.location.assign('/');
         }

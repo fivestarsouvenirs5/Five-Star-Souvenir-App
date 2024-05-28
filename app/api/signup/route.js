@@ -1,4 +1,5 @@
 import {Resend} from 'resend';
+import prisma from '../../utils/prisma';
 
 async function sendAdminEmail(newUserDetails, response) {
   console.log(response)
@@ -64,10 +65,26 @@ export async function POST(request) {
           adminapproval: newUserDetails.admin_approval },
       })
       })
-      await sendAdminEmail(newUserDetails, response);
+
       const responseData = await response.json();
+      console.log(responseData);
       const userId = responseData._id;
-      return new Response(JSON.stringify({ message: 'User signed up successfully', user_id: userId}), { status: 200, headers: { 'Content-Type': 'application/json' } }, { user_id: userId});
+      console.log("userid:" + userId)
+
+      const store = await prisma.stores.create({
+        data: {
+            store_name: newUserDetails.store_name,
+            user_id: "auth0|" + userId,
+            store_street: newUserDetails.store_address,
+            store_city: newUserDetails.store_city,
+            store_state: newUserDetails.store_state,
+            store_zip: newUserDetails.store_zipcode,
+        },
+    });
+
+      await sendAdminEmail(newUserDetails, response);
+     
+      return new Response(JSON.stringify({ message: 'User signed up successfully'}), { status: 200, headers: { 'Content-Type': 'application/json' } }, { user_id: userId});
   } catch (error) {
     console.error('Signup error:', error);
     return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500, headers: { 'Content-Type': 'application/json' } });

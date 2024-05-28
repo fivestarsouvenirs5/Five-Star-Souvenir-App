@@ -125,7 +125,6 @@ const UsersPage = () => {
                                         if (myResponse.noUserMessage == "usernotfound") {
                                             alert("It seems that you are not registered. Please make sure there are not typos in the email or go to signup to register.");
                                             setRefresh(!refresh);
-                                            window.location.assign("/signup");
                                         }
                                         else {
                                             if (myResponse.userMetadataUpdated == "userapproved") {
@@ -174,7 +173,6 @@ const UsersPage = () => {
                                         if (myResponse.noUserMessage == "usernotfound") {
                                             alert("It seems that you are not registered. Please make sure there are no typos in the email or go to signup to register.");
                                             setRefresh(!refresh);
-                                            window.location.assign("/signup")
                                         }
                                         else {
                                             if (myResponse.userDeleted == "userdeleted") {
@@ -245,7 +243,6 @@ const UsersPage = () => {
                                         if (myResponse.noUserMessage == "usernotfound") {
                                             alert("It seems that you are not registered. Please make sure there are no typos in the email or go to signup to register.");
                                             setRefresh(!refresh);
-                                            window.location.assign("/signup")
                                         }
                                         else {
                                             if (myResponse.userDeleted == "userdeleted") {

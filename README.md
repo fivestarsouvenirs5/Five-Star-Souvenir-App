@@ -1,1 +1,2 @@
 # Five-Star-Souvenir-App
+Hi! Welcome to this repo. This is a nextjs application so to install just download this code into your local workspace and run npm install. Once that completes you can use npm run dev to run the application on localhost. Good Luck!

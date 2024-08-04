@@ -56,28 +56,7 @@ export default async function MainLinks() {
     
     if (session) {
         const myUser = await getAppMetadata(session.user.email);
-        if (myUser.user_metadata.adminapproval === "true") {
-            return (
-                <nav>
-                    <div className="hidden md:block flex items-center space-x-1">
-                        <Link href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</Link>
-                        <Link href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</Link>
-                        <Link href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
-                        <Link href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
-                        <Link href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
-                    </div>
-                    <div className="md:hidden">
-                        <Link href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</Link>
-                        <Link href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</Link>
-                        <Link href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
-                        <Link href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
-                        <Link href="/profile" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
-                    </div>
-                </nav>
-                
-            )
-        }
-       else if (myUser.app_metadata.admin == true) {
+        if (myUser.app_metadata.admin == true) {
             return (
                 <nav>
                     <div className="hidden md:block flex items-center space-x-1">
@@ -97,6 +76,27 @@ export default async function MainLinks() {
                         <Link href="/users" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Users</Link>
                     </div>
                 </nav>
+            )
+        }
+       else if (myUser.user_metadata.adminapproval === "true") {
+            return (
+                <nav>
+                    <div className="hidden md:block flex items-center space-x-1">
+                        <Link href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</Link>
+                        <Link href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</Link>
+                        <Link href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
+                        <Link href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
+                        <Link href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
+                    </div>
+                    <div className="md:hidden">
+                        <Link href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</Link>
+                        <Link href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</Link>
+                        <Link href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
+                        <Link href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
+                        <Link href="/profile" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
+                    </div>
+                </nav>
+                
             )
         }
         else {

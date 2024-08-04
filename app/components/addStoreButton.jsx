@@ -61,7 +61,7 @@ export default function AddStoreButton({ id1 }) {
     };
 
     const handleStateChange = (event) => {
-        console.log(event.target.value);
+       // console.log(event.target.value);
         if (event.target.value === '') {
             setNewStoreState("New Jersey");
         }

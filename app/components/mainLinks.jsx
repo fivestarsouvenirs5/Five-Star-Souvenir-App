@@ -7,28 +7,29 @@ async function getAppMetadata(email) {
         var getAccess = {
             method: 'POST',
             url: 'https://' + process.env.AUTH0_DOMAIN + '/oauth/token',
-            headers: {'content-type': 'application/x-www-form-urlencoded'},
-            data: new URLSearchParams({
+            headers: {'content-type': 'application/json'},
+            data: {
                 grant_type: 'client_credentials',
                 client_id: process.env.AUTH0_API_CLIENT_ID,
                 client_secret: process.env.AUTH0_API_CLIENT_SECRET,
                 audience: process.env.AUTH0_API_ID 
-            })
+            }
         };
     
-        console.log("Made it!");
+        // console.log("Made it!");
         // console.log(getAccess);
     
         let apiKeyInformation = [];
         await axios.request(getAccess).then(function (response) {
             apiKeyInformation = response.data;
+            //console.log(apiKeyInformation)
         }).catch(function (error) {
             console.error(error);
         })
     
         var options = {
             method: 'GET',
-            url: 'https://dev-ruajdlwtnuw587py.us.auth0.com/api/v2/users-by-email',
+            url: 'https://dev-k7q6c31x25d0h3f6.us.auth0.com/api/v2/users-by-email',
             params: {email: email},
             headers: {authorization: 'Bearer ' + apiKeyInformation.access_token}
         };
@@ -39,7 +40,7 @@ async function getAppMetadata(email) {
     
             let user = [];
             await axios.request(options).then(function (response) {
-                // console.log(response.data);
+                //console.log(response.data);
                 user = response.data;
             }).catch(function (error) {
                 console.error(error);
@@ -55,7 +56,28 @@ export default async function MainLinks() {
     
     if (session) {
         const myUser = await getAppMetadata(session.user.email);
-        if (myUser.app_metadata.admin == true) {
+        if (myUser.user_metadata.adminapproval === "true") {
+            return (
+                <nav>
+                    <div className="hidden md:block flex items-center space-x-1">
+                        <Link href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</Link>
+                        <Link href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</Link>
+                        <Link href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
+                        <Link href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
+                        <Link href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
+                    </div>
+                    <div className="md:hidden">
+                        <Link href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</Link>
+                        <Link href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</Link>
+                        <Link href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
+                        <Link href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
+                        <Link href="/profile" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
+                    </div>
+                </nav>
+                
+            )
+        }
+       else if (myUser.app_metadata.admin == true) {
             return (
                 <nav>
                     <div className="hidden md:block flex items-center space-x-1">
@@ -75,27 +97,6 @@ export default async function MainLinks() {
                         <Link href="/users" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Users</Link>
                     </div>
                 </nav>
-            )
-        }
-        else if (myUser.user_metadata.adminapproval === "true") {
-            return (
-                <nav>
-                    <div className="hidden md:block flex items-center space-x-1">
-                        <Link href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</Link>
-                        <Link href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</Link>
-                        <Link href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
-                        <Link href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
-                        <Link href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
-                    </div>
-                    <div className="md:hidden">
-                        <Link href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</Link>
-                        <Link href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</Link>
-                        <Link href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
-                        <Link href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
-                        <Link href="/profile" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
-                    </div>
-                </nav>
-                
             )
         }
         else {

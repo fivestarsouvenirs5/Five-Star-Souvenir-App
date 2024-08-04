@@ -24,7 +24,7 @@ async function getUserMetadata(email) {
     
         var options = {
             method: 'GET',
-            url: 'https://dev-ruajdlwtnuw587py.us.auth0.com/api/v2/users-by-email',
+            url: 'https://dev-k7q6c31x25d0h3f6.us.auth0.com/api/v2/users-by-email',
             params: {email: email},
             headers: {authorization: 'Bearer ' + apiKeyInformation.access_token}
         };

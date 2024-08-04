@@ -116,7 +116,7 @@ export default function AddProductButton({ category, subcategory, admin}) {
             const clothingPrice = parseFloat(document.getElementById('newClothePrice').value);
             const clothingCell = document.getElementById('newClotheCell').value;
 
-            console.log("saved var" + productID)
+            //console.log("saved var" + productID)
 
             const response = await fetch('/api/addSize', {
                 method: 'POST',
@@ -125,7 +125,7 @@ export default function AddProductButton({ category, subcategory, admin}) {
 
             if (response.ok) {
                 const newSize = await response.json();
-                console.log("newSize: " + newSize)
+                //console.log("newSize: " + newSize)
                 setSizes(prevSizes => [...prevSizes, newSize]); 
             }
 

@@ -51,7 +51,7 @@ const DeleteButton= ({item, type, admin}) => {
           alert(errorMessage.error);
           setOpenModal(false)
         } else {
-            console.log('Item Deleted Successfully');
+           // console.log('Item Deleted Successfully');
             setOpenModal(false)
             setLoading(false)
             window.location.reload()
@@ -93,7 +93,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
 
   const EditButton = ({product, admin, clothingList}) => {
     const filteredClothes = clothingList.filter(item => item.clothing_product_id === product.product_id);
-    console.log(filteredClothes);
+    //console.log(filteredClothes);
     // const filteredSizes = filteredClothes.map(item => item.size);
     // // console.log("sizes" + filteredSizes)
     if (product.clothing_size_id == 1) {

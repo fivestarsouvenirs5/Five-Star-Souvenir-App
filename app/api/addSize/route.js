@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
 export async function POST(request) {
     try {
         const newSizeDetails = await request.json();
-        console.log(newSizeDetails.product_id)
+        //console.log(newSizeDetails.product_id)
 
         // Create the product in the database
         const size = await prisma.clothing_product_size.create({

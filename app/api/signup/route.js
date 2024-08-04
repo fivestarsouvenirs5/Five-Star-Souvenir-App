@@ -2,7 +2,7 @@ import {Resend} from 'resend';
 import prisma from '../../utils/prisma';
 
 async function sendAdminEmail(newUserDetails, response) {
-  console.log(response)
+  //console.log(response)
   if (response.ok) {
     const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -34,8 +34,8 @@ async function sendAdminEmail(newUserDetails, response) {
     // const headers = { 'Content-Type': 'application/json' };
   
     // const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
-    console.log('Confirmation email sent successfully');
-    console.log(newUserDetails)
+    //console.log('Confirmation email sent successfully');
+    //console.log(newUserDetails)
   }
 }
 
@@ -54,7 +54,7 @@ export async function POST(request) {
       },
       body: JSON.stringify({
         client_id: process.env.AUTH0_CLIENT_ID,
-        connection: 'Five-Star-Souvenirs-Database',
+        connection: 'Username-Password-Authentication',
         name: newUserDetails.first_name,
         given_name: newUserDetails.last_name,
         email: newUserDetails.user_email,
@@ -67,9 +67,9 @@ export async function POST(request) {
       })
 
       const responseData = await response.json();
-      console.log(responseData);
+      //console.log(responseData);
       const userId = responseData._id;
-      console.log("userid:" + userId)
+      //console.log("userid:" + userId)
 
       const store = await prisma.stores.create({
         data: {

@@ -199,7 +199,7 @@ function SignupForm() {
             return;
         }
 
-        if (!validations.passwordValid) {
+        if (!passwordValidations.minLength || !passwordValidations.lowercase || !passwordValidations.uppercase || !passwordValidations.specialChar) {
             alert('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one special character, and one number.');
             return;
         }

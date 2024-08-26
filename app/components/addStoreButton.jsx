@@ -38,7 +38,7 @@ export default function AddStoreButton({ id1 }) {
     const handleNameChange = (event) => {
         const value = event.target.value;
         // only letters and apostrophes
-        if (/^[a-zA-Z' ]*$/.test(value)) {
+        if (/^[a-zA-Z0-9' ]*$/.test(value)) {
             setNewStoreName(value);
         }
     };

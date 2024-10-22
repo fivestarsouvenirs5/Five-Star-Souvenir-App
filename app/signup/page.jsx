@@ -73,7 +73,7 @@ function SignupForm() {
 
 
         else if (id === 'store-name') {
-            if (/^[a-zA-Z-\'\s]*$/.test(value)) {
+            if (/^[a-zA-Z-0-9\'\s]*$/.test(value)) {
                 setStoreName(value);
                 setValidations((prevValidations) => ({
                     ...prevValidations,
@@ -172,7 +172,7 @@ function SignupForm() {
     };
 
     const validateStoreName = (storeName) => {
-      const namePattern = /^[a-zA-Z-\'\s]*$/;
+      const namePattern = /^[a-zA-Z-0-9\'\s]*$/;
       return namePattern.test(storeName);
   };
 

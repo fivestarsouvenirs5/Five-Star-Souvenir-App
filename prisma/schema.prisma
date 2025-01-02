@@ -16,63 +16,26 @@ model category {
 }
 
 model clothing_size {
-  clothing_size_id   Int                  @id @default(autoincrement())
-  clothing_size      String?              @db.VarChar(45)
-  product_order_xref product_order_xref[]
-}
-
-model orders {
-  order_id           Int                  @id @default(autoincrement())
-  order_date         DateTime?            @db.Date
-  user_id            Int?
-  user               user?                @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_order_user")
-  product_order_xref product_order_xref[]
-
-  @@index([user_id], map: "fk_order_user_idx")
-}
-
-model product_order_xref {
-  product_id       Int
-  order_id         Int
-  quantity         Int?
-  clothing_size_id Int?
-  clothing_size    clothing_size? @relation(fields: [clothing_size_id], references: [clothing_size_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_productorder_clothingsize")
-  orders           orders         @relation(fields: [order_id], references: [order_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_productorder_order")
-  products         products       @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_productorder_product")
-
-  @@id([product_id, order_id])
-  @@index([clothing_size_id], map: "fk_productorder_clothingsize_idx")
-  @@index([order_id], map: "fk_productorder_order_idx")
+  clothing_size_id Int     @id @default(autoincrement())
+  clothing_size    String? @db.VarChar(45)
 }
 
 model products {
-  product_id         Int                  @id @default(autoincrement())
-  product_name       String               @db.VarChar(45)
-  category_id        Int
-  clothing_size_id   Int?
-  in_stock           String?              @db.VarChar(45)
-  subcategory_id     Int?
-  image_id           String?              @db.VarChar(500)
-  price              Float?               @db.Float
-  order_form_cell    String               @db.VarChar(45)
-  featured_product   Int                  @default(0)
-  product_order_xref product_order_xref[]
-  category           category             @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_category")
-  subcategories      subcategories?       @relation(fields: [subcategory_id], references: [subcategory_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_subcategory")
+  product_id       Int            @id @default(autoincrement())
+  product_name     String         @db.VarChar(45)
+  category_id      Int
+  clothing_size_id Int?
+  in_stock         String?        @db.VarChar(45)
+  subcategory_id   Int?
+  image_id         String?        @db.VarChar(500)
+  price            Float?         @db.Float
+  order_form_cell  String         @db.VarChar(45)
+  featured_product Int            @default(0)
+  category         category       @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_category")
+  subcategories    subcategories? @relation(fields: [subcategory_id], references: [subcategory_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_subcategory")
 
   @@index([category_id], map: "fk_product_category_idx")
   @@index([subcategory_id], map: "fk_product_subcategory_idx")
-}
-
-model user {
-  user_id         Int      @id @default(autoincrement())
-  first_name      String   @db.VarChar(45)
-  last_name       String   @db.VarChar(45)
-  company_name    String?  @db.VarChar(45)
-  email           String   @db.VarChar(95)
-  phonenumber     String   @db.VarChar(95)
-  approval_status Int      @default(0) @db.TinyInt
-  orders          orders[]
 }
 
 model subcategories {
@@ -83,11 +46,6 @@ model subcategories {
   category         category   @relation(fields: [catg_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "category_id_connection")
 
   @@index([catg_id], map: "category_id_connection_idx")
-}
-
-model images {
-  image_id Int    @id @default(autoincrement())
-  img      Bytes? @db.Blob
 }
 
 model clothing_product_size {
@@ -107,4 +65,11 @@ model stores {
   store_city   String  @db.VarChar(45)
   store_state  String  @db.VarChar(45)
   store_zip    String  @db.VarChar(5)
+}
+
+model delivery_date {
+  delivery_id Int    @id
+  month       String @db.VarChar(45)
+  number      Int
+  year        Int
 }

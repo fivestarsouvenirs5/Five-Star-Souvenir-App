@@ -3,7 +3,60 @@
 import prisma from './utils/prisma'
 import React from 'react'
 import Image from "next/image";
-import Link from "next/link"
+import { getSession } from '@auth0/nextjs-auth0';
+import Link from "next/link";
+import EditDeliveryButton from './components/editDeliveryButton';
+
+
+async function getAppMetadata(email) {
+    var axios = require("axios").default;
+    try {
+        var getAccess = {
+            method: 'POST',
+            url: 'https://' + process.env.AUTH0_DOMAIN + '/oauth/token',
+            headers: {'content-type': 'application/json'},
+            data: {
+                grant_type: 'client_credentials',
+                client_id: process.env.AUTH0_API_CLIENT_ID,
+                client_secret: process.env.AUTH0_API_CLIENT_SECRET,
+                audience: process.env.AUTH0_API_ID 
+            }
+        };
+    
+        // console.log("Made it!");
+        // console.log(getAccess);
+    
+        let apiKeyInformation = [];
+        await axios.request(getAccess).then(function (response) {
+            apiKeyInformation = response.data;
+            //console.log(apiKeyInformation)
+        }).catch(function (error) {
+            console.error(error);
+        })
+    
+        var options = {
+            method: 'GET',
+            url: 'https://dev-k7q6c31x25d0h3f6.us.auth0.com/api/v2/users-by-email',
+            params: {email: email},
+            headers: {authorization: 'Bearer ' + apiKeyInformation.access_token}
+        };
+    
+            const headers = {
+                'Content-Type': 'application/json',
+            };
+    
+            let user = [];
+            await axios.request(options).then(function (response) {
+                //console.log(response.data);
+                user = response.data;
+            }).catch(function (error) {
+                console.error(error);
+            });
+            return user[0]
+    } catch (err){
+        // console.log("getting metadata error", err);
+    }
+  }
 
 const fetchFeaturedProducts = async () => {
   try {
@@ -77,6 +130,53 @@ const ImgSrc = async ({ product }) => {
   
 }
 
+const fetchDate = async () => {
+  try {
+    const myDate = await prisma.delivery_date.findUnique({
+      where: { delivery_id: 1},
+    });
+    return myDate;
+  } catch (error) {
+    // Handle error
+    console.error("Error fetching delivery date:", error);
+    throw error; // Re-throw the error if needed
+  }
+}
+
+const DeliveryDate = async () => {
+  const session = await getSession();
+  const date = await fetchDate();
+  
+    
+    if (session) {
+        const myUser = await getAppMetadata(session.user.email);
+        if (myUser.app_metadata.admin == true) {
+          return (
+        
+                <EditDeliveryButton month={date.month} year={date.year} number={date.number} />
+                
+         
+          )
+        }
+        else {
+          return (
+            <div>
+              <p  className="text-xl font-bold text-red-700 animate-flash" >Next Delivery: {date.month} {date.number}, {date.year}</p>
+            </div>
+          )
+        }
+    }
+    else {
+      return (
+        <div>
+          <p  className="text-xl font-bold text-red-700 animate-flash" >Next Delivery: {date.month} {date.number}, {date.year}</p>
+        </div>
+      )
+    }
+    
+ 
+  
+}
 
 const Categ = async ({product}) => {
   const cat = await fetchCategories(product.category_id);
@@ -121,8 +221,8 @@ export default async function Home() {
   // }
   return (
     <main className="max-w-screen-xl mx-auto p-8 font-serif">
-      {/* welcome blurb -> about us page */}
-      
+      <DeliveryDate />
+      <br></br>
       <div className="mb-12 p-4 border border-red-500 rounded-md">
         <p className="text-xl">
           Five Star Souvenirs Inc. is a family-owned wholesale corporation known for its over 20 years of expertise in crafting and distributing unique, high-quality souvenirs featuring real images of New York City landmarks. With a commitment to eco-friendly materials and personalized customer relationships, the company sets itself apart by creating colorful, creative, and practical items.

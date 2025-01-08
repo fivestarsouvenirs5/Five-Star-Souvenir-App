@@ -254,27 +254,40 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import Image from "next/image";
 import { decode } from 'he'; // Importing decode function from he module
 
-let selected_size = "";
 
-const Selector = ({ sizeList }) => {
-  const [selectedSize, setSelectedSize] = useState('');
 
-  const handleSizeChange = (event) => {
-    setSelectedSize(event.target.value);
-  };
+const SizeDisplay = ({ sizeList }) => {
 
   return (
+    // <div>
+    //   <label>Please Select a Size: </label>
+    //   <select id='selector' onChange={handleSizeChange} value={selectedSize}>
+    //     <option value="" disabled>--</option>
+    //     {sizeList.map((size, index) => (
+    //       <option key={index} value={size}>{size}</option>
+    //     ))}
+    //   </select>
+    //   <br />
+    //   <label hidden>{selected_size = selectedSize}</label>
+    // </div>
+
+    <div class="mb-3">
+    <label class="block text-base mb-1">Qty:</label>
     <div>
-      <label>Please Select a Size: </label>
-      <select id='selector' onChange={handleSizeChange} value={selectedSize}>
-        <option value="" disabled>--</option>
-        {sizeList.map((size, index) => (
-          <option key={index} value={size}>{size}</option>
-        ))}
-      </select>
-      <br />
-      <label hidden>{selected_size = selectedSize}</label>
+      {sizeList.map((size, index) => (
+        <div class="flex items-center mb-1" key={index}>
+          <label class="mr-1 text-sm">{size}</label>
+          <input
+            id={size}
+            type="text"
+            class="border border-gray-300 rounded-none p-1 focus:outline-none focus:ring-1 focus:ring-blue-400"
+          />
+        </div>
+      ))}
     </div>
+  </div>
+  
+  
   );
 }
 
@@ -393,9 +406,7 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, appr
                 <Category category={category} subcategory={subcategory} /> {/* Displaying decoded category/subcategory names */}
                 <Stock product={product} /> {/* Displaying decoded stock status */}
                 <form>
-                  <Selector product={product} sizeList={filteredSizes} />
-                  <label>Qty: </label>
-                  <input type='number' min='1' placeholder='1' name='quantity' className='rounded-sm w-[81px] h-7' id='qtyinput' />
+                  <SizeDisplay product={product} sizeList={filteredSizes} />
                 </form>
               </div>
             </div>
@@ -403,42 +414,54 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, appr
           <Modal.Footer>
             <Button onClick={() => {
               // Adding item to cart
-              let size = document.getElementById('selector').value
-              if (!size) {
-                size = 'S'
+              let sizes = [];
+              for (const element of filteredSizes) {
+                let sizeInput = document.getElementById(element);
+                if (sizeInput.value) {
+                  sizes.push(sizeInput);
+                }
               }
-              let qty = parseInt(document.getElementById('qtyinput').value)
-              const clothingPrice = filteredPrices[filteredSizes.indexOf(size)];
-              const clothingCellNumber = filteredCellNumbers[filteredSizes.indexOf(size)];
+              if (!sizes) {
+                sizes = [document.getElementById('S')];
+              }
+              const clothingPrices = sizes.map(sizeElement => {
+                return filteredPrices[filteredSizes.indexOf(sizeElement.id)
+                ]});
+              const clothingCellNumbers = sizes.map(sizeElement => {
+                return filteredCellNumbers[filteredSizes.indexOf(sizeElement.id)]
+              });
 
-              var cartDisplayProduct
-              if (subcategory !== null){
-                cartDisplayProduct ={
-                  name: subcategory.subcategory_name + ' ' + product.product_name,
-                  id: subcategory.subcategory_name + '_' + product.product_name + '_' + size,
-                  price: clothingPrice,
-                  currency: 'USD',
-                  // image: image,
-                  // product_data:{
-                  //   location: category.category_location
-                  // }
+              for (let i = 0; i < sizes.length; i++) {
+                var cartDisplayProduct
+                if (subcategory !== null){
+                  cartDisplayProduct ={
+                    name: subcategory.subcategory_name + ' ' + product.product_name,
+                    id: subcategory.subcategory_name + '_' + product.product_name + '_' + sizes[i].id,
+                    price: clothingPrices[i],
+                    currency: 'USD',
+                    // image: image,
+                    // product_data:{
+                    //   location: category.category_location
+                    // }
+                  }
                 }
-              }
-              else {
-                cartDisplayProduct ={
-                  name: category.category + ' ' + product.product_name,
-                  id: category.category + '_' + product.product_name + '_' + size,
-                  price: clothingPrice,
-                  currency: 'USD',
+                else {
+                  cartDisplayProduct ={
+                    name: category.category + ' ' + product.product_name,
+                    id: category.category + '_' + product.product_name + '_' + sizes[i].id,
+                    price: clothingPrices[i],
+                     currency: 'USD',
             
-                  // image: image,
-                  // product_data:{
-                  //   location: category.category_location
-                  // }
+                      // image: image,
+                      // product_data:{
+                     //   location: category.category_location
+                     // }
+                 }
                 }
+                // console.log(clothingPrice, size, "yay!")
+                addItem(cartDisplayProduct, {count: parseInt(sizes[i].value), product_metadata: {size: sizes[i].id, location: category.category_location, cell: clothingCellNumbers[i]}})
               }
-              // console.log(clothingPrice, size, "yay!")
-              addItem(cartDisplayProduct, {count: qty, product_metadata: {size: size, location: category.category_location, cell: clothingCellNumber}})
+              
             
             setOpenModal(false);
             }}>Add to Cart</Button>

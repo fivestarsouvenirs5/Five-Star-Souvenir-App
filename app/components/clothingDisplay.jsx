@@ -382,15 +382,25 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, appr
 
     return (
       <>
-        <div className="border-2 bg-red-100 flex flex-col items-center">
-          <button className="border-b-2" onClick={() => setOpenModal(true)}>
-            <ImgSrc category={category} subcategory={subcategory} product={product} />
-          </button>
-          <label className="flex justify items-center">
-            {decode(product.product_name)} {/* Displaying decoded product name */}
-          </label>
-          <p className="text-[16px]">{formatCurrencyString({ value: filteredPrices[0], currency: 'USD' })} to {formatCurrencyString({ value: filteredPrices[filteredPrices.length - 1], currency: 'USD' })}</p>
-        </div>
+        <div className="border-2 bg-red-100 flex flex-col items-center h-full">
+            {/* Image/Button Section */}
+            <div className="flex-grow flex-[3] w-full flex items-center justify-center">
+              <button className="border-b-2" onClick={() => setOpenModal(true)}>
+                <ImgSrc category={category} subcategory={subcategory} product={product} />
+              </button>
+            </div>
+            
+            {/* Label and Price Range Section */}
+            <div className="flex-grow flex-[1] w-full flex flex-col items-center justify-center">
+              <label className="text-sm sm:text-base md:text-lg font-semibold">
+                {decode(product.product_name)} {/* Displaying decoded product name */}
+              </label>
+              <p className="text-xs sm:text-sm md:text-base text-gray-600 text-center">
+                {formatCurrencyString({ value: filteredPrices[0], currency: 'USD' })} to {formatCurrencyString({ value: filteredPrices[filteredPrices.length - 1], currency: 'USD' })}
+              </p>
+            </div>
+          </div>
+
 
         <Modal show={openModal} onClose={() => setOpenModal(false)}>
           <Modal.Header>Product Info:</Modal.Header>
@@ -473,12 +483,15 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, appr
   else {
       return (
         <>
-          <div className="border-2 bg-red-100 flex flex-col items-center">
-              <ImgSrc category = {category} subcategory={subcategory} product = {product} />
-            <label className="flex justify items-center">
+          <div className="border-2 bg-red-100 flex flex-col items-center h-full">
+            <div className="flex-grow flex-[3] w-full flex items-center justify-center">
+              <ImgSrc category={category} subcategory={subcategory} product={product} />
+            </div>
+            <label className="flex-grow flex-[1] w-full flex items-center justify-center text-sm sm:text-base md:text-lg font-semibold">
               {product.product_name}
             </label>
           </div>
+
           
         </>
       );

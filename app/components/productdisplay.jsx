@@ -126,15 +126,34 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
 
     return (
       <>
-        <div className="border-2 bg-red-100 flex flex-col items-center">
+        {/* <div className="border-2 bg-red-100 flex flex-col items-center">
           <button className="border-b-2" onClick={() => setOpenModal(true)}>
             <ImgSrc category={category} subcategory={subcategory} product={product} />
           </button>
           <label className="flex justify items-center">
-            {decode(product.product_name)} {/* Displaying decoded product name */}
+            {decode(product.product_name)} 
           </label>
           {formatCurrencyString({ value: product.price, currency: 'USD' })}
+        </div> */}
+        <div className="border-2 bg-red-100 flex flex-col items-center h-full">
+          {/* Image/Button Section */}
+          <div className="flex-grow flex-[3] w-full flex items-center justify-center">
+            <button className="border-b-2" onClick={() => setOpenModal(true)}>
+              <ImgSrc category={category} subcategory={subcategory} product={product} />
+            </button>
+          </div>
+          
+          {/* Label and Price Section */}
+          <div className="flex-grow flex-[1] w-full flex flex-col items-center justify-center">
+            <label className="text-sm sm:text-base md:text-lg font-semibold">
+              {decode(product.product_name)}
+            </label>
+            <span className="text-xs sm:text-sm md:text-base text-gray-600">
+              {formatCurrencyString({ value: product.price, currency: 'USD' })}
+            </span>
+          </div>
         </div>
+
 
         <Modal show={openModal} onClose={() => setOpenModal(false)}>
           <Modal.Header>Product Info:</Modal.Header>
@@ -172,12 +191,21 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
   else {
     return (
       <>
-        <div className="border-2 bg-red-100 flex flex-col items-center">
+        {/* <div className="border-2 bg-red-100 flex flex-col items-center">
             <ImgSrc category = {category} subcategory={subcategory} product = {product} />
           <label className="flex justify items-center">
             {product.product_name}
           </label>
+        </div> */}
+        <div className="border-2 bg-red-100 flex flex-col items-center h-full">
+          <div className="flex-grow flex-[3] w-full flex items-center justify-center">
+            <ImgSrc category={category} subcategory={subcategory} product={product} />
+          </div>
+          <label className="flex-grow flex-[1] w-full flex items-center justify-center text-sm sm:text-base md:text-lg font-semibold">
+            {product.product_name}
+          </label>
         </div>
+
        
       </>
     );

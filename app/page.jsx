@@ -161,16 +161,24 @@ const DeliveryDate = async () => {
         else {
           return (
             <div>
-              <p  className="text-xl font-bold text-red-700 animate-flash" >Next Delivery: {date.month} {date.number}, {date.year}</p>
+              <p className="text-md sm:text-lg md:text-xl lg:text-2xl font-bold text-red-700 animate-flash">
+                Next Delivery: {date.month} {date.number}, {date.year}
+              </p>
             </div>
+
+          
           )
         }
     }
     else {
       return (
         <div>
-          <p  className="text-xl font-bold text-red-700 animate-flash" >Next Delivery: {date.month} {date.number}, {date.year}</p>
+          <p className="text-md sm:text-lg md:text-xl lg:text-2xl font-bold text-red-700 animate-flash">
+            Next Delivery: {date.month} {date.number}, {date.year}
+          </p>
         </div>
+
+
       )
     }
     

@@ -419,7 +419,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
     if (isNY == true) {
       return (
         <div className="flex flex-col lg:flex-row justify-between gap-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-5">
+          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
             {categoryList.map((category) => (
               <div key={category.category_id} className="mb-3 sm:mb-0">
                 <div className="border rounded-md flex items-center justify-center text-center max-w-full p-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl bg-blue-100 hover:bg-blue-300 mb-4">
@@ -468,7 +468,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
     return (
         <div className = "flex flex-col lg:flex-row justify-between gap-5">
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-5">
+            <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
                   {subcategoryList.map((subcategory) => (
                     <div key ={subcategory.subcategory_id}>
                       <div className="border p-5 rounded-md items-center justify-center text-center text-xl font-bold bg-blue-100 hover:bg-blue-300" key={subcategory.subcategory_id} >
@@ -490,7 +490,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
     return (
       <div className = "flex flex-col lg:flex-row justify-between gap-5">
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-5">
+        <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
           {products.map((product) => (
                   <div className="h-1/2" key={product.product_id} >
                     <div className = "bg-white-600 rounded-2xl pl-2 pr-2 pt-2">
@@ -518,7 +518,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
     return (
       <div className = "flex flex-col lg:flex-row justify-between gap-5">
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-5">
+          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
             {products.map((product) => (
                     <div className="h-1/2" key={product.product_id}>
                       <div className = "bg-white-600 rounded-2xl pl-2 pr-2 pt-2">

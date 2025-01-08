@@ -99,12 +99,25 @@ export default async function OrderNY() {
 
         <div className="flex justify-between">
             {/* side bar */}
-            <div className="grid grid-cols-1 gap-5 h-4/6">
-                <div className="flex flex-wrap border-black justify-items-start gap-2 w-3/4">
-                    <a href="/products/new-york" className="rounded-md items-center justify-center text-center text-3xl font-bold bg-red-300 hover:bg-blue-300 border border-black w-full py-10 h-3/6 px-3 text-gray-700 hover:text-gray-900">New York</a>
-                    <a href="/products/new-jersey" className="rounded-md items-center justify-center text-center text-3xl font-bold bg-red-100 hover:bg-blue-300 border border-black w-full py-10 h-3/6 px-3 text-gray-700 hover:text-gray-900">New Jersey</a>
+            <div className="grid grid-cols-1 gap-3 h-4/6 mr-4">
+                <div className="flex flex-wrap border-black justify-items-start gap-2 w-full md:w-3/4">
+                    <a 
+                    href="/products/new-york" 
+                    className="rounded-md flex items-center justify-center text-center text-xs sm:text-sm md:text-lg lg:text-xl font-bold bg-red-300 hover:bg-blue-300 border border-black w-full py-2 sm:py-3 md:py-5 lg:py-6 px-1 sm:px-2 text-gray-700 hover:text-gray-900"
+                    >
+                    New York
+                    </a>
+                    <a 
+                    href="/products/new-jersey" 
+                    className="rounded-md flex items-center justify-center text-center text-xs sm:text-sm md:text-lg lg:text-xl font-bold bg-red-100 hover:bg-blue-300 border border-black w-full py-2 sm:py-3 md:py-5 lg:py-6 px-1 sm:px-2 text-gray-700 hover:text-gray-900"
+                    >
+                    New Jersey
+                    </a>
                 </div>
             </div>
+
+
+
 
             <ProductPageMapping products={null} categoryList={categories} subcategoryList={null} isNY={true} category={null} subcategory={null} subMainCategory={null} isAdmin={adminMetadata} isApproved={approvalStatus} stores={stores}/>
             

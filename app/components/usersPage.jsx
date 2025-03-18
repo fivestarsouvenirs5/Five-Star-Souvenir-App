@@ -91,7 +91,7 @@ const UsersPage = () => {
                             <thead className="bg-gray-50 border-b-2 border-gray-200">
                             <tr>
                                 <th className="p-3 text-sm font-semibold tracking-wide text-left">Name</th>
-                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Email</th>
+                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Store</th>
                                 <th className="p-3 text-sm font-semibold tracking-wide text-left">Phone Number</th>
                             </tr>
                             </thead>
@@ -99,7 +99,7 @@ const UsersPage = () => {
                             <tbody key={index}>
                                 <tr className="bg-gray-50">
                                 <td>{user.name}</td>
-                                <td>{user.email}</td>
+                                <td>{user.user_metadata.storename}<br></br>{user.user_metadata.storeaddress}, {user.user_metadata.storecity}</td>
                                 <td>{user.user_metadata.phonenumber}</td>
                                 <td>
                                     <Button className='py-2 px-3 bg-green-400 hover:bg-green-300 text-white-900 hover:text-white-800 rounded' onClick={async() => {
@@ -209,7 +209,7 @@ const UsersPage = () => {
                             <thead className="bg-gray-50 border-b-2 border-gray-200">
                             <tr>
                                 <th className="p-3 text-sm font-semibold tracking-wide text-left">Name</th>
-                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Email</th>
+                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Store</th>
                                 <th className="p-3 text-sm font-semibold tracking-wide text-left">Phone Number</th>
                             </tr>
                             </thead>
@@ -217,7 +217,7 @@ const UsersPage = () => {
                             <tbody key={index}>
                                 <tr className="bg-gray-50">
                                 <td>{user.name}</td>
-                                <td>{user.email}</td>
+                                <td>{user.user_metadata.storename}<br></br>{user.user_metadata.storeaddress}, {user.user_metadata.storecity}</td>
                                 <td>{user.user_metadata.phonenumber}</td>
                                 <td>
                                     <Button className='py-2 px-3 bg-red-400 hover:bg-red-300 text-white-900 hover:text-white-800 rounded' onClick={async () => {

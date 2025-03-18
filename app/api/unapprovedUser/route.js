@@ -34,7 +34,7 @@ export async function POST(request) {
         //app_metadata.admin_approved
         var options = {
             method: 'GET',
-            url: 'https://dev-k7q6c31x25d0h3f6.us.auth0.com/api/v2/users?fields=name,given_name,email,user_metadata.phonenumber',
+            url: 'https://dev-k7q6c31x25d0h3f6.us.auth0.com/api/v2/users?fields=name,given_name,email,user_metadata',
             params: {q: 'user_metadata.adminapproval: "false"', search_engine: 'v3'},
             headers: {authorization: 'Bearer ' + apiKeyInformation.access_token}
         };

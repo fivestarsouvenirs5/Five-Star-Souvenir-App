@@ -33,7 +33,7 @@ export async function POST(request) {
 
         var options = {
             method: 'GET',
-            url: 'https://dev-k7q6c31x25d0h3f6.us.auth0.com/api/v2/users?fields=name,given_name,email,user_metadata.phonenumber',
+            url: 'https://dev-k7q6c31x25d0h3f6.us.auth0.com/api/v2/users?fields=name,given_name,email,user_metadata',
             params: {q: 'user_metadata.adminapproval: "true"', search_engine: 'v3'},
             headers: {authorization: 'Bearer ' + apiKeyInformation.access_token}
         };
@@ -49,9 +49,9 @@ export async function POST(request) {
         }).catch(function (error) {
             console.error(error);
         });
-        // console.log(user);
+         //console.log(user);
         // const jsonStringOfUser = JSON.parse(JSON.stringify(user));
         // console.log(jsonStringOfUser)
-        // console.log(user.email);
+        //console.log(user.email);
         return new Response(JSON.stringify(user), {headers});
    }

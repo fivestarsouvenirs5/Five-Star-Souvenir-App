@@ -111,12 +111,12 @@ export async function POST(request) {
     const month = String(currentDate.getMonth() + 1).padStart(2, '0'); 
     const day = String(currentDate.getDate()).padStart(2, '0'); 
 
-    const formattedDate = `${month}-${day}-${year}`;
+    const formattedDate = `${month}/${day}/${year}`;
     if (ny) {
-      nyWorksheet.getCell('AG5').value = `Date: ${month}-${day}-${year}`
+      nyWorksheet.getCell('AG3').value = `Date: ${month}/${day}/${year}`
       nyWorksheet.getCell('D3').value = `Name: ${store.store_name}`
       //address
-      nyWorksheet.getCell('D5').value = `Address: ${store.store_street} ${store.store_city}, ${store.store_state} ${store.store_zip}`;
+      nyWorksheet.getCell('Q3').value = `Address: ${store.store_street} ${store.store_city}, ${store.store_state} ${store.store_zip}`;
       outputPath = path.join(os.tmpdir(), 'current_order_ny.xlsx');
       await nyWorkbook.xlsx.writeFile(outputPath);
     } else {

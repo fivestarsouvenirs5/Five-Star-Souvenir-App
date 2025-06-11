@@ -364,6 +364,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
   const cart = useShoppingCart();
   const { addItem, formattedTotalPrice } = cart;
   const [myProducts, setMyProducts] = useState(products);
+  const [quantities, setQuantities] = useState({});
   // const admin = getAppMetadata(user.email)
   // console.log(admin)
 
@@ -385,6 +386,39 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
     }
   }
 
+  const AddAllToCartButton = () => {
+
+    if (products[0].clothing_size_id !== 1) {
+      return(
+    <div className="mt-5">
+                <Button
+                  onClick={() => {
+                    Object.entries(quantities).forEach(([productId, quantity]) => {
+                      if (quantity > 0) {
+                        const product = products.find(p => p.product_id === parseInt(productId));
+                        
+                        if (product) {
+                         var cartDisplayProduct ={
+                          name: category.category + ' ' + product.product_name,
+                           id: category.category + '_' + product.product_name,
+                           price: product.price,
+                          currency: 'USD',
+                        }
+                         addItem(cartDisplayProduct, {count: quantity, product_metadata: {location: category.category_location, cell: product.order_form_cell}});
+                        }
+                      }
+                    });
+                    setQuantities({});
+                  }}
+                >
+                  Add All to Cart
+                </Button>
+              </div>
+      )
+    }
+      
+  }
+
   const Cloth = ({ product, category, subcategory, addItem, clothingList }) => {
     if (product.clothing_size_id == 1) {
       if (subcategory == null) {
@@ -403,12 +437,68 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
     else {
       if (subcategory == null) {
         return (
-          <ProductDisplay product = {product} category = {category} subcategory={null} addItem={addItem} approved={isApproved}/>
+          <div>
+            <ProductDisplay
+              product={product}
+              category={category}
+              subcategory={subcategory}
+              addItem={addItem}
+              approved={isApproved}
+            />
+            <div className="flex items-center gap-2 mt-1">
+              <label htmlFor={`qty-${product.product_id}`} className="text-sm font-medium">Qty:</label>
+              <input
+                id={`qty-${product.product_id}`}
+                type="number"
+                min="0"
+                placeholder="0"
+                value={quantities[product.product_id] ?? ''}
+                onChange={(e) => {
+                  const input = e.target.value;
+                  const qty = parseInt(input, 10);
+                  setQuantities(prev => ({
+                    ...prev,
+                    [product.product_id]: input === '' ? '' : isNaN(qty) ? 0 : qty,
+                  }));
+                }}
+                className="border rounded px-2 py-1 w-20 text-center text-sm"
+              />
+            </div>
+          </div>
+
         )
       }
       else {
         return (
-          <ProductDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem} approved={isApproved}/>
+          <div>
+            <ProductDisplay
+              product={product}
+              category={category}
+              subcategory={subcategory}
+              addItem={addItem}
+              approved={isApproved}
+            />
+            <div className="flex items-center gap-2 mt-1">
+              <label htmlFor={`qty-${product.product_id}`} className="text-sm font-medium">Qty:</label>
+              <input
+                id={`qty-${product.product_id}`}
+                type="number"
+                min="0"
+                placeholder="0"
+                value={quantities[product.product_id] ?? ''}
+                onChange={(e) => {
+                  const input = e.target.value;
+                  const qty = parseInt(input, 10);
+                  setQuantities(prev => ({
+                    ...prev,
+                    [product.product_id]: input === '' ? '' : isNaN(qty) ? 0 : qty,
+                  }));
+                }}
+                className="border rounded px-2 py-1 w-20 text-center text-sm"
+              />
+            </div>
+          </div>
+
         )
       }
       
@@ -488,6 +578,8 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
   }
   else if (subcategory === null) {
     return (
+      <div>
+       <AddAllToCartButton/>
       <div className = "flex flex-col lg:flex-row justify-between gap-5">
 
         <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
@@ -496,6 +588,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                     <div className = "bg-white-600 rounded-2xl pl-2 pr-2 pt-2">
                       <div className="flex items-center justify-center pb-4 text-[25px]">
                         <Cloth product = {product} category = {category} subcategory={subcategory} addItem={addItem} clothingList={clothingList} />
+
                         {/* <ProductDisplay product = {product} category = {category} subcategory={null} addItem={addItem}/> */}
                       </div>
                       <DeleteButton item={product} type={"Product"} admin={isAdmin} />
@@ -506,16 +599,20 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                     
                   </div>
               ))}
+             
+
             <AddProductButton category={category} subcategory={null} admin={isAdmin} setProducts={setMyProducts} />
             <AddSubCategoryButton category= {category} admin={isAdmin}/>
           </div>
           <Cart approved={isApproved} storeList={stores}/> 
       </div>
-
+  </div>
     )
   }
   else {
     return (
+      <div>
+         <AddAllToCartButton/>
       <div className = "flex flex-col lg:flex-row justify-between gap-5">
 
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
@@ -525,6 +622,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
 
                       <div className="flex items-center justify-center pb-4">
                         <Cloth product = {product} category = {category} subcategory={subcategory} addItem={addItem} />
+                      
                         {/* <ProductDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem}/> */}
                       </div>
                       <DeleteButton item ={product} type={"Product"} admin={isAdmin} />
@@ -540,7 +638,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
           <Cart approved={isApproved} storeList={stores}/> 
 
         </div>
-            
+        </div>    
       )
   }
 }

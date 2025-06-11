@@ -169,7 +169,7 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
                 <Stock product={product} /> {/* Displaying decoded stock status */}
                 <form>
                   <label>Qty: </label>
-                  <input type='text' min='1' placeholder='1' name='quantity' className='rounded-sm w-[81px] h-7' id='qtyinput' value={inputValue} onChange={handleChange}/>
+                  <input type='number' min='0' placeholder='0' name='quantity' className='rounded-sm w-[81px] h-7' id='qtyinput' value={inputValue} onChange={handleChange}/>
                 </form>
               </div>
             </div>
@@ -178,8 +178,9 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
             <Button onClick={() => {
               // Adding item to cart
               let qty = parseInt(document.getElementById('qtyinput').value)
+              if (qty > 0) {
               addItem(cartDisplayProduct, {count: qty, product_metadata: {location: category.category_location, cell: product.order_form_cell}})
-           
+              }
            
             setOpenModal(false);
             }}>Add to Cart</Button>

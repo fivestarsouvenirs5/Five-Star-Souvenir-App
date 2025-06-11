@@ -19,7 +19,10 @@ const fetchStores = async (id) => {
 
 const fetchCategories = async () => {
     let categories = await prisma.category.findMany({
-        where: {category_location: 1}
+        where: {category_location: 1},
+        orderBy: {
+            category: 'asc',
+        },
     })
     return categories
 }

@@ -19,7 +19,7 @@ const fetchStores = async (id) => {
 
 const fetchSubcategories = async (id) => {
     let subcategories = await prisma.subcategories.findUnique({
-        where: {subcategory_id: id}
+        where: {subcategory_id: id},
     })
     return subcategories
   }
@@ -28,13 +28,16 @@ const fetchSubcategories = async (id) => {
 const fetchProducts = async (id) => {
     const products = await prisma.products.findMany({
       where: { subcategory_id: id },
+      // orderBy: {
+      //   product_name: 'asc',
+      // },
     })
     return products
   }
 
   const fetchCategories = async (id) => {
     let categories = await prisma.category.findUnique({
-         where: {category_id: id}
+         where: {category_id: id},
      })
      return categories
    }

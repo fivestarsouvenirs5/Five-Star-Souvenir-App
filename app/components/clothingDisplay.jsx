@@ -279,7 +279,8 @@ const SizeDisplay = ({ sizeList }) => {
           <label class="mr-1 text-sm">{size}</label>
           <input
             id={size}
-            type="text"
+            type="number"
+            min="0"
             class="border border-gray-300 rounded-none p-1 focus:outline-none focus:ring-1 focus:ring-blue-400"
           />
         </div>
@@ -427,13 +428,11 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, appr
               let sizes = [];
               for (const element of filteredSizes) {
                 let sizeInput = document.getElementById(element);
-                if (sizeInput.value) {
+                if (sizeInput.value > 0) {
                   sizes.push(sizeInput);
                 }
               }
-              if (!sizes) {
-                sizes = [document.getElementById('S')];
-              }
+             if (sizes.length > 0) {
               const clothingPrices = sizes.map(sizeElement => {
                 return filteredPrices[filteredSizes.indexOf(sizeElement.id)
                 ]});
@@ -471,7 +470,7 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, appr
                 // console.log(clothingPrice, size, "yay!")
                 addItem(cartDisplayProduct, {count: parseInt(sizes[i].value), product_metadata: {size: sizes[i].id, location: category.category_location, cell: clothingCellNumbers[i]}})
               }
-              
+            }
             
             setOpenModal(false);
             }}>Add to Cart</Button>

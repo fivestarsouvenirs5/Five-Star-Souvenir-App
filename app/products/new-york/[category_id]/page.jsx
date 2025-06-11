@@ -5,7 +5,7 @@ import { getSession } from '@auth0/nextjs-auth0';
 
 const fetchCategories = async (id) => {
  let categories = await prisma.category.findUnique({
-      where: {category_id: id}
+      where: {category_id: id},
   })
   return categories
 }
@@ -26,6 +26,9 @@ const fetchStores = async (id) => {
 const fetchSubcategories = async (id) => {
   const subcategories = await prisma.subcategories.findMany({
     where: { catg_id: id },
+    orderBy: {
+      subcategory_name: 'asc',
+    },
   })
   return subcategories
 }
@@ -33,6 +36,9 @@ const fetchSubcategories = async (id) => {
 const fetchProducts = async (id) => {
   const products = await prisma.products.findMany({
     where: { category_id: id },
+    // orderBy: {
+    //   product_name: 'asc',
+    // },
   })
   return products
 }

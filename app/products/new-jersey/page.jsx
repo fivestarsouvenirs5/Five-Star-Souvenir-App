@@ -27,6 +27,9 @@ const fetchCategories = async () => {
 const fetchProducts = async () => {
     const products = await prisma.products.findMany({
       where: { category_id: 36 },
+      orderBy: {
+        product_name: 'asc',
+      },
     })
     return products
   }

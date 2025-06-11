@@ -17,7 +17,7 @@ const Stock = ({ product }) => {
   }
   else {
     return (
-      <h2 className="text-red-300">{decodedStock}</h2>
+      <h2 className="text-red-600">{decodedStock}</h2>
     )
   }
 }

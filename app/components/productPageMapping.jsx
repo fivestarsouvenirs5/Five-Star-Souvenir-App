@@ -388,7 +388,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
 
   const AddAllToCartButton = () => {
 
-    if (products[0].clothing_size_id !== 1) {
+    if (products[0].clothing_size_id !== 1 && isApproved) {
       return(
     <div className="mt-5">
                 <Button
@@ -419,6 +419,33 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
       
   }
 
+  const QtyBtn = (product) => {
+    if (isApproved) {
+      return (
+            <div className="flex items-center gap-2 mt-1">
+              <label htmlFor={`qty-${product.product_id}`} className="text-sm font-medium">Qty:</label>
+              <input
+                id={`qty-${product.product_id}`}
+                type="number"
+                min="0"
+                placeholder="0"
+                value={quantities[product.product_id] ?? ''}
+                onChange={(e) => {
+                  const input = e.target.value;
+                  const qty = parseInt(input, 10);
+                  setQuantities(prev => ({
+                    ...prev,
+                    [product.product_id]: input === '' ? '' : isNaN(qty) ? 0 : qty,
+                  }));
+                }}
+                className="border rounded px-2 py-1 w-20 text-center text-sm"
+              />
+            </div>
+        
+      )
+    }
+  }
+
   const Cloth = ({ product, category, subcategory, addItem, clothingList }) => {
     if (product.clothing_size_id == 1) {
       if (subcategory == null) {
@@ -445,30 +472,13 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
               addItem={addItem}
               approved={isApproved}
             />
-            <div className="flex items-center gap-2 mt-1">
-              <label htmlFor={`qty-${product.product_id}`} className="text-sm font-medium">Qty:</label>
-              <input
-                id={`qty-${product.product_id}`}
-                type="number"
-                min="0"
-                placeholder="0"
-                value={quantities[product.product_id] ?? ''}
-                onChange={(e) => {
-                  const input = e.target.value;
-                  const qty = parseInt(input, 10);
-                  setQuantities(prev => ({
-                    ...prev,
-                    [product.product_id]: input === '' ? '' : isNaN(qty) ? 0 : qty,
-                  }));
-                }}
-                className="border rounded px-2 py-1 w-20 text-center text-sm"
-              />
-            </div>
+            <QtyBtn product={product}/>
           </div>
 
         )
       }
       else {
+     
         return (
           <div>
             <ProductDisplay
@@ -478,30 +488,13 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
               addItem={addItem}
               approved={isApproved}
             />
-            <div className="flex items-center gap-2 mt-1">
-              <label htmlFor={`qty-${product.product_id}`} className="text-sm font-medium">Qty:</label>
-              <input
-                id={`qty-${product.product_id}`}
-                type="number"
-                min="0"
-                placeholder="0"
-                value={quantities[product.product_id] ?? ''}
-                onChange={(e) => {
-                  const input = e.target.value;
-                  const qty = parseInt(input, 10);
-                  setQuantities(prev => ({
-                    ...prev,
-                    [product.product_id]: input === '' ? '' : isNaN(qty) ? 0 : qty,
-                  }));
-                }}
-                className="border rounded px-2 py-1 w-20 text-center text-sm"
-              />
+            <QtyBtn product={product}/>
             </div>
-          </div>
+     
 
         )
-      }
       
+    }
     }
   }
 

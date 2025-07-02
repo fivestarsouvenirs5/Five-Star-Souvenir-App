@@ -387,36 +387,36 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
   }
 
   const AddAllToCartButton = () => {
-
-    if (products[0].clothing_size_id !== 1 && isApproved) {
-      return(
-    <div className="mt-5">
-                <Button
-                  onClick={() => {
-                    Object.entries(quantities).forEach(([productId, quantity]) => {
-                      if (quantity > 0) {
-                        const product = products.find(p => p.product_id === parseInt(productId));
-                        
-                        if (product) {
-                         var cartDisplayProduct ={
-                          name: category.category + ' ' + product.product_name,
-                           id: category.category + '_' + product.product_name,
-                           price: product.price,
-                          currency: 'USD',
+    if (products.length > 0) {
+      if (products[0].clothing_size_id !== 1 && isApproved) {
+        return(
+      <div className="mt-5">
+                  <Button
+                    onClick={() => {
+                      Object.entries(quantities).forEach(([productId, quantity]) => {
+                        if (quantity > 0) {
+                          const product = products.find(p => p.product_id === parseInt(productId));
+                          
+                          if (product) {
+                          var cartDisplayProduct ={
+                            name: category.category + ' ' + product.product_name,
+                            id: category.category + '_' + product.product_name,
+                            price: product.price,
+                            currency: 'USD',
+                          }
+                          addItem(cartDisplayProduct, {count: quantity, product_metadata: {location: category.category_location, cell: product.order_form_cell}});
+                          }
                         }
-                         addItem(cartDisplayProduct, {count: quantity, product_metadata: {location: category.category_location, cell: product.order_form_cell}});
-                        }
-                      }
-                    });
-                    setQuantities({});
-                  }}
-                >
-                  Add All to Cart
-                </Button>
-              </div>
-      )
-    }
-      
+                      });
+                      setQuantities({});
+                    }}
+                  >
+                    Add All to Cart
+                  </Button>
+                </div>
+        )
+      }
+  }
   }
 
   const QtyBtn = (product) => {

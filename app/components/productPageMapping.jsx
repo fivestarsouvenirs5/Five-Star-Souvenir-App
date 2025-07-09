@@ -364,7 +364,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
   const cart = useShoppingCart();
   const { addItem, formattedTotalPrice } = cart;
   const [myProducts, setMyProducts] = useState(products);
-  const [quantities, setQuantities] = useState({});
+  // const [quantities, setQuantities] = useState({});
   // const admin = getAppMetadata(user.email)
   // console.log(admin)
 
@@ -393,23 +393,38 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
       <div className="mt-5">
                   <Button
                     onClick={() => {
-                      Object.entries(quantities).forEach(([productId, quantity]) => {
-                        if (quantity > 0) {
-                          const product = products.find(p => p.product_id === parseInt(productId));
+                      Object.entries(products).forEach(([productId, product]) => {
+                        if (document.getElementById(`qty-${product.product_id}`).value > 0) {
+                          const quantity = parseInt(document.getElementById(`qty-${product.product_id}`).value, 10);
+                       
+                            const cartDisplayProduct = {
+                              name: category.category + ' ' + product.product_name,
+                              id: category.category + '_' + product.product_name,
+                              price: product.price,
+                              currency: 'USD',
+                            };
+                            addItem(cartDisplayProduct, { count: quantity, product_metadata: { location: category.category_location, cell: product.order_form_cell } });
                           
-                          if (product) {
-                          var cartDisplayProduct ={
-                            name: category.category + ' ' + product.product_name,
-                            id: category.category + '_' + product.product_name,
-                            price: product.price,
-                            currency: 'USD',
-                          }
-                          addItem(cartDisplayProduct, {count: quantity, product_metadata: {location: category.category_location, cell: product.order_form_cell}});
-                          }
                         }
+                         
                       });
-                      setQuantities({});
-                    }}
+                    //   Object.entries(quantities).forEach(([productId, quantity]) => {
+                    //     if (quantity > 0) {
+                    //       const product = products.find(p => p.product_id === parseInt(productId));
+                          
+                    //       if (product) {
+                    //       var cartDisplayProduct ={
+                    //         name: category.category + ' ' + product.product_name,
+                    //         id: category.category + '_' + product.product_name,
+                    //         price: product.price,
+                    //         currency: 'USD',
+                    //       }
+                    //       addItem(cartDisplayProduct, {count: quantity, product_metadata: {location: category.category_location, cell: product.order_form_cell}});
+                    //       }
+                    //     }
+                    //   });
+                    //   setQuantities({});
+                     }}
                   >
                     Add All to Cart
                   </Button>
@@ -429,15 +444,15 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                 type="number"
                 min="0"
                 placeholder="0"
-                value={quantities[product.product_id] ?? ''}
-                onChange={(e) => {
-                  const input = e.target.value;
-                  const qty = parseInt(input, 10);
-                  setQuantities(prev => ({
-                    ...prev,
-                    [product.product_id]: input === '' ? '' : isNaN(qty) ? 0 : qty,
-                  }));
-                }}
+                // value={quantities[product.product_id] ?? ''}
+                // onChange={(e) => {
+                //   const input = e.target.value;
+                //   const qty = parseInt(input, 10);
+                //   setQuantities(prev => ({
+                //     ...prev,
+                //     [product.product_id]: input === '' ? '' : isNaN(qty) ? 0 : qty,
+                //   }));
+                // }}
                 className="border rounded px-2 py-1 w-20 text-center text-sm"
               />
             </div>
@@ -479,15 +494,15 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                 type="number"
                 min="0"
                 placeholder="0"
-                value={quantities[product.product_id] ?? ''}
-                onChange={(e) => {
-                  const input = e.target.value;
-                  const qty = parseInt(input, 10);
-                  setQuantities(prev => ({
-                    ...prev,
-                    [product.product_id]: input === '' ? '' : isNaN(qty) ? 0 : qty,
-                  }));
-                }}
+                // value={quantities[product.product_id] ?? ''}
+                // onChange={(e) => {
+                //   const input = e.target.value;
+                //   const qty = parseInt(input, 10);
+                //   setQuantities(prev => ({
+                //     ...prev,
+                //     [product.product_id]: input === '' ? '' : isNaN(qty) ? 0 : qty,
+                //   }));
+                // }}
                 className="border rounded px-2 py-1 w-20 text-center text-sm"
               />
             </div>
@@ -523,15 +538,15 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                 type="number"
                 min="0"
                 placeholder="0"
-                value={quantities[product.product_id] ?? ''}
-                onChange={(e) => {
-                  const input = e.target.value;
-                  const qty = parseInt(input, 10);
-                  setQuantities(prev => ({
-                    ...prev,
-                    [product.product_id]: input === '' ? '' : isNaN(qty) ? 0 : qty,
-                  }));
-                }}
+                // value={quantities[product.product_id] ?? ''}
+                // onChange={(e) => {
+                //   const input = e.target.value;
+                //   const qty = parseInt(input, 10);
+                //   setQuantities(prev => ({
+                //     ...prev,
+                //     [product.product_id]: input === '' ? '' : isNaN(qty) ? 0 : qty,
+                //   }));
+                // }}
                 className="border rounded px-2 py-1 w-20 text-center text-sm"
               />
             </div>

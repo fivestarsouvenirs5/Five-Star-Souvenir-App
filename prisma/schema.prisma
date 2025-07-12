@@ -31,6 +31,7 @@ model products {
   price            Float?         @db.Float
   order_form_cell  String         @db.VarChar(45)
   featured_product Int            @default(0)
+  set_qty          Int?
   category         category       @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_category")
   subcategories    subcategories? @relation(fields: [subcategory_id], references: [subcategory_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_subcategory")
 

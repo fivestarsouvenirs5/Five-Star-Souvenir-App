@@ -434,13 +434,33 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
   }
   }
 
-  const QtyBtn = (product) => {
-    if (isApproved) {
+  const QtyBtn = (myProduct) => {
+    var p = myProduct.myProduct;
+    if (p.set_qty !== null && p.set_qty > 0) {
+      var qtyList = [];
+      for (let i = 0; i <= p.set_qty * 6; i += p.set_qty) {
+        qtyList.push(i);
+      }
+      return (
+        <div>
+          <div className="flex items-center gap-2 mt-1">
+            <label htmlFor={`qty-${p.product_id}`} className="text-sm font-medium">Qty:</label>
+            <select id={`qty-${p.product_id}`} placeholder="0" className="border px-2 py-1 rounded">
+              {qtyList.map((qty) => (
+                <option key={qty} value={qty}>{qty}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+      );
+    }
+
+    else {
       return (
             <div className="flex items-center gap-2 mt-1">
-              <label htmlFor={`qty-${product.product_id}`} className="text-sm font-medium">Qty:</label>
+              <label htmlFor={`qty-${p.product_id}`} className="text-sm font-medium">Qty:</label>
               <input
-                id={`qty-${product.product_id}`}
+                id={`qty-${p.product_id}`}
                 type="number"
                 min="0"
                 placeholder="0"
@@ -459,6 +479,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
         
       )
     }
+    
   }
 
   const Cloth = ({ product, category, subcategory, addItem, clothingList }) => {
@@ -487,7 +508,8 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
               addItem={addItem}
               approved={isApproved}
             />
-            <div className="flex items-center gap-2 mt-1">
+            <QtyBtn myProduct ={product}/>
+            {/* <div className="flex items-center gap-2 mt-1">
               <label htmlFor={`qty-${product.product_id}`} className="text-sm font-medium">Qty:</label>
               <input
                 id={`qty-${product.product_id}`}
@@ -505,7 +527,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                 // }}
                 className="border rounded px-2 py-1 w-20 text-center text-sm"
               />
-            </div>
+            </div> */}
           </div>
 
         )
@@ -531,7 +553,8 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
               addItem={addItem}
               approved={isApproved}
             />
-            <div className="flex items-center gap-2 mt-1">
+          <QtyBtn myProduct ={product}/>
+            {/* <div className="flex items-center gap-2 mt-1">
               <label htmlFor={`qty-${product.product_id}`} className="text-sm font-medium">Qty:</label>
               <input
                 id={`qty-${product.product_id}`}
@@ -549,7 +572,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                 // }}
                 className="border rounded px-2 py-1 w-20 text-center text-sm"
               />
-            </div>
+            </div> */}
           </div>
         )
       }

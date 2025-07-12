@@ -115,6 +115,52 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
        }
      }
    
+     const QtyButton = () => {
+
+        if (product.set_qty !== null && product.set_qty > 0) {
+          var qtyList = [];
+          for (let i = 0; i <= product.set_qty * 6; i += product.set_qty) {
+            qtyList.push(i);
+          }
+          return (
+            <div>
+              <div className="flex items-center gap-2 mt-1">
+                <label htmlFor={`qtyinput`} className="text-sm font-medium">Qty:</label>
+                <select id={`qtyinput`} placeholder="0" className="border px-2 py-1 rounded">
+                  {qtyList.map((qty) => (
+                    <option key={qty} value={qty}>{qty}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          );
+        }
+
+        else {
+          return (
+                <div className="flex items-center gap-2 mt-1">
+                  <label htmlFor={`qtyinput`} className="text-sm font-medium">Qty:</label>
+                  <input
+                    id={`qtyinput`}
+                    type="number"
+                    min="0"
+                    placeholder="0"
+                    // value={quantities[product.product_id] ?? ''}
+                    // onChange={(e) => {
+                    //   const input = e.target.value;
+                    //   const qty = parseInt(input, 10);
+                    //   setQuantities(prev => ({
+                    //     ...prev,
+                    //     [product.product_id]: input === '' ? '' : isNaN(qty) ? 0 : qty,
+                    //   }));
+                    // }}
+                    className="border rounded px-2 py-1 w-20 text-center text-sm"
+                  />
+                </div>
+            
+          )
+        }
+    }
 
     const handleChange = (event) => {
       const { value } = event.target;
@@ -167,10 +213,7 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
                 <p>Price: {formatCurrencyString({ value: product.price, currency: 'USD' })}</p>
                 <Category category={category} subcategory={subcategory} /> {/* Displaying decoded category/subcategory names */}
                 <Stock product={product} /> {/* Displaying decoded stock status */}
-                <form>
-                  <label>Qty: </label>
-                  <input type='number' min='0' placeholder='0' name='quantity' className='rounded-sm w-[81px] h-7' id='qtyinput' value={inputValue} onChange={handleChange}/>
-                </form>
+              <QtyButton />
               </div>
             </div>
           </Modal.Body>

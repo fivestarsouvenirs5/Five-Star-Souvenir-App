@@ -5,7 +5,8 @@ import React from 'react'
 import Image from "next/image";
 import { getSession } from '@auth0/nextjs-auth0';
 import Link from "next/link";
-import EditDeliveryButton from './components/editDeliveryButton';
+import DeliveryButton from './components/deliveryButton';
+import AddDeliveryButton from './components/addDeliveryButton';
 
 
 async function getAppMetadata(email) {
@@ -130,12 +131,11 @@ const ImgSrc = async ({ product }) => {
   
 }
 
-const fetchDate = async () => {
+const fetchDates = async () => {
   try {
-    const myDate = await prisma.delivery_date.findUnique({
-      where: { delivery_id: 1},
+    const dates = await prisma.delivery_date.findMany({
     });
-    return myDate;
+    return dates;
   } catch (error) {
     // Handle error
     console.error("Error fetching delivery date:", error);
@@ -145,25 +145,42 @@ const fetchDate = async () => {
 
 const DeliveryDate = async () => {
   const session = await getSession();
-  const date = await fetchDate();
+  const dates = await fetchDates();
   
     
     if (session) {
         const myUser = await getAppMetadata(session.user.email);
         if (myUser.app_metadata.admin == true) {
           return (
-        
-                <EditDeliveryButton month={date.month} year={date.year} number={date.number} />
-                
-         
+          <div>
+            <div className="flex items-center mb-4">
+              <label
+                htmlFor="next-delivery"
+                className="text-md sm:text-lg md:text-xl font-bold p-2"
+              >
+                Next Delivery:     
+              </label>
+              <AddDeliveryButton />
+            </div>
+
+            {dates.map((date) => (
+              <div key={date.delivery_id} className="mb-4">
+                <DeliveryButton date={date} className="text-sm px-2 py-1" />
+              </div>
+            ))}
+          </div>
           )
+
         }
         else {
           return (
             <div>
-              <p className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-red-700 animate-flash">
-                Next Delivery: {date.month} {date.number}, {date.year}
-              </p>
+              <p className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-red-700 animate-flash"> Next Delivery: </p>
+              {dates.map((date) => (
+                <p key={date.delivery_id}className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-red-700 animate-flash">
+                  {date.month} {date.number}, {date.year}
+                </p>
+              ))}
             </div>
 
           
@@ -173,9 +190,12 @@ const DeliveryDate = async () => {
     else {
       return (
         <div>
-          <p className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-red-700 animate-flash">
-            Next Delivery: {date.month} {date.number}, {date.year}
-          </p>
+          <p className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-red-700 animate-flash"> Next Delivery: </p>
+          {dates.map((date) => (
+            <p key={date.delivery_id} className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-red-700 animate-flash">
+             {date.month} {date.number}, {date.year}
+            </p>
+          ))}
         </div>
 
 

@@ -12,7 +12,7 @@ export async function POST(request) {
         
 
         const date = await prisma.delivery_date.update({
-            where: {delivery_id: 1},
+            where: {delivery_id: parseInt(newDateDetails.get("id"))},
             data: {
                 month: newMonth,
                 number: parseInt(newNumber),

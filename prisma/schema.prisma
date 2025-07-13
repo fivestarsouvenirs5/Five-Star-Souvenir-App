@@ -69,7 +69,7 @@ model stores {
 }
 
 model delivery_date {
-  delivery_id Int    @id
+  delivery_id Int    @id @default(autoincrement())
   month       String @db.VarChar(45)
   number      Int
   year        Int

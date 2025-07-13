@@ -34,7 +34,7 @@ export async function POST(request) {
         if (newProductDetails.get("qty") !== null && newProductDetails.get("qty") !== "") {
             qty = parseInt(newProductDetails.get("qty"));
         }
-        console.log(qty);
+       
 
         // Extract file data from the request body
         const fileData = newProductDetails.get("file");

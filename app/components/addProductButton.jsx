@@ -64,7 +64,8 @@ export default function AddProductButton({ category, subcategory, admin}) {
             const productPrice = parseFloat(document.getElementById('newProductPrice').value);
             const productStock = document.getElementById('newProductStock').value;
             const productCell = document.getElementById('newProductCell').value;
-            const isFeatured = document.getElementById("featured?").checked
+            const isFeatured = document.getElementById("featured?").checked;
+            const productQty = document.getElementById('newProductQty').value;
 
             let featured = 0;
 
@@ -93,6 +94,7 @@ export default function AddProductButton({ category, subcategory, admin}) {
                 formData.append("productSubCatgID", sID)
                 formData.append("productSubCatgName", sName)
                 formData.append("featured", featured)
+                formData.append("productQty", productQty)
 
                 if (isClothing === "true") {
                     formData.append("clothingSize", 1)
@@ -160,6 +162,11 @@ export default function AddProductButton({ category, subcategory, admin}) {
 
                                 <label className='font-bold'>Stock *Please write &apos;In Stock&apos; or a custom message: </label>
                                 <input type="text" id="newProductStock"></input>
+                                <br></br>
+                                <br></br>
+
+                                <label className='font-bold'>Please specify a set quantity, leave blank if none: </label>
+                                <input type="text" id="newProductQty"></input>
                                 <br></br>
                                 <br></br>
 

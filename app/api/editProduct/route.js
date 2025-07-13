@@ -30,6 +30,11 @@ export async function POST(request) {
         const catg = await fetchCategory(oldProductCatgID)
         const oldImage = newProductDetails.get("image")
         const featured = parseInt(newProductDetails.get("featured"))
+        var qty = null;
+        if (newProductDetails.get("qty") !== null && newProductDetails.get("qty") !== "") {
+            qty = parseInt(newProductDetails.get("qty"));
+        }
+        console.log(qty);
 
         // Extract file data from the request body
         const fileData = newProductDetails.get("file");
@@ -68,7 +73,8 @@ export async function POST(request) {
                 in_stock: sanitizedStock,
                 order_form_cell: newProductDetails.get("cell"),
                 featured_product: featured,
-                image_id: image
+                image_id: image,
+                set_qty: qty,
             },
         });
 

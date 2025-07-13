@@ -18,6 +18,11 @@ export default function EditProductButton({ product, admin }) {
         var productPrice = document.getElementById('newProductPrice').value;
         var productStock = document.getElementById('newProductStock').value;
         var productCell = document.getElementById('newProductCell').value;
+        var productQty = document.getElementById('newProductQty').value;
+
+        if (productQty === "None" || productQty === "0") {
+            productQty = null;
+        }
 
         if (productName === "") {
             productName = product.product_name;
@@ -43,6 +48,8 @@ export default function EditProductButton({ product, admin }) {
         formData.append("oldProductSubCatgID", product.subcategory_id);
         formData.append("image", product.image_id);
         formData.append("featured", isFeatured ? 1 : 0);  // Add featured status
+        formData.append("qty", productQty);
+
 
         const response = await fetch('/api/editProduct', {
             method: 'POST',
@@ -73,6 +80,10 @@ export default function EditProductButton({ product, admin }) {
             setCellValid(isValidCell(cellValue));
         };
 
+        var qty = "None";
+        if(product.set_qty !== null && product.set_qty > 0) {
+            var qty = product.set_qty;
+        }
         return (
             <div>
                 <button className="bg-blue-500 text-white px-2 py-1 rounded-md mb-4" onClick={() => setOpenModal(true)}>
@@ -100,6 +111,11 @@ export default function EditProductButton({ product, admin }) {
 
                                     <label className='font-bold'>Stock: </label>
                                     <input type="text" id="newProductStock" placeholder={product.in_stock}></input>
+                                    <br></br>
+                                    <br></br>
+
+                                     <label className='font-bold'>Set Quantity: </label>
+                                    <input type="text" id="newProductQty" placeholder={qty}></input>
                                     <br></br>
                                     <br></br>
 

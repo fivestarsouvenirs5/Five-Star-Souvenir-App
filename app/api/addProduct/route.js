@@ -63,6 +63,10 @@ export async function POST(request) {
         const sanitizedSubCatgName = escape(newProductDetails.get("productSubCatgName"));
         const sanitizedStock = escape(newProductDetails.get("stock"))
         const featured = parseInt(newProductDetails.get("featured"));
+        var qty = null;
+        if (newProductDetails.get("productQty") !== null && newProductDetails.get("productQty") !== "") {
+            qty = parseInt(newProductDetails.get("productQty"));
+        }
 
         // Extract file data from the request body
         const fileData = newProductDetails.get("file");
@@ -89,7 +93,8 @@ export async function POST(request) {
                 order_form_cell: newProductDetails.get("cell"),
                 clothing_size_id: parseInt(newProductDetails.get("clothingSize")),
                 featured_product: featured,
-                image_id: blob.url
+                image_id: blob.url,
+                set_qty: qty,
             },
         });
         

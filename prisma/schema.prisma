@@ -11,6 +11,7 @@ model category {
   category_id       Int             @id @default(autoincrement())
   category          String?         @db.VarChar(45)
   category_location Int
+  image_id          String?         @db.VarChar(45)
   products          products[]
   subcategories     subcategories[]
 }

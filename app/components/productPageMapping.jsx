@@ -593,6 +593,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
     }
   }
 
+  //category for ny
   if (categoryList !== null) {
     if (isNY == true) {
       return (
@@ -617,7 +618,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
         </div>
       )
     }
-    // is NJ
+    // is NJ categories
     else{
       return (
         <div className = "flex justify-between gap-10">
@@ -642,6 +643,8 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
       )
     }
   }
+
+  //subcategory list for ny
   else if (subcategoryList !== null) {
     return (
         <div className = "flex flex-col lg:flex-row justify-between gap-5">
@@ -664,6 +667,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
       
     )
   }
+  // clothing 
   else if (subcategory === null) {
     return (
       <div>
@@ -697,6 +701,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
   </div>
     )
   }
+// non clothing products
   else {
     return (
       <div>

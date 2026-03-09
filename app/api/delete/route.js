@@ -55,6 +55,9 @@ export async function DELETE(request) {
         }
         else if (itemDetails.itemType === "Category") {
             try {
+                if (itemDetails.myItem.image_id) {
+                    del(itemDetails.myItem.image_id)
+                }
                 const deleteCategory = await prisma.category.delete({
                     where: {
                     category_id: itemDetails.myItem.category_id,

@@ -601,7 +601,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
             {categoryList.map((category) => (
               <div key={category.category_id} className="mb-3 sm:mb-0">
-                <div className="border rounded-md flex items-center justify-center text-center max-w-full p-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl bg-blue-100 hover:bg-blue-300 mb-4">
+                <div className=" flex items-center justify-center max-w-full p-4 hover:bg-gray-300 mb-4">
                   {/* Adjust text sizes based on your preference and design */}
                   <CategoryNY category={category} />
                 </div>

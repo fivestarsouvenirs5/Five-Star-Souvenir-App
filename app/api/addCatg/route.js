@@ -24,31 +24,47 @@
 import { promises as fs } from 'fs';
 import prisma from '../../utils/prisma'
 import { escape } from 'he';
+import { put } from '@vercel/blob';
 
 export async function POST(request) {
     try {
-        const newCatgDetails = await request.json();
+        const newCatgDetails = await request.formData();
 
-        const sanitizedName = escape(newCatgDetails.name);
+        // Extract file data from the request body
+        const fileData = newCatgDetails.get("file");
+
+        const sanitizedName = escape(newCatgDetails.get("name"));
+        const newLocation = parseInt(newCatgDetails.get("newLocation"));
+
+        let blob = await put(`${sanitizedName}.jpg`, fileData, {
+                access: 'public',
+            });
 
         // Create the category in the database
         const catg = await prisma.category.create({
             data: {
                 category: sanitizedName,
-                category_location: newCatgDetails.newLocation,
+                category_location: newLocation,
+                image_id: blob.url,
             },
         });
+
+        
 
         // Create a new folder for the category images
         // const newFolderPath = `public/images/CATEGORIES/${newCatgDetails.name}`;
         // await fs.mkdir(newFolderPath);
 
         // Return a success response with a message
-        return new Response('Category created successfully', { status: 200 });
+        return new Response(JSON.stringify({ category_id: catg.category_id }), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
     } catch (error) {
-        console.error("Error adding category:", error);
-        // Return an error response
-        return new Response('Failed to add category', { status: 500 });
+        console.error("Error adding product:", error);
+        return new Response("Internal Server Error", { status: 500 });
     }
 }
 

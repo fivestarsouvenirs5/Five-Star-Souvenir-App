@@ -223,7 +223,7 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
               let qty = parseInt(document.getElementById('qtyinput').value)
               if (qty > 0) {
               addItem(cartDisplayProduct, {count: qty, product_metadata: {location: category.category_location, cell: product.order_form_cell}})
-              }
+            }
            
             setOpenModal(false);
             }}>Add to Cart</Button>

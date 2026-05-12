@@ -156,7 +156,7 @@ const DeliveryDate = async () => {
             <div className="flex items-center mb-4">
               <label
                 htmlFor="next-delivery"
-                className="text-md sm:text-lg md:text-xl font-bold p-2"
+                className="text-md sm:text-lg md:text-xl font-bold p-2 text-primary"
               >
                 Next Delivery:     
               </label>
@@ -175,9 +175,9 @@ const DeliveryDate = async () => {
         else {
           return (
             <div>
-              <p className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-red-700 animate-flash"> Next Delivery: </p>
+              <p className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-primary animate-flash"> Next Delivery: </p>
               {dates.map((date) => (
-                <p key={date.delivery_id}className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-red-700 animate-flash">
+                <p key={date.delivery_id}className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-primary animate-flash">
                   {date.month} {date.number}, {date.year}
                 </p>
               ))}
@@ -190,9 +190,9 @@ const DeliveryDate = async () => {
     else {
       return (
         <div>
-          <p className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-red-700 animate-flash"> Next Delivery: </p>
+          <p className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-primary animate-flash"> Next Delivery: </p>
           {dates.map((date) => (
-            <p key={date.delivery_id} className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-red-700 animate-flash">
+            <p key={date.delivery_id} className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-primary animate-flash">
              {date.month} {date.number}, {date.year}
             </p>
           ))}

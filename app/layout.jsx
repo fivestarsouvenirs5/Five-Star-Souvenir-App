@@ -23,7 +23,7 @@ export default async function RootLayout({ children }) {
       
         <UserProvider user={session?.user}>
           
-          <body className={inter.className}>
+          <body  className={`${inter.className} bg-background text-text-dark`}>
           <CartProvider>
             <NavBar/>
             <ApproveBanner  />

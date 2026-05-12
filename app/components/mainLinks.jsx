@@ -56,84 +56,31 @@ export default async function MainLinks() {
     
     if (session) {
         const myUser = await getAppMetadata(session.user.email);
-        if (myUser.app_metadata.admin == true) {
             return (
                 <nav>
                     <div className="hidden md:block flex items-center space-x-1">
-                        <Link href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</Link>
-                        <Link href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</Link>
-                        <Link href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
-                        <Link href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
-                        <Link href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
-                        <Link href="/users" className="py-5 px-3 text-gray-700 hover:text-gray-900">Users</Link> 
-                    </div>
-                    <div className="md:hidden">
-                        <Link href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</Link>
-                        <Link href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</Link>
-                        <Link href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
-                        <Link href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
-                        <Link href="/profile" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
-                        <Link href="/users" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Users</Link>
+                        <Link href="/" className="py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark">Home</Link>
+                        <Link href="/products/new-york" className="py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark">Products</Link>
+                        <Link href="/contact" className="py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark">Contact</Link>
+                        <Link href="/about-us" className="py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark">About Us</Link>
+                        {myUser.app_metadata.adminapproval === true && (
+                            <Link href="/profile" className="py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark">Profile</Link>
+                        )}
+                        {myUser.app_metadata.admin === true && (
+                            <Link href="/users" className="py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark">Users</Link>
+                        )}
                     </div>
                 </nav>
             )
         }
-       else if (myUser.user_metadata.adminapproval === "true") {
-            return (
-                <nav>
-                    <div className="hidden md:block flex items-center space-x-1">
-                        <Link href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</Link>
-                        <Link href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</Link>
-                        <Link href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
-                        <Link href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
-                        <Link href="/profile" className="py-5 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
-                    </div>
-                    <div className="md:hidden">
-                        <Link href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</Link>
-                        <Link href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</Link>
-                        <Link href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
-                        <Link href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
-                        <Link href="/profile" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Profile</Link>
-                    </div>
-                </nav>
-                
-            )
-        }
-        else {
-            return (
-                <nav>
-                    <div className="hidden md:block flex items-center space-x-1">
-                        <Link href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</Link>
-                        <Link href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</Link>
-                        <Link href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
-                        <Link href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
-                    </div>
-                    <div className="md:hidden">
-                        <Link href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</Link>
-                        <Link href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</Link>
-                        <Link href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
-                        <Link href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
-                    </div>
-                </nav>
-    
-            )
-        }
-    }
     else {
-        
         return (
             <nav>
                 <div className="hidden md:block flex items-center space-x-1">
-                    <Link href="/" className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</Link>
-                    <Link href="/products/new-york" className="py-5 px-3 text-gray-700 hover:text-gray-900">Products</Link>
-                    <Link href="/contact" className="py-5 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
-                    <Link href="/about-us" className="py-5 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
-                </div>
-                <div className="md:hidden">
-                    <Link href="/" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Home</Link>
-                    <Link href="/products/new-york" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Products</Link>
-                    <Link href="/contact" className="block py-2 px-3 text-gray-700 hover:text-gray-900">Contact</Link>
-                    <Link href="/about-us" className="block py-2 px-3 text-gray-700 hover:text-gray-900">About Us</Link>
+                    <Link href="/" className="py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark">Home</Link>
+                    <Link href="/products/new-york" className="py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark">Products</Link>
+                    <Link href="/contact" className="py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark">Contact</Link>
+                    <Link href="/about-us" className="py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark">About Us</Link>
                 </div>
             </nav>
             

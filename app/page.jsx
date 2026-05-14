@@ -4,9 +4,9 @@ import prisma from './utils/prisma'
 import React from 'react'
 import Image from "next/image";
 import { getSession } from '@auth0/nextjs-auth0';
+import Hero from './components/hero';
 import Link from "next/link";
-import DeliveryButton from './components/deliveryButton';
-import AddDeliveryButton from './components/addDeliveryButton';
+import DeliveryDate from './components/deliveryDate';
 
 
 async function getAppMetadata(email) {
@@ -131,80 +131,6 @@ const ImgSrc = async ({ product }) => {
   
 }
 
-const fetchDates = async () => {
-  try {
-    const dates = await prisma.delivery_date.findMany({
-    });
-    return dates;
-  } catch (error) {
-    // Handle error
-    console.error("Error fetching delivery date:", error);
-    throw error; // Re-throw the error if needed
-  }
-}
-
-const DeliveryDate = async () => {
-  const session = await getSession();
-  const dates = await fetchDates();
-  
-    
-    if (session) {
-        const myUser = await getAppMetadata(session.user.email);
-        if (myUser.app_metadata.admin == true) {
-          return (
-          <div>
-            <div className="flex items-center mb-4">
-              <label
-                htmlFor="next-delivery"
-                className="text-md sm:text-lg md:text-xl font-bold p-2 text-primary"
-              >
-                Next Delivery:     
-              </label>
-              <AddDeliveryButton />
-            </div>
-
-            {dates.map((date) => (
-              <div key={date.delivery_id} className="mb-4">
-                <DeliveryButton date={date} className="text-sm px-2 py-1" />
-              </div>
-            ))}
-          </div>
-          )
-
-        }
-        else {
-          return (
-            <div>
-              <p className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-primary animate-flash"> Next Delivery: </p>
-              {dates.map((date) => (
-                <p key={date.delivery_id}className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-primary animate-flash">
-                  {date.month} {date.number}, {date.year}
-                </p>
-              ))}
-            </div>
-
-          
-          )
-        }
-    }
-    else {
-      return (
-        <div>
-          <p className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-primary animate-flash"> Next Delivery: </p>
-          {dates.map((date) => (
-            <p key={date.delivery_id} className="text-2xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-primary animate-flash">
-             {date.month} {date.number}, {date.year}
-            </p>
-          ))}
-        </div>
-
-
-      )
-    }
-    
- 
-  
-}
 
 const Categ = async ({product}) => {
   const cat = await fetchCategories(product.category_id);
@@ -237,19 +163,17 @@ const Display = ({product}) => {
 export default async function Home() {
   // const [hydrated, setHydrated] = useState(false);
   const featuredProductsList = await fetchFeaturedProducts();
+  const session = await getSession();
+  let userMetadata;
+  if (session) {
+    userMetadata = await getAppMetadata(session.user.email);
+  }
 
-  // useEffect(() => {
-  //   // This forces a rerender, so the date is rendered
-  //   // the second time but not the first
-  //   setHydrated(true);
-  // }, []);
-  // if (!hydrated) {
-  //   // Returns null on first render, so the client and server match
-  //   return null;
-  // }
+
   return (
-    <main className="max-w-screen-xl mx-auto p-8 font-serif">
-      <DeliveryDate />
+    <div>
+      <Hero />
+      <DeliveryDate userMetadata={userMetadata} />
       <br></br>
       <div className="mb-12 p-4 border border-red-500 rounded-md">
         <p className="text-xl">
@@ -288,6 +212,6 @@ export default async function Home() {
         If you are interested in any of our products, please contact Five Star Souvenirs through the <Link href="/contact" className="text-red-500 hover:underline">Contact Page</Link>  to discuss more details!
       </div>
 
-    </main>
+  </div>
   );
 }

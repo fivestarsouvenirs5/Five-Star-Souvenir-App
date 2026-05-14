@@ -4,7 +4,7 @@ import AuthenticationButtons from './authenticationButtons'
 export default function NavBar() {
     return (
     <nav>
-        <nav className="bg-primary">
+        <nav className="bg-primary-dark">
             {/* to indent: max-w-5xl */}
             <div className="px-4 mx-auto">
                 <div className="flex justify-between">

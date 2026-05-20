@@ -118,7 +118,7 @@ export default function Hero() {
                 style={{ backgroundImage: "url('/images/hero-logo.jpg')" }}
               />
 
-              <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-sky-900/10" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-sky-900/10" />
               
               <div className="relative flex flex-col w-full pl-4 text-neutral-beige-light ">
                     <h1 className="text-[32px] font-bold flex">
@@ -144,7 +144,7 @@ export default function Hero() {
               {/* Overlay */}
               {/* <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-sky-900/10" /> */}
 
-               <div className="relative flex items-center justify-center w-full text-neutral-beige-light pt-[25px]">
+               <div className="relative flex items-center justify-center w-full text-neutral-beige-light pt-[25px] p-2">
                     <h1 className="text-[32px] font-bold">
                       Welcome to Five Star Souvenirs Inc.
                     </h1>

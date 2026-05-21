@@ -79,7 +79,7 @@ export default async function Home() {
       <DeliveryDate userMetadata={userMetadata} />
       <PopularProducts />
     
-    {!session || userMetadata.user_metadata.adminapproval === 'false' && (
+    {(!session || (session && userMetadata.user_metadata.adminapproval === 'false')) && (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
         <AboutUsCard />
         <GettingStarted />

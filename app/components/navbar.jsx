@@ -1,16 +1,16 @@
 import MainLinks  from './mainLinks';
-import AuthenticationButtons from './authenticationButtons'
+import AuthenticationButtons from './authenticationButtons';
+import MobileNav from './mobileNav';
 
 export default function NavBar() {
     return (
-    <nav>
-        <nav className="bg-primary-dark">
+        <nav className="bg-primary-dark ">
             {/* to indent: max-w-5xl */}
             <div className="px-4 mx-auto">
                 <div className="flex justify-between">
                 
-                    {/* logo */}
-                    <div className="flex items-center space-x-1">
+                {/* Logo and main links not mobile */}
+                    <div className="flex items-center space-x-1 hidden md:flex">
                         <img className="h-14 w-28" src="/images/Logo.png" alt="" />
                     </div>
                 
@@ -18,32 +18,28 @@ export default function NavBar() {
                         <div className="flex items-center space-x-1">
                             <MainLinks />
                         </div>
-                        
                     </div>
 
-                    <div className="hidden md:flex">
-                        <AuthenticationButtons />
+                {/* mobile logo and main links */}
+                 <div className="md:hidden flex">
+                        <div className="flex items-center space-x-1">
+                            <MobileNav />
+                        </div>
                     </div>
-                    
 
-                    {/* mobile button here */}
-                    <div className="md:hidden flex items-center">
+                    <div className="md:hidden flex items-center space-x-1">
+                        <img className="h-14 w-28" src="/images/Logo.png" alt="" />
+                    </div>
+
+                {/* authentication buttons */}
+                    <div className="flex">
                         <AuthenticationButtons />
                     </div>
 
                 </div>
 
             </div>
-
-            {/* mobile menu */}
-            <div className="md:hidden">
-                <MainLinks/>
-            </div>
         </nav>
-        
-
-        
-    </nav>
     )
    
 }

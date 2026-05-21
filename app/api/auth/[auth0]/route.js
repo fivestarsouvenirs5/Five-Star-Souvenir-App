@@ -13,7 +13,7 @@ export const GET = handleAuth({
     authorizationParams: {
       prompt: "login",
     },
-    returnTo: "/products/new-york",
+    returnTo: "/",
   }),
   signup: handleLogin({
     authorizationParams: {

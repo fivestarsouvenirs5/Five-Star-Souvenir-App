@@ -5,6 +5,7 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { CartProvider } from '../providers/cartProvider';
 import { getSession } from '@auth0/nextjs-auth0';
 import { ApproveBanner } from '../app/components/approvalBanner';
+import { TooltipProvider } from "@/components/ui/tooltip"
 
 //components
 import NavBar from './components/navbar';
@@ -24,11 +25,13 @@ export default async function RootLayout({ children }) {
         <UserProvider user={session?.user}>
           
           <body  className={`${inter.className} bg-background text-text-dark`}>
-          <CartProvider>
-            <NavBar/>
-            <ApproveBanner  />
-            {children}
-          </CartProvider>
+            <TooltipProvider>
+              <CartProvider>
+                <NavBar/>
+                <ApproveBanner  />
+                {children}
+              </CartProvider>
+          </TooltipProvider>
             </body>
           
         </UserProvider>

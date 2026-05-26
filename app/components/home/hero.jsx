@@ -1,5 +1,4 @@
 "use client"
-"use client";
 import React, { useState, useEffect } from "react";
 import { useMyUser } from "../../context/userContext";
 import {
@@ -12,38 +11,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-async function fetchStores(id) {
-    const response = await fetch(`/api/getMyStores`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id: id })
-    });
-
-    if (!response.ok) {
-        console.error("Failed to fetch stores");
-        return [];
-    }
-    const stores = await response.json();
-
-    return stores;
-}
-
-
-const StoreDisplay = ({ myStores }) => {
-  const [selectedStoreId, setSelectedStoreId] = useState( "" );
-
-  const [selectedStore, setSelectedStore] = useState({});
-
-  useEffect(() => {
-    if (myStores.length > 0) {
-        setSelectedStoreId(myStores[0].store_id.toString());
-        setSelectedStore(myStores[0]);
-    }
-  }, [myStores]);
-
-
+const StoreDisplay = ({
+  myStores,
+  selectedStore,
+  setSelectedStore,
+}) => {
   return (
     <div className="flex items-start gap-4 mt-2">
       <div>
@@ -59,55 +31,44 @@ const StoreDisplay = ({ myStores }) => {
           {selectedStore?.store_zip}
         </p>
       </div>
-        {myStores.length > 1 && (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-            <button className="rounded-md">
-                <FontAwesomeIcon icon={faChevronDown} />
-            </button>
-            </DropdownMenuTrigger>
 
-            <DropdownMenuContent className="bg-neutral-beige-light p-2">
+      {myStores.length > 1 && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="rounded-md">
+              <FontAwesomeIcon
+                icon={faChevronDown}
+              />
+            </button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent className="bg-neutral-beige-light p-2">
             {myStores.map((store) => (
-                <DropdownMenuItem
+              <DropdownMenuItem
                 key={store.store_id}
                 onClick={() => {
-                    setSelectedStoreId(
-                    store.store_id.toString()
-                    );
-
-                    setSelectedStore(store);
+                  setSelectedStore(store);
                 }}
-                >
+              >
                 {store.store_name}
-                </DropdownMenuItem>
+              </DropdownMenuItem>
             ))}
-            </DropdownMenuContent>
+          </DropdownMenuContent>
         </DropdownMenu>
-        )}
+      )}
     </div>
   );
 };
 
 export default function Hero() {
 
-const { auth0User, isSignedIn } = useMyUser();
-
-  const [myStores, setMyStores] = useState([]);
-
-  useEffect(() => {
-    async function loadStores() {
-      if (!auth0User?.sub) {
-        return;
-      }
-
-      const stores = await fetchStores( auth0User.sub);
-
-      setMyStores(stores);
-    }
-
-    loadStores();
-  }, [auth0User]);
+  const {
+    auth0User,
+    isSignedIn,
+    myStores,
+    selectedStore,
+    setSelectedStore,
+  } = useMyUser();
 
     if (isSignedIn) {
       return (
@@ -124,7 +85,11 @@ const { auth0User, isSignedIn } = useMyUser();
                     <h1 className="text-[32px] font-bold flex">
                       Hello, {auth0User?.name} {auth0User?.given_name}!
                     </h1>
-                    <StoreDisplay myStores={myStores} />
+                    <StoreDisplay
+                      myStores={myStores}
+                      selectedStore={selectedStore}
+                      setSelectedStore={setSelectedStore}
+                    />
 
               </div>
       

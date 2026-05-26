@@ -8,6 +8,7 @@ import { ApproveBanner } from '../app/components/approvalBanner';
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { UserProvider as MyUserProvider} from './context/userContext';
 import { getCurrentUser } from "@/lib/getUserInfo";
+import { Toaster } from "@/components/ui/sonner";
 
 
 
@@ -40,6 +41,7 @@ export default async function RootLayout({ children }) {
                 <NavBar/>
                 <ApproveBanner  />
                 {children}
+                <Toaster position="top-center" className="bg-neutral-beige-light text-text"/>
               </CartProvider>
           </TooltipProvider>
           </MyUserProvider>

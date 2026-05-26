@@ -37,51 +37,8 @@ const Category = ({ subcategory, category }) => {
   }
 }
 
-const ImgSrc = ({ subcategory, category, product }) => {
-  if (product.image_id) {
-    return (
-      <Image className="w-60" src={product.image_id} alt="Product Image" width={300} height={400} />
-    )
-  }
-  else {
-    if (subcategory == null) {
-      if (category.category_location == 0) {
-        return (
-          <Image className="w-60"
-                src={`/images/CATEGORIES/NJ/${encodeURIComponent(product.product_name)}.jpg`} 
-                alt="My Image3"
-                width={300}
-                height={400}
-                />
-        )
-      }
-      else {
-        return (
-        <Image className="w-60"
-                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
-                alt="My Image1"
-                width={300}
-                height={400}
-                />
-        )
-      }
-      
-    }
-    else {
-      return (
-        <Image className="w-60"
-                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(subcategory.subcategory_name)}/${encodeURIComponent(product.product_name)}.jpg`} 
-                alt="My Image2"
-                width={300}
-                height={400}
-                />
-      )
-    }
-  }
-}
 
-
-const ProductDisplay = ({ product, category, subcategory, addItem, approved }) => {
+const ProductDisplay = ({ product, category, subcategory, addItem, approved, img }) => {
   const { user } = useUser();
   const [openModal, setOpenModal] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -92,7 +49,7 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
      var cartDisplayProduct
      if (subcategory !== null){
        cartDisplayProduct ={
-         name: subcategory.subcategory_name + ' ' + product.product_name,
+         name: product.product_name,
          id: subcategory.subcategory_name + '_' + product.product_name,
          price: product.price,
          currency: 'USD',
@@ -104,7 +61,7 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
      }
      else {
        cartDisplayProduct ={
-         name: category.category + ' ' + product.product_name,
+         name: product.product_name,
          id: category.category + '_' + product.product_name,
          price: product.price,
          currency: 'USD',
@@ -185,7 +142,7 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
           {/* Image/Button Section */}
           <div className="flex-grow flex-[3] w-full flex items-center justify-center">
             <button className="border-b-2" onClick={() => setOpenModal(true)}>
-              <ImgSrc category={category} subcategory={subcategory} product={product} />
+              <Image className="w-60" src={img} alt="Product Image" width={300} height={400} />
             </button>
           </div>
           
@@ -206,7 +163,7 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
           <Modal.Body>
             <div className="flex justify-between">
               <div>
-                <ImgSrc category={category} subcategory={subcategory} product={product} />
+                <Image className="w-60" src={img} alt="Product Image" width={300} height={400} />
               </div>
               <div>
                 <h2>Product Name: {decode(product.product_name)}</h2> {/* Displaying decoded product name */}
@@ -222,7 +179,7 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
               // Adding item to cart
               let qty = parseInt(document.getElementById('qtyinput').value)
               if (qty > 0) {
-              addItem(cartDisplayProduct, {count: qty, product_metadata: {location: category.category_location, cell: product.order_form_cell}})
+              addItem(cartDisplayProduct, {count: qty, product_metadata: {location: category.category_location, cell: product.order_form_cell, category: category.category, subcategory: subcategory ? subcategory.subcategory_name : null, image_url: img}});
             }
            
             setOpenModal(false);
@@ -243,7 +200,7 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved }) =
         </div> */}
         <div className="border-2 bg-red-100 flex flex-col items-center h-full">
           <div className="flex-grow flex-[3] w-full flex items-center justify-center">
-            <ImgSrc category={category} subcategory={subcategory} product={product} />
+            <Image className="w-60" src={img} alt="Product Image" width={300} height={400} />
           </div>
           <label className="flex-grow flex-[1] w-full flex items-center justify-center text-sm sm:text-base md:text-lg font-semibold">
             {product.product_name}

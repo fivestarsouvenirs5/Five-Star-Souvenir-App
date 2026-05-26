@@ -3,62 +3,22 @@ import { useState } from 'react';
 import {useEffect} from 'react'
 import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-cart';
 import { Button, Modal } from 'flowbite-react';
+import { useMyUser } from "../context/userContext";
 
-// function StoreSelector ({storeList}) {
-//   const [selectedStore, setSelectedStore] = useState('');
-//   const [selectedStoreAddress, setSelectedStoreAddress] = useState('');
-  
-//   useEffect(() => {
-//     const selectedStoreObject = storeList.find(store => store.store_name === selectedStore);
-    
-//     if (selectedStoreObject) {
-//         setSelectedStoreAddress(selectedStoreObject.store_address);
-//     }
-//     else {
-//         setSelectedStoreAddress('');
-//     }
-//   }, [selectedStore, storeList]);
-  
-//   const handleStoreChange = (event) => {
-//       setSelectedStore(event.target.value);
-//   };
-  
-//   return (
-//       <div>
-//           <label>Please Select a Store: </label>
-//           <select id='storeselector' onChange={handleStoreChange} value={selectedStore}>
-//               <option value="" disabled>--</option>
-//               {storeList.map((store) => (
-//               <option key={store.store_id} value={store.store_name}>{store.store_name}</option>
-//               ))}
-//           </select>
-          
-//           {selectedStoreAddress && <p>Address: {selectedStoreAddress}</p>}
-//       </div>
-//   );
-// }
-
-export default function OrderButton({storeList}) {
+export default function OrderButton() {
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [preOrderOpenModal, setPreOrderOpenModal] = useState(false);
   const cart = useShoppingCart()
   const { cartDetails, clearCart } = cart  
-  const [selectedStore, setSelectedStore] = useState('');
-  const [selectedStoreAddress, setSelectedStoreAddress] = useState('');
+  const { selectedStore, myStores} = useMyUser();
+  const [selectedCartStore, setSelectedCartStore] = useState(selectedStore);
+  const [editMode, setEditMode] = useState(false);
   
-  useEffect(() => {
-    const selectedStoreObject = storeList.find(store => store.store_name === selectedStore);
-    if (selectedStoreObject) {
-        setSelectedStoreAddress(selectedStoreObject.store_address);
-    }
-    else {
-        setSelectedStoreAddress('');
-    }
-  }, [selectedStore, storeList]);
 
   const handleStoreChange = (event) => {
-    setSelectedStore(event.target.value);
+    const selectedStoreObject = myStores.find(store => store.store_name === event.target.value);
+    setSelectedCartStore(selectedStoreObject);
   };
 
 
@@ -72,7 +32,7 @@ export default function OrderButton({storeList}) {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({cart: cartDetails, selectedStore: selectedStore})
+        body: JSON.stringify({cart: cartDetails, selectedStore: selectedCartStore})
       });
       if (!response.ok) {
         throw new Error('Failed to fetch order data');
@@ -90,29 +50,41 @@ export default function OrderButton({storeList}) {
 
   return (
     <div>
-      <button className="text-black" disabled={loading} onClick={() => setPreOrderOpenModal(true)}>
-        {loading ? 'Processing...' : 'Order'}
+      <button className=" text-xl text-neutral-blue-light bg-secondary hover:bg-secondary-dark rounded-md py-2 px-4 w-72 " disabled={loading} onClick={() => setPreOrderOpenModal(true)}>
+        {loading ? 'Processing...' : 'Place Order'}
       </button>
       <Modal show={preOrderOpenModal} onClose={() => setPreOrderOpenModal(false)}>
       <Modal.Header>Order</Modal.Header>
                 <Modal.Body>
-                    <h3>Are you sure you want to order?</h3>
-                    <div>
+                  {!editMode ?
+                  (<div><h3>Are you sure you want to order from:</h3> <br></br>
+                  <p>{selectedCartStore.store_name}</p>
+                  <p>{selectedCartStore?.store_street}</p>
+                    <p>
+                      {selectedCartStore?.store_city},{" "}
+                      {selectedCartStore?.store_state}{" "}
+                      {selectedCartStore?.store_zip}
+                    </p></div>)
+                   : 
+                   (<div>
                         <label>Please Select a Store: </label>
-                        <select id='storeselector' onChange={handleStoreChange} value={selectedStore}>
-                            <option value="" disabled>--</option>
-                            {storeList.map((store) => (
+                        <select id='storeselector' onChange={handleStoreChange} value={selectedCartStore.store_name}>
+                            {myStores.map((store) => (
                             <option key={store.store_id} value={store.store_name}>{store.store_name}</option>
                             ))}
                         </select>
-                        
-                        {selectedStoreAddress && <p>Address: {selectedStoreAddress}</p>}
-                    </div>
+                    </div>)}
+                    
+                    
 
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button onClick={handleOrderButtonClick} disabled={!selectedStore}>Yes</Button>
-                  <Button onClick={() => setPreOrderOpenModal(false)}>No</Button>
+                  {!editMode ? <Button onClick={handleOrderButtonClick}>Confirm Order</Button> :
+                  <Button onClick={() => setEditMode(false)} disabled={!selectedStore}>Select Store</Button>}
+                  
+                  {!editMode ? <Button onClick={() => setEditMode(true)}>Change Store</Button> :
+                  <Button onClick={() => setEditMode(false)}>Cancel</Button>}
+                  
                 </Modal.Footer>
       </Modal>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
@@ -123,7 +95,7 @@ export default function OrderButton({storeList}) {
         <Modal.Footer>
           <Button onClick={() => {
             setOpenModal(false);
-            
+            closeCart(false);
           }}>Continue Shopping</Button>
         </Modal.Footer>
       </Modal>

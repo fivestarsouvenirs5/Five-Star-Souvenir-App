@@ -5,41 +5,6 @@ import {useState} from 'react'
 import {useEffect} from 'react'
 import { useUser } from '@auth0/nextjs-auth0/client';
 
-
-// function StoreSelector ({storeList}) {
-//   const [selectedStore, setSelectedStore] = useState('');
-//   const [selectedStoreAddress, setSelectedStoreAddress] = useState('');
-  
-//   useEffect(() => {
-//     const selectedStoreObject = storeList.find(store => store.store_name === selectedStore);
-    
-//     if (selectedStoreObject) {
-//         setSelectedStoreAddress(selectedStoreObject.store_address);
-//     }
-//     else {
-//         setSelectedStoreAddress('');
-//     }
-//   }, [selectedStore, storeList]);
-  
-//   const handleStoreChange = (event) => {
-//       setSelectedStore(event.target.value);
-//   };
-  
-//   return (
-//       <div>
-//           <label>Please Select a Store: </label>
-//           <select id='storeselector' onChange={handleStoreChange} value={selectedStore}>
-//               <option value="" disabled>--</option>
-//               {storeList.map((store) => (
-//               <option key={store.store_id} value={store.store_name}>{store.store_name}</option>
-//               ))}
-//           </select>
-          
-//           {selectedStoreAddress && <p>Address: {selectedStoreAddress}</p>}
-//       </div>
-//   );
-// }
-
 function CartEntry({ entry, removeItem }) {
  
   // console.log(entry.product_data.location)
@@ -107,22 +72,6 @@ export default function Cart( {approved, storeList}) {
         return(
           // <div className="lg:w-96 md:w-8/12 w-full bg-red-100 float-right mt-4 mb-20  top-20 right-10">
           <div className="flex flex-col lg:h-screen h-auto lg:px-8 md:px-7 px-4 lg:py-20 md:py-10 py-6 justify-between overflow-y-auto rounded-md top-20 right-10 mt-4 mb-20 bg-red-100 float-right lg:w-3/6 md:w-8/12">
-            <div>
-              <p className="lg:text-5xl text-4xl font-bold leading-10 text-gray-800 dark:text-black mb-2">Summary</p>
-              {/* <StoreSelector storeList={storeList} /> */}
-              {/* <div>
-                  <label>Please Select a Store: </label>
-                  <select id='storeselector' onChange={handleStoreChange} value={selectedStore}>
-                      <option value="" disabled>--</option>
-                      {storeList.map((store) => (
-                      <option key={store.store_id} value={store.store_name}>{store.store_name}</option>
-                      ))}
-                  </select> */}
-                  
-                  {/* {selectedStoreAddress && <p>Address: {selectedStoreAddress}</p>} */}
-              {/* </div> */}
-                      <p className="lg:text-2xl text-xl font-black leading-8 text-gray-800 dark:text-black mb-4">Items in Cart:</p>
-            </div>
             {cartEntries.length === 0 ? <p>Cart is empty.</p> : null}
             {cartEntries.length > 0 ? (
               <>

@@ -1,3 +1,4 @@
+import prisma from '../../utils/prisma';
 export async function GET() {
     try {
         const featuredProducts = await prisma.products.findMany({
@@ -9,7 +10,6 @@ export async function GET() {
                 subcategories: true,
             },
         });
-        console.log(featuredProducts);
 
         return new Response(JSON.stringify(featuredProducts), {
             headers: {

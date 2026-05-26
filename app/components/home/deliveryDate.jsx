@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import AddDeliveryButton from "../addDeliveryButton";
+import { useMyUser } from "../../context/userContext";
 
 const fetchDates = async () => {
   try {
@@ -18,11 +18,11 @@ const fetchDates = async () => {
   }
 };
 
-export default function DeliveryDate({ userMetadata }) {
+export default function DeliveryDate() {
   const [dates, setDates] = useState([]);
   const [reload, setReload] = useState(false);
 
-  const user = useUser();
+const { isSignedIn, myUser } = useMyUser();
 
   useEffect(() => {
     const getDates = async () => {
@@ -48,8 +48,8 @@ export default function DeliveryDate({ userMetadata }) {
           ))}
         </div>
 
-        {user.user != undefined &&
-          userMetadata.app_metadata.admin == true && (
+        {isSignedIn &&
+        myUser?.app_metadata?.admin === true && (
             <div className="flex">
               <AddDeliveryButton
                 deliveryDates={dates}

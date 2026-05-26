@@ -1,4 +1,5 @@
- export async function POST(request) {
+import prisma from '../../utils/prisma';
+export async function POST(request) {
     const myRequest = await request.json();
     const id = myRequest.id;
 

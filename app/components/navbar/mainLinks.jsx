@@ -92,79 +92,56 @@
 "use client";
 
 import Link from "next/link";
-import { useUser } from "@auth0/nextjs-auth0/client";
-import { useEffect, useState } from "react";
-
-async function getAppMetadata(email) {
-  const axios = (await import("axios")).default;
-
-  const getAccess = {
-    method: "POST",
-    url: `https://${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}/oauth/token`,
-    headers: { "content-type": "application/json" },
-    data: {
-      grant_type: "client_credentials",
-      client_id: process.env.NEXT_PUBLIC_AUTH0_API_CLIENT_ID,
-      client_secret: process.env.NEXT_PUBLIC_AUTH0_API_CLIENT_SECRET,
-      audience: process.env.NEXT_PUBLIC_AUTH0_API_ID,
-    },
-  };
-
-  const tokenRes = await axios.request(getAccess);
-
-  const options = {
-    method: "GET",
-    url: `https://${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}/api/v2/users-by-email`,
-    params: { email },
-    headers: { authorization: `Bearer ${tokenRes.data.access_token}` },
-  };
-
-  const userRes = await axios.request(options);
-
-  return userRes.data[0];
-}
+import { useMyUser } from "../../context/userContext";
 
 export default function MainLinks() {
-  const { user } = useUser();
-  const [myUser, setMyUser] = useState(null);
-
-  useEffect(() => {
-    if (!user?.email) return;
-
-    const load = async () => {
-      const data = await getAppMetadata(user.email);
-      setMyUser(data);
-    };
-
-    load();
-  }, [user]);
+  const { myUser, isSignedIn } = useMyUser();
 
   return (
-    <nav  className="hidden md:block flex items-center space-x-1">
-      <Link href="/" className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline">
+    <nav className="hidden md:flex items-center space-x-1">
+      <Link
+        href="/"
+        className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline"
+      >
         Home
       </Link>
 
-      <Link href="/products/new-york" className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline">
+      <Link
+        href="/products/new-york"
+        className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline"
+      >
         Products
       </Link>
 
-      <Link href="/contact" className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline">
+      <Link
+        href="/contact"
+        className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline"
+      >
         Contact
       </Link>
 
-      <Link href="/about-us" className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline">
+      <Link
+        href="/about-us"
+        className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline"
+      >
         About Us
       </Link>
 
-      {myUser?.app_metadata?.adminapproval && (
-        <Link href="/profile" className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline">
-          Profile
-        </Link>
-      )}
+      {isSignedIn &&
+        myUser?.user_metadata?.adminapproval === "true" && (
+          <Link
+            href="/profile"
+            className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline"
+          >
+            Profile
+          </Link>
+        )}
 
       {myUser?.app_metadata?.admin && (
-        <Link href="/users" className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline">
+        <Link
+          href="/users"
+          className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline"
+        >
           Users
         </Link>
       )}

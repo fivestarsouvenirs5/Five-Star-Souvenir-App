@@ -1,4 +1,5 @@
- export async function GET(request) {
+import prisma from '../../utils/prisma';
+export async function GET(request) {
   
     try {
         const dates = await prisma.delivery_date.findMany({

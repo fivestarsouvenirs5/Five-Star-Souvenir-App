@@ -1,8 +1,11 @@
+
 import MainLinks  from './mainLinks';
 import AuthenticationButtons from './authenticationButtons';
 import MobileNav from './mobileNav';
+import CartPopover from './cartPopover';
 
-export default function NavBar() {
+export default async function NavBar() {
+
     return (
         <nav className="bg-primary-dark ">
             {/* to indent: max-w-5xl */}
@@ -32,9 +35,10 @@ export default function NavBar() {
                     </div>
 
                 {/* authentication buttons */}
-                    <div className="flex">
-                        <AuthenticationButtons />
-                    </div>
+                <div className="flex items-center space-x-4">
+                    <CartPopover />
+                    <AuthenticationButtons />
+                </div>
 
                 </div>
 

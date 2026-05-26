@@ -1,7 +1,7 @@
 "use client"
-import { getSession } from '@auth0/nextjs-auth0';
-import React, { useState, useEffect } from 'react';
-import { useUser } from "@auth0/nextjs-auth0/client";
+"use client";
+import React, { useState, useEffect } from "react";
+import { useMyUser } from "../../context/userContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -91,25 +91,25 @@ const StoreDisplay = ({ myStores }) => {
 
 export default function Hero() {
 
-    const { user} = useUser();
+const { auth0User, isSignedIn } = useMyUser();
 
   const [myStores, setMyStores] = useState([]);
 
   useEffect(() => {
     async function loadStores() {
-      if (!user?.sub) {
+      if (!auth0User?.sub) {
         return;
       }
 
-      const stores = await fetchStores( user.sub);
+      const stores = await fetchStores( auth0User.sub);
 
       setMyStores(stores);
     }
 
     loadStores();
-  }, [user]);
+  }, [auth0User]);
 
-    if (user) {
+    if (isSignedIn) {
       return (
            <div className="relative w-full min-h-[200px] md:min-h-[300px] flex items-center">
               {/* Background image */}
@@ -122,7 +122,7 @@ export default function Hero() {
               
               <div className="relative flex flex-col w-full pl-4 text-neutral-beige-light ">
                     <h1 className="text-[32px] font-bold flex">
-                      Hello, {user.name} {user.given_name}!
+                      Hello, {auth0User?.name} {auth0User?.given_name}!
                     </h1>
                     <StoreDisplay myStores={myStores} />
 

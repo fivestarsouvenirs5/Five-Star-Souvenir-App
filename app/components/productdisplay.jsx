@@ -7,6 +7,7 @@ import { formatCurrencyString } from 'use-shopping-cart';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Image from "next/image";
 import { decode } from 'he'; // Importing decode function from he module
+import { toast } from 'sonner';
 
 const Stock = ({ product }) => {
   const decodedStock = decode(product.in_stock); // Decoding stock status
@@ -38,7 +39,7 @@ const Category = ({ subcategory, category }) => {
 }
 
 
-const ProductDisplay = ({ product, category, subcategory, addItem, approved, img }) => {
+const ProductDisplay = ({ product, category, subcategory, addItem, approved, img, cartCount }) => {
   const { user } = useUser();
   const [openModal, setOpenModal] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -179,10 +180,14 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved, img
               // Adding item to cart
               let qty = parseInt(document.getElementById('qtyinput').value)
               if (qty > 0) {
-              addItem(cartDisplayProduct, {count: qty, product_metadata: {location: category.category_location, cell: product.order_form_cell, category: category.category, subcategory: subcategory ? subcategory.subcategory_name : null, image_url: img}});
+              addItem(cartDisplayProduct, {count: qty, product_metadata: {location: category.category_location, cell: product.order_form_cell,product_qty: product.set_qty, category: category.category, subcategory: subcategory ? subcategory.subcategory_name : null, image_url: img}});
             }
            
             setOpenModal(false);
+            toast.success( `${qty} item(s) added. Total items: ${cartCount + qty}`, {
+                        className: "!bg-neutral-beige-light !text-text-dark",
+                        duration: 5000,
+                      });
             }}>Add to Cart</Button>
           </Modal.Footer>
         </Modal>

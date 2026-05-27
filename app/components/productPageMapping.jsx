@@ -104,7 +104,7 @@ const ImgSrc = (category, subcategory, product) => {
 const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, category, subcategory, clothingList, subMainCategory, isAdmin, isApproved, stores }) => {
  // const { user} = useUser();
   const cart = useShoppingCart();
-  const { addItem, formattedTotalPrice } = cart;
+  const { addItem, formattedTotalPrice, cartCount } = cart;
   const [myProducts, setMyProducts] = useState(products);
   // const [quantities, setQuantities] = useState({});
   // const admin = getAppMetadata(user.email)
@@ -128,8 +128,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
     }
   }
 
-  const AddAllToCartButton = () => {
-    const { cartCount } = cart;
+  const AddAllToCartButton = ({ cartCount }) => {
     if (products.length > 0) {
       if (products[0].clothing_size_id !== 1 && isApproved) {
         return(
@@ -147,13 +146,13 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
                               price: product.price,
                               currency: 'USD',
                             };
-                             addItem(cartDisplayProduct, {count: quantity, product_metadata: {location: category.category_location, cell: product.order_form_cell, category: category.category, subcategory: subcategory ? subcategory.subcategory_name : null, image_url: ImgSrc(category, subcategory, product)}});
+                             addItem(cartDisplayProduct, {count: quantity, product_metadata: {location: category.category_location, cell: product.order_form_cell,product_qty: product.set_qty, category: category.category, subcategory: subcategory ? subcategory.subcategory_name : null, image_url: ImgSrc(category, subcategory, product)}});
                             totalAdded += quantity;
                             }
                          
                       });
-                      toast.success(`Added to cart`, {
-                        description: `${totalAdded} item(s) added. Total items: ${cartCount + totalAdded}`,
+                      toast.success( `${totalAdded} item(s) added. Total items: ${cartCount + totalAdded}`, {
+                        className: "!bg-neutral-beige-light !text-text-dark",
                         duration: 5000,
                       });
                      }}
@@ -220,12 +219,12 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
         const filteredClothes = clothingList.filter(item => item.clothing_product_id === product.product_id);
         
         return (
-          <ClothingDisplay product = {product} category = {category} subcategory={null} addItem={addItem} clothe={filteredClothes} approved={isApproved} />
+          <ClothingDisplay product = {product} category = {category} subcategory={null} addItem={addItem} clothe={filteredClothes} approved={isApproved} cartCount={cartCount} img={ImgSrc(category, null, product)} />
         )
       }
       else {
         return (
-          <ClothingDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem} approved={isApproved}/>
+          <ClothingDisplay product = {product} category = {category} subcategory={subcategory} addItem={addItem} approved={isApproved} cartCount={cartCount} img={ImgSrc(category, subcategory, product)} />
         )
       }
     }
@@ -240,6 +239,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
               addItem={addItem}
               approved={isApproved}
               img={ImgSrc(category, null, product)}
+              cartCount={cartCount}
             />
             <QtyBtn myProduct ={product}/>
             {/* <div className="flex items-center gap-2 mt-1">
@@ -274,6 +274,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
               addItem={addItem}
               approved={isApproved}
               img={ImgSrc(category, null, product)}
+              cartCount={cartCount}
             />
         )
       }
@@ -287,6 +288,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
               addItem={addItem}
               approved={isApproved}
               img={ImgSrc(category, subcategory, product)}
+              cartCount={cartCount}
             />
           <QtyBtn myProduct ={product}/>
             {/* <div className="flex items-center gap-2 mt-1">
@@ -321,6 +323,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
               addItem={addItem}
               approved={isApproved}
               img={ImgSrc(category, subcategory, product)}
+              cartCount={cartCount}
             />
             </div>
         )
@@ -404,7 +407,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
   else if (subcategory === null) {
     return (
       <div>
-       <AddAllToCartButton/>
+       <AddAllToCartButton cartCount={cartCount} />
       <div className = "flex flex-col lg:flex-row justify-between gap-5">
 
         <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
@@ -437,7 +440,7 @@ const ProductPageMapping = ({ products, categoryList, subcategoryList, isNY, cat
   else {
     return (
       <div>
-         <AddAllToCartButton/>
+         <AddAllToCartButton cartCount={cartCount} />
       <div className = "flex flex-col lg:flex-row justify-between gap-5">
 
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">

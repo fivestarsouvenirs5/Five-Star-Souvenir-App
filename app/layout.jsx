@@ -41,7 +41,7 @@ export default async function RootLayout({ children }) {
                 <NavBar/>
                 <ApproveBanner  />
                 {children}
-                <Toaster position="top-center" className="bg-neutral-beige-light text-text"/>
+                <Toaster position="top-center" />
               </CartProvider>
           </TooltipProvider>
           </MyUserProvider>

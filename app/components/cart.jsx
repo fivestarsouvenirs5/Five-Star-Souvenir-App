@@ -7,7 +7,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 
 function CartEntry({ entry, removeItem }) {
  
-  // console.log(entry.product_data.location)
+  console.log(entry)
     return (
       <div>
         <h3></h3>

@@ -253,6 +253,7 @@ import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-c
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Image from "next/image";
 import { decode } from 'he'; // Importing decode function from he module
+import { toast } from 'sonner';
 
 
 
@@ -321,57 +322,57 @@ const Category = ({ subcategory, category }) => {
   }
 }
 
-const ImgSrc = ({ subcategory, category, product }) => {
-  if (product.image_id) {
-    return (
-      <Image className="w-60"
-        src={product.image_id}
-        alt="Product Image"
-        width={300}
-        height={400}
-      />
-    )
-  }
-  else {
-    // Image rendering code
-    if (subcategory == null) {
-      if (category.category_location == 0) {
-        return (
-          <Image className="w-60"
-                src={`/images/CATEGORIES/NJ/${encodeURIComponent(product.product_name)}.jpg`} 
-                alt="My Image3"
-                width={300}
-                height={400}
-                />
-        )
-      }
-      else {
-        return (
-        <Image className="w-60"
-                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
-                alt="My Image1"
-                width={300}
-                height={400}
-                />
-        )
-      }
+// const ImgSrc = ({ subcategory, category, product }) => {
+//   if (product.image_id) {
+//     return (
+//       <Image className="w-60"
+//         src={product.image_id}
+//         alt="Product Image"
+//         width={300}
+//         height={400}
+//       />
+//     )
+//   }
+//   else {
+//     // Image rendering code
+//     if (subcategory == null) {
+//       if (category.category_location == 0) {
+//         return (
+//           <Image className="w-60"
+//                 src={`/images/CATEGORIES/NJ/${encodeURIComponent(product.product_name)}.jpg`} 
+//                 alt="My Image3"
+//                 width={300}
+//                 height={400}
+//                 />
+//         )
+//       }
+//       else {
+//         return (
+//         <Image className="w-60"
+//                 src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(product.product_name)}.jpg`} 
+//                 alt="My Image1"
+//                 width={300}
+//                 height={400}
+//                 />
+//         )
+//       }
       
-    }
-    else {
-      return (
-        <Image className="w-60"
-                src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(subcategory.subcategory_name)}/${encodeURIComponent(product.product_name)}.jpg`} 
-                alt="My Image2"
-                width={300}
-                height={400}
-                />
-      )
-    }
-  }
-}
+//     }
+//     else {
+//       return (
+//         <Image className="w-60"
+//                 src={`/images/CATEGORIES/${encodeURIComponent(category.category)}/${encodeURIComponent(subcategory.subcategory_name)}/${encodeURIComponent(product.product_name)}.jpg`} 
+//                 alt="My Image2"
+//                 width={300}
+//                 height={400}
+//                 />
+//       )
+//     }
+//   }
+// }
 
 
-const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, approved }) => {
+const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, approved, cartCount, img }) => {
   const { user } = useUser();
   const [openModal, setOpenModal] = useState(false);
 
@@ -387,7 +388,12 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, appr
             {/* Image/Button Section */}
             <div className="flex-grow flex-[3] w-full flex items-center justify-center">
               <button className="border-b-2" onClick={() => setOpenModal(true)}>
-                <ImgSrc category={category} subcategory={subcategory} product={product} />
+                <Image className="w-60"
+                  src={img}
+                  alt="Product Image"
+                  width={300}
+                  height={400}
+                />
               </button>
             </div>
             
@@ -408,7 +414,12 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, appr
           <Modal.Body>
             <div className="flex justify-between">
               <div>
-                <ImgSrc category={category} subcategory={subcategory} product={product} />
+                <Image className="w-60"
+                  src={img}
+                  alt="Product Image"
+                  width={300}
+                  height={400}
+                />
               </div>
               <div>
                 <h2>Product Name:  {decode(product.product_name)}</h2> {/* Displaying decoded product name */}
@@ -425,6 +436,7 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, appr
           <Modal.Footer>
             <Button onClick={() => {
               // Adding item to cart
+            let totalAdded = 0;
               let sizes = [];
               for (const element of filteredSizes) {
                 let sizeInput = document.getElementById(element);
@@ -439,12 +451,14 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, appr
               const clothingCellNumbers = sizes.map(sizeElement => {
                 return filteredCellNumbers[filteredSizes.indexOf(sizeElement.id)]
               });
-
+              
+                 
               for (let i = 0; i < sizes.length; i++) {
                 var cartDisplayProduct
+               
                 if (subcategory !== null){
                   cartDisplayProduct ={
-                    name: subcategory.subcategory_name + ' ' + product.product_name,
+                    name:  product.product_name,
                     id: subcategory.subcategory_name + '_' + product.product_name + '_' + sizes[i].id,
                     price: clothingPrices[i],
                     currency: 'USD',
@@ -456,7 +470,7 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, appr
                 }
                 else {
                   cartDisplayProduct ={
-                    name: category.category + ' ' + product.product_name,
+                    name:  product.product_name,
                     id: category.category + '_' + product.product_name + '_' + sizes[i].id,
                     price: clothingPrices[i],
                      currency: 'USD',
@@ -468,11 +482,21 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, appr
                  }
                 }
                 // console.log(clothingPrice, size, "yay!")
-                addItem(cartDisplayProduct, {count: parseInt(sizes[i].value), product_metadata: {size: sizes[i].id, location: category.category_location, cell: clothingCellNumbers[i]}})
+                addItem(cartDisplayProduct, {count: parseInt(sizes[i].value), product_metadata: {size: sizes[i].id, location: category.category_location, cell: clothingCellNumbers[i], product_qty: product.set_qty, category: category.category, subcategory: subcategory ? subcategory.subcategory_name : null, image_url: img}})
+                totalAdded += parseInt(sizes[i].value);
               }
+
+             
+              
             }
             
+            
             setOpenModal(false);
+              toast.success( `${totalAdded} item(s) added. Total items: ${cartCount + totalAdded}`, {
+                                      className: "!bg-neutral-beige-light !text-text-dark",
+                                      duration: 5000,
+                                    });
+             
             }}>Add to Cart</Button>
           </Modal.Footer>
         </Modal>
@@ -484,7 +508,12 @@ const ClothingDisplay = ({ product, category, subcategory, addItem, clothe, appr
         <>
           <div className="border-2 bg-red-100 flex flex-col items-center h-full">
             <div className="flex-grow flex-[3] w-full flex items-center justify-center">
-              <ImgSrc category={category} subcategory={subcategory} product={product} />
+              <Image className="w-60"
+                src={img}
+                alt="Product Image"
+                width={300}
+                height={400}
+              />
             </div>
             <label className="flex-grow flex-[1] w-full flex items-center justify-center text-sm sm:text-base md:text-lg font-semibold">
               {product.product_name}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Popover, PopoverTrigger, PopoverContent, PopoverHeader } from "@/components/ui/popover";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
@@ -12,13 +12,12 @@ import { useMyUser } from "../../context/userContext";
 import Link from "next/link";
 
 function CartEntry({ entry }) {
-  console.log(entry)
     return (
         <div className="flex flex-col gap-2 mb-4">
           <div className="flex flex-row gap-2">
             <Image className="rounded-md border border-text-light" width={80} height={80} src={entry.product_data.image_url} alt="Product Image" />
             <span>
-              <p className="text-lg font-medium text-text-dark px-3">{entry.name}</p>
+              <p className="text-lg font-medium text-text-dark px-3">{entry.name} {entry.product_data.size ? `~ ${entry.product_data.size}` : ''}</p>
               <p className="text-md text-text py-3">{entry.quantity} x {entry.formattedPrice}</p>
             </span>
           </div>
@@ -64,8 +63,10 @@ export default function CartPopover() {
 
       <PopoverContent
         align="center"
-        className="w-80 p-6 bg-neutral-beige-light"
+        className="w-80 p-6 bg-neutral-beige-light shadow-lg border"
       >
+         <h2 className="text-xl font-bold text-secondary pb-2 text-center">Your Cart</h2>
+         <hr className="pb-2"></hr>
             <div className="max-h-96 overflow-y-auto space-y-2">
               {cartEntries.length === 0 ? <p>Cart is empty.</p> : null}
                     {cartEntries.length > 0 ? (
@@ -83,9 +84,9 @@ export default function CartPopover() {
                         <OrderButton closeCart={setOpen}/>
                         
                     </div>
-                    <Link href="/cart" className="text-lg text-primary hover:underline ">
-                          View Cart
-                      </Link>
+                    <a href="/cart" className="text-lg text-primary hover:underline ">
+                          Manage Cart
+                      </a>
       </PopoverContent>
     </Popover>
   );

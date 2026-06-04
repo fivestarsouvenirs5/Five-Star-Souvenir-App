@@ -31,7 +31,6 @@ export default function ProfileIcon() {
    const [openStoreModal, setOpenStoreModal] = useState(false);
 
    const [formData, setFormData] = useState({
-        user_id: myUser?.user_id,
         firstName: myUser?.name || "",
         lastName: myUser?.given_name || "",
         email: myUser?.email || "",
@@ -45,7 +44,7 @@ export default function ProfileIcon() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
             <Avatar className="w-10 h-10 cursor-pointer">
-            <AvatarImage src={formData.photo} className="object-cover" />
+            <AvatarImage src={formData.photo} className="w-10 h-10 rounded-full object-cover" />
             <AvatarFallback>
                 {myUser?.given_name?.charAt(0)}
                 {myUser?.family_name?.charAt(0)}

@@ -1,6 +1,7 @@
 
 import { NextResponse } from "next/server";
 import { put } from '@vercel/blob';
+import { getSession } from "@auth0/nextjs-auth0";
 
 async function getManagementToken() {
   const response = await fetch(
@@ -25,9 +26,10 @@ async function getManagementToken() {
 export async function PATCH(req) {
   try {
     const formData = await req.formData();
-    console.log("Received form data:", formData);
 
-    const user_id = formData.get("user_id");
+    const session = await getSession();
+
+    const user_id = session.user.sub;
     const firstName = formData.get("firstName");
     const lastName = formData.get("lastName");
     const email = formData.get("email");

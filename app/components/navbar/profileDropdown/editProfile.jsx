@@ -271,7 +271,7 @@ export default function EditProfileModal ({ openModal, setOpenModal, formData, s
                                 setOpenModal(false);
                              }}
               >
-                Cancel
+                Close
               </Button>
 
             <Button

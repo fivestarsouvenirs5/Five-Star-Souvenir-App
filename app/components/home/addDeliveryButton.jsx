@@ -74,65 +74,71 @@ export default function AddDeliveryButton({ deliveryDates, reload, setReload }) 
       </Button>
 
       {/* MODAL (Flowbite default styling) */}
-      <Modal show={open} onClose={() => setOpen(false)} size="4xl">
+      <Modal show={open} onClose={() => setOpen(false)} size="2xl">
 
         <Modal.Header>
           Manage Delivery Dates
         </Modal.Header>
 
-        <Modal.Body>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b">
-                  <th className="py-2">Month</th>
-                  <th className="py-2">Day</th>
-                  <th className="py-2">Year</th>
-                  <th className="py-2 w-20"></th>
-                </tr>
-              </thead>
+       <Modal.Body>
+        <div className="flex justify-center">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b">
+                <th className="py-2 w-28 text-center">Month</th>
+                <th className="py-2 text-center">Day</th>
+                <th className="py-2 text-center">Year</th>
+                <th className="py-2 w-20 text-center">Delete</th>
+              </tr>
+            </thead>
 
-              <tbody>
-                {rows.map((row, i) =>
-                  row.loading ? (
-                    <tr key={row.id}>
-                      <td colSpan={4} className="py-6 text-center animate-pulse">
-                        Creating...
-                      </td>
-                    </tr>
-                  ) : (
-                    <tr key={row.id} className="border-b">
-                      <td className="py-2">
+            <tbody>
+              {rows.map((row, i) =>
+                row.loading ? (
+                  <tr key={row.id}>
+                    <td colSpan={4} className="py-6 text-center animate-pulse">
+                      Creating...
+                    </td>
+                  </tr>
+                ) : (
+                  <tr key={row.id} className="border-b">
+                    <td className="py-2">
+                      <div className="flex justify-center">
                         <input
                           value={row.m}
                           onChange={(e) => updateRow(i, "m", e.target.value)}
-                          className="border rounded px-2 py-1 w-20"
+                          className="border rounded px-2 py-1 w-24 text-center"
                         />
-                      </td>
+                      </div>
+                    </td>
 
-                      <td className="py-2">
+                    <td className="py-2">
+                      <div className="flex justify-center">
                         <input
                           value={row.n}
                           onChange={(e) => updateRow(i, "n", e.target.value)}
-                          className="border rounded px-2 py-1 w-20"
+                          className="border rounded px-2 py-1 w-20 text-center"
                         />
-                      </td>
+                      </div>
+                    </td>
 
-                      <td className="py-2">
+                    <td className="py-2">
+                      <div className="flex justify-center">
                         <input
                           value={row.y}
                           onChange={(e) => updateRow(i, "y", e.target.value)}
-                          className="border rounded px-2 py-1 w-24"
+                          className="border rounded px-2 py-1 w-24 text-center"
                         />
-                      </td>
+                      </div>
+                    </td>
 
-                      {/* DELETE BUTTON (custom color only here) */}
-                      <td className="py-2 text-right">
+                    <td className="py-2">
+                      <div className="flex justify-center">
                         <Button
                           onClick={() => deleteRow(i)}
                           disabled={loadingDelete[row.id]}
                           size="xs"
-                          className="bg-white text-destructive items-center !hover:bg-secondary-light"
+                          className="bg-white text-destructive items-center hover:!bg-secondary-light"
                         >
                           {loadingDelete[row.id] ? (
                             <span className="animate-spin">⏳</span>
@@ -140,14 +146,15 @@ export default function AddDeliveryButton({ deliveryDates, reload, setReload }) 
                             <FontAwesomeIcon icon={faTrash} />
                           )}
                         </Button>
-                      </td>
-                    </tr>
-                  )
-                )}
-              </tbody>
-            </table>
-          </div>
-        </Modal.Body>
+                      </div>
+                    </td>
+                  </tr>
+                )
+              )}
+            </tbody>
+          </table>
+        </div>
+      </Modal.Body>
 
         <Modal.Footer>
           {/* ADD BUTTON */}

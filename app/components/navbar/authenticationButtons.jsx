@@ -2,6 +2,7 @@
 import { useUser } from '@auth0/nextjs-auth0/client';
 import {useState} from 'react';
 import { Button, Modal } from 'flowbite-react';
+import ProfileIcon from './profileDropdown/profileIcon';
 
 export default function AuthenticationButtons() {
     const [openModal, setOpenModal] = useState(false);
@@ -80,9 +81,7 @@ export default function AuthenticationButtons() {
     }
     else {
         return (
-            <div className="flex items-center space-x-1">
-            <a href="/api/auth/logout" className="py-2 px-3 bg-secondary hover:bg-secondary-dark text-neutral-beige-light hover:text-neutral-beige-dark rounded">Logout</a>
-            </div>
+            <ProfileIcon />
         )
     }
 }

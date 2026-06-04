@@ -65,17 +65,6 @@ export default function MobileNav() {
           About Us
         </Link>
 
-        {isSignedIn &&
-          myUser?.user_metadata?.adminapproval === "true" && (
-            <Link
-              href="/profile"
-              onClick={handleClose}
-              className="block py-2 text-white"
-            >
-              Profile
-            </Link>
-          )}
-
         {myUser?.app_metadata?.admin && (
           <Link
             href="/users"

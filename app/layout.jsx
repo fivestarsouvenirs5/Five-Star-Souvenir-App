@@ -23,8 +23,9 @@ export const metadata = {
 }
 
 export default async function RootLayout({ children }) {
-  const { session, userMetadata, isSignedIn } =
+  const { user, isSignedIn } =
     await getCurrentUser();
+    const session = await getSession();
   return (
     <html lang="en">
       
@@ -32,8 +33,7 @@ export default async function RootLayout({ children }) {
           
           <body  className={`${inter.className} bg-background text-text-dark`}>
              <MyUserProvider
-              initialUser={session?.user || null}
-              initialMetadata={userMetadata || null}
+              initialUser={user}
               initialSignedIn={isSignedIn}
             >
             <TooltipProvider>

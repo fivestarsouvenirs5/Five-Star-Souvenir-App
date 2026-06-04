@@ -29,46 +29,48 @@ async function fetchStores(id) {
 export function UserProvider({
   children,
   initialUser,
-  initialMetadata,
   initialSignedIn,
 }) {
-  const [auth0User] = useState(initialUser);
-  const [myUser] = useState(initialMetadata);
-  const [isSignedIn] = useState(initialSignedIn);
+  const [myUser, setMyUser] =
+    useState(initialUser);
 
-  const [myStores, setMyStores] = useState([]);
+  const [isSignedIn] =
+    useState(initialSignedIn);
+
+  const [myStores, setMyStores] =
+    useState([]);
+
   const [selectedStore, setSelectedStore] =
     useState(null);
 
   useEffect(() => {
     async function loadStores() {
-      if (!auth0User?.sub) return;
+      if (!myUser?.user_id) return;
 
       const stores = await fetchStores(
-        auth0User.sub
+        myUser.user_id
       );
 
       setMyStores(stores);
 
-      // default selected store
       if (stores.length > 0) {
         setSelectedStore(stores[0]);
       }
     }
 
     loadStores();
-  }, [auth0User]);
+  }, [myUser]);
 
   return (
     <UserContext.Provider
       value={{
-        auth0User,
         myUser,
         isSignedIn,
-
         myStores,
+        setMyStores,
         selectedStore,
         setSelectedStore,
+        setMyUser,
       }}
     >
       {children}
@@ -77,5 +79,13 @@ export function UserProvider({
 }
 
 export function useMyUser() {
-  return useContext(UserContext);
+  const context = useContext(UserContext);
+
+  if (!context) {
+    throw new Error(
+      "useMyUser must be used within UserProvider"
+    );
+  }
+
+  return context;
 }

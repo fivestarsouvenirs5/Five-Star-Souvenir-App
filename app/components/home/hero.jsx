@@ -49,6 +49,7 @@ const StoreDisplay = ({
                 onClick={() => {
                   setSelectedStore(store);
                 }}
+                className="hover:bg-neutral-beige-dark rounded w-full h-full p-1 cursor-pointer"
               >
                 {store.store_name}
               </DropdownMenuItem>
@@ -63,7 +64,7 @@ const StoreDisplay = ({
 export default function Hero() {
 
   const {
-    auth0User,
+    myUser,
     isSignedIn,
     myStores,
     selectedStore,
@@ -83,7 +84,7 @@ export default function Hero() {
               
               <div className="relative flex flex-col w-full pl-4 text-neutral-beige-light ">
                     <h1 className="text-[32px] font-bold flex">
-                      Hello, {auth0User?.name} {auth0User?.given_name}!
+                      Hello, {myUser?.name} {myUser?.given_name}!
                     </h1>
                     <StoreDisplay
                       myStores={myStores}

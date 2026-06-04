@@ -91,7 +91,7 @@ export default function EditProfileModal ({ openModal, setOpenModal, formData, s
         });
 
         if (!res.ok) {
-        throw new Error("Failed");
+            throw new Error("Failed");
         }
         const resData = await res.json();
         console.log("Response from editProfile API:", resData);
@@ -102,6 +102,7 @@ export default function EditProfileModal ({ openModal, setOpenModal, formData, s
             email: resData.email,
             picture: resData.picture,
             user_metadata: {
+                ...prev.user_metadata,
                 phonenumber: resData.user_metadata.phonenumber,
             },
         }));

@@ -35,7 +35,7 @@ export function UserProvider({
     useState(initialUser);
 
   const [isSignedIn] =
-    useState(initialSignedIn);
+    useState(initialSignedIn && myUser.user_metadata.adminapproval === "true");
 
   const [myStores, setMyStores] =
     useState([]);

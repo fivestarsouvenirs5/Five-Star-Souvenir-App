@@ -10,7 +10,7 @@ async function sendAdminEmail(newUserDetails, response) {
       from: 'info@fivestarsouvenirs.com',
       to: ['info@fivestarsouvenirs.com'],
       subject: 'New user request',
-      html: `<html><body> <h2>Name: ${newUserDetails.first_name} ${newUserDetails.last_name}</h2> <h2>Email: ${newUserDetails.user_email}</h2><h2>Phone: ${newUserDetails.phone_number}</h2> <h2>Store Name: ${newUserDetails.store_name}</h2><h2>Store Address: ${newUserDetails.store_address}, ${newUserDetails.store_city}, ${newUserDetails.store_state}, ${newUserDetails.store_zipcode}</h2></body></html>`,
+      html: `<html><body> <h2>Name: ${newUserDetails.first_name} ${newUserDetails.last_name}</h2> <h2>Email: ${newUserDetails.user_email}</h2><h2>Phone: ${newUserDetails.phone_number}</h2> <h2>Store Name: ${newUserDetails.stores[0].store_name}</h2><h2>Store Address: ${newUserDetails.stores[0].store_address}, ${newUserDetails.stores[0].store_city}, ${newUserDetails.stores[0].store_state}, ${newUserDetails.stores[0].store_zipcode}</h2></body></html>`,
     });
     
     // const brevo = require('@getbrevo/brevo');
@@ -41,6 +41,7 @@ async function sendAdminEmail(newUserDetails, response) {
 
 export async function POST(request) {
   const newUserDetails = await request.json()
+  console.log(newUserDetails);
   try {
     if (!newUserDetails.first_name || !newUserDetails.last_name || !newUserDetails.user_email || !newUserDetails.user_password || !newUserDetails.phone_number) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
@@ -59,28 +60,35 @@ export async function POST(request) {
         given_name: newUserDetails.last_name,
         email: newUserDetails.user_email,
         password:newUserDetails.user_password, 
-        user_metadata: { phonenumber: newUserDetails.phone_number, storename: newUserDetails.store_name, storeaddress: newUserDetails.store_address, 
-          storecity: newUserDetails.store_city, storestate: newUserDetails.store_state, 
-          storezipcode: newUserDetails.store_zipcode, 
-          adminapproval: newUserDetails.admin_approval },
+        user_metadata: { phonenumber: newUserDetails.phone_number, adminapproval: "false"},
       })
+
       })
+
+      if (!response.ok) {
+        return new Response(JSON.stringify({ error: 'Failed to create Auth0 user' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+      }
 
       const responseData = await response.json();
       //console.log(responseData);
       const userId = responseData._id;
       //console.log("userid:" + userId)
+      newUserDetails.stores.forEach(async (store, index)=> {
 
-      const store = await prisma.stores.create({
-        data: {
-            store_name: newUserDetails.store_name,
-            user_id: "auth0|" + userId,
-            store_street: newUserDetails.store_address,
-            store_city: newUserDetails.store_city,
-            store_state: newUserDetails.store_state,
-            store_zip: newUserDetails.store_zipcode,
-        },
-    });
+          const newStore = await prisma.stores.create({
+            data: {
+                store_name: store.name,
+                user_id: "auth0|" + userId,
+                store_street: store.street,
+                store_city: store.city,
+                store_state: store.state,
+                store_zip: store.zip,
+            },
+        });
+
+
+      })
+      
 
       await sendAdminEmail(newUserDetails, response);
      

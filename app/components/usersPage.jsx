@@ -2,6 +2,8 @@
 import React from 'react'
 import { Button, Modal } from 'flowbite-react';
 import { useState, useEffect } from 'react';
+import UserCard from './userCard';
+import { RefreshCw } from "lucide-react";
 
 async function forApprovedUser() {
   try {
@@ -80,9 +82,12 @@ const UsersPage = () => {
             const loadData = async () => {
 
                 setLoading(true)
-                
-                setUnapprovedUsers(await forUnapprovedUser());
-                setApprovedUsers(await forApprovedUser());
+
+                const app = await forApprovedUser();
+                const unapp = await forUnapprovedUser();
+                                
+                setUnapprovedUsers(unapp);
+                setApprovedUsers(app);
 
                 setLoading(false)
                
@@ -90,24 +95,58 @@ const UsersPage = () => {
      
              loadData()
              
-        }, [])
+        }, [refresh])
 
         return (
             <>
-                <h1>User Management</h1>
-                {loading ? (<p>Loading Users...</p>) : (
-                <div>
+                <h1 className="text-3xl text-center text-secondary-dark font-bold p-7">Users</h1>
+
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-8 pb-4 gap-3">
+
+            
+                  <div className="flex flex-wrap gap-4 text-sm sm:text-base text-gray-700">
+                      <p>
+                          <span className="font-semibold">Total:</span>{" "}
+                          {approvedUsers.length + unapprovedUsers.length}
+                      </p>
+
+                      <p>
+                          <span className="font-semibold text-green-600">Approved:</span>{" "}
+                          {approvedUsers.length}
+                      </p>
+
+                      <p>
+                          <span className="font-semibold text-destructive">Unapproved:</span>{" "}
+                          {unapprovedUsers.length}
+                      </p>
+                  </div>
+
+                  <button
+                      onClick={() => setRefresh(prev => !prev)}
+                      disabled={loading}
+                      className="bg-primary text-white p-2 rounded-md hover:opacity-80 transition disabled:opacity-50"
+                      title="Refresh users"
+                  >
+                      <RefreshCw className={`w-5 h-5 ${loading ? "animate-spin" : ""}`} />
+                  </button>
+
+              </div>
+                
+                {loading ? (<p className="p-6 text-lg">Loading Users...</p>) : (
+               <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 pb-8 px-8">
                     
                    {unapprovedUsers.map((user) => (
-                        <p key={user.user_id}>{user.first_name}</p>
+                         <UserCard key={user.user_id} user={user} setRefresh={setRefresh}/>
                     ))}
 
-                    {approvedUsers.map((user) => (
-    
-                        <p key={user.user_id}>{user.first_name}</p>
-                        
-                    ))}
-                </div>)}
+                  
+
+                      {approvedUsers.map((user) => (
+                        <UserCard key={user.user_id} user={user} setRefresh={setRefresh}/>
+                      ))}
+
+                  </div>
+                )}
             </>
         )
 

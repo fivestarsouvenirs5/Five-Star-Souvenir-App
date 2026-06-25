@@ -45,7 +45,7 @@ export default function ProfileIcon() {
         <DropdownMenuTrigger asChild>
             <Avatar className="w-10 h-10 cursor-pointer">
             <AvatarImage src={formData.photo} className="w-10 h-10 rounded-full object-cover" />
-            <AvatarFallback>
+            <AvatarFallback className="w-10 h-10 rounded-full object-cover">
                 {myUser?.given_name?.charAt(0)}
                 {myUser?.family_name?.charAt(0)}
             </AvatarFallback>

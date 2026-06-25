@@ -1,78 +1,70 @@
+import axios from "axios";
+
 export async function POST(request) {
-    const myRequest = await request.json(); // Assuming cartDetails is sent in the request body
-    //console.log(myRequest.useremail);
+    try {
+        const { userId } = await request.json();
 
-    var axios = require("axios").default;
+        // 1. Get Auth0 Management API token
+        const tokenResponse = await axios.post(
+            `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
+            new URLSearchParams({
+                grant_type: "client_credentials",
+                client_id: process.env.AUTH0_API_CLIENT_ID,
+                client_secret: process.env.AUTH0_API_CLIENT_SECRET,
+                audience: process.env.AUTH0_API_ID,
+            }),
+            {
+                headers: {
+                    "content-type": "application/x-www-form-urlencoded",
+                },
+            }
+        );
 
-    var getAccess = {
-        method: 'POST',
-        url: 'https://' + process.env.AUTH0_DOMAIN + '/oauth/token',
-        headers: {'content-type': 'application/x-www-form-urlencoded'},
-        data: new URLSearchParams({
-            grant_type: 'client_credentials',
-            client_id: process.env.AUTH0_API_CLIENT_ID,
-            client_secret: process.env.AUTH0_API_CLIENT_SECRET,
-            audience: process.env.AUTH0_API_ID 
-        })
-    };
+        const accessToken = tokenResponse.data.access_token;
 
-    //console.log("Made it!");
-    // console.log(getAccess);
+        // 2. Update user metadata in Auth0
+        const response = await axios.patch(
+            `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${encodeURIComponent(userId)}`,
+            {
+                user_metadata: {
+                    adminapproval: 'true',
+                },
+            },
+            {
+                headers: {
+                    authorization: `Bearer ${accessToken}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
 
-    let apiKeyInformation = [];
-    await axios.request(getAccess).then(function (response) {
-        apiKeyInformation = response.data;
-    }).catch(function (error) {
-        console.error(error);
-    })
+        return new Response(
+            JSON.stringify({
+                success: true,
+                message: "User approved successfully",
+                user: response.data,
+            }),
+            {
+                status: 200,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+    } catch (error) {
+        console.error("Error approving user:", error?.response?.data || error.message);
 
-    var axios = require("axios").default;
-
-    var options = {
-        method: 'GET',
-        url: 'https://dev-k7q6c31x25d0h3f6.us.auth0.com/api/v2/users-by-email',
-        params: {email: myRequest.useremail},
-        headers: {authorization: 'Bearer ' + apiKeyInformation.access_token}
-    };
-
-    const headers = {
-        'Content-Type': 'application/json',
-    };
-
-    let user = [];
-    await axios.request(options).then(function (response) {
-        user = response.data;
-    }).catch(function (error) {
-        console.error(error);
-    });
-
-    if (user.length == 0) {
-        return new Response(JSON.stringify({noUserMessage: 'usernotfound'}), {headers});
+        return new Response(
+            JSON.stringify({
+                success: false,
+                message: "Failed to approve user",
+            }),
+            {
+                status: 500,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
     }
-
-    let userid = user[0].user_id;
-
-    const updatedField = {
-        user_metadata: {
-            adminapproval: 'true'
-        }
-    };
-
-    let userData = []
-    axios.patch('https://' + process.env.AUTH0_DOMAIN + '/api/v2/users/' + userid, updatedField, {
-        headers: {
-            authorization: 'Bearer ' + apiKeyInformation.access_token,
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
-        // console.log('User metadata updated successfully:', response.data);
-        userData = response.data;
-        // console.log(userData.user_metadata.adminapproval);
-    })
-    .catch(error => {
-        // console.error('Error updating user metadata:', error.response.data)
-    })
-
-    return new Response(JSON.stringify({userMetadataUpdated: 'userapproved'}), {headers});
 }

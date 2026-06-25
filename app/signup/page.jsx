@@ -6,6 +6,14 @@ import { Button } from '../../components/ui/button';
 import StoresForm from '../components/storeFormSignUp';
 import { Modal } from 'flowbite-react';
 import Link from "next/link";
+import {
+    Avatar,
+    AvatarImage,
+    AvatarFallback,
+} from '@/components/ui/avatar';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 
 function SignupForm() {
@@ -14,6 +22,10 @@ function SignupForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+
+    const [profilePicture, setProfilePicture] = useState(null);
+    const [profilePreview, setProfilePreview] = useState(null);
+
     const [open, setOpenModal] = useState(false);
 
     const [isStores, setIsStores] = useState(false);
@@ -135,51 +147,72 @@ function SignupForm() {
 
     };
 
-    const submitForm = async () => {
+    const handlePhotoUpload = (e) => {
+        const file = e.target.files?.[0];
+
+        if (!file) return;
+
+        setProfilePicture(file);
+        setProfilePreview(URL.createObjectURL(file));
+    };
+
+  const submitForm = async () => {
         setIsLoading(true);
-         const response = await fetch('/api/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                first_name: firstName,
-                last_name: lastName,
-                user_email: email,
-                user_password: password,
-                phone_number: phoneNumber,
-                admin_approval: 'false',
-                stores: stores,
-            }),
-        });
 
-        if (!response.ok) {
-            throw new Error("Failed to signup");
+        try {
+            const formData = new FormData();
+
+            formData.append('first_name', firstName);
+            formData.append('last_name', lastName);
+            formData.append('user_email', email);
+            formData.append('user_password', password);
+            formData.append('phone_number', phoneNumber);
+            formData.append('admin_approval', 'false');
+
+            // Arrays/objects must be stringified
+            formData.append('stores', JSON.stringify(stores));
+
+            if (profilePicture) {
+                formData.append('profile_picture', profilePicture);
+            } else {
+                formData.append('profile_picture', '');
+            }
+
+            const response = await fetch('/api/signup', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to signup');
+            }
+
+            await response.json();
+
+            setIsStores(false);
+            setFirstName('');
+            setLastName('');
+            setEmail('');
+            setPassword('');
+            setPhoneNumber('');
+            setProfilePicture(null);
+            setProfilePreview(null);
+
+            setStores([
+                {
+                    name: '',
+                    street: '',
+                    city: '',
+                    state: '',
+                    zip: '',
+                },
+            ]);
+
+            setOpenModal(true);
+        } finally {
+            setIsLoading(false);
         }
-
-        const data = response.json();
-        setIsLoading(false);
-
-        setIsStores(false);
-        setFirstName('');
-        setLastName('');
-        setEmail('');
-        setPassword('');
-        setPhoneNumber(''); 
-
-        setStores([
-            {
-                name: '',
-                street: '',
-                city: '',
-                state: '',
-                zip: '',
-            },
-        ]);
-        
-
-        setOpenModal(true);
-    }
+    };
 
     return (
         <>
@@ -328,50 +361,89 @@ function SignupForm() {
                     </div>
 
             
-                    <div className="mt-4">
-                        <label>Password</label>
-                        <Input
-                            id="password"
-                            type="password"
-                            value={password}
-                            disabled={isStores}
-                            onChange={(e) => {
-                                setPassword(e.target.value);
-                                validateField(
-                                    'password',
-                                    e.target.value
-                                );
-                            }}
-                            placeholder="Enter password"
-                        />
+                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
+                        {/* Password Section */}
+                        <div>
+                            <label>Password</label>
+                            <Input
+                                id="password"
+                                type="password"
+                                value={password}
+                                disabled={isStores}
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                    validateField('password', e.target.value);
+                                }}
+                                placeholder="Enter password"
+                            />
 
-                        {errors.password && (
-                            <p className="text-red-500 text-sm">
-                                {errors.password}
-                            </p>
-                        )}
+                            {errors.password && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.password}
+                                </p>
+                            )}
 
-         
-                        <div className="text-sm mt-2">
-                            <p className={ passwordChecks.length ? 'text-green-600' : '' }>
-                                Must be at least 8 characters
-                            </p>
+                            <div className="text-sm mt-2">
+                                <p className={passwordChecks.length ? 'text-green-600' : ''}>
+                                    Must be at least 8 characters
+                                </p>
 
-                            <p className={ passwordChecks.lowercase ? 'text-green-600' : '' }>
-                                Must contain lowercase letter (a-z)
-                            </p>
+                                <p className={passwordChecks.lowercase ? 'text-green-600' : ''}>
+                                    Must contain lowercase letter (a-z)
+                                </p>
 
-                            <p className={ passwordChecks.uppercase ? 'text-green-600' : '' }>
-                                Must contain uppercase letter (A-Z)
-                            </p>
+                                <p className={passwordChecks.uppercase ? 'text-green-600' : ''}>
+                                    Must contain uppercase letter (A-Z)
+                                </p>
 
-                            <p className={ passwordChecks.number ? 'text-green-600' : '' }>
-                                Must contain number (0-9)
-                            </p>
+                                <p className={passwordChecks.number ? 'text-green-600' : ''}>
+                                    Must contain number (0-9)
+                                </p>
 
-                            <p className={ passwordChecks.special ? 'text-green-600' : '' }>
-                                Must contain special character (!@#$%^&*)
-                            </p>
+                                <p className={passwordChecks.special ? 'text-green-600' : ''}>
+                                    Must contain special character (!@#$%^&*)
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Profile Picture Section */}
+                        <div className="flex flex-col items-center gap-4">
+                            <div className="w-full">
+                                <label className="text-sm font-semibold">
+                                    Profile Photo (Optional)
+                                </label>
+                            </div>
+
+                            <Avatar className="w-40 h-40">
+                                <AvatarImage
+                                    src={profilePreview}
+                                    className="w-40 h-40 rounded-full object-cover"
+                                />
+
+                                <AvatarFallback className="text-3xl w-40 h-40 rounded-full object-cover">
+                                    {firstName?.charAt(0)}
+                                    {lastName?.charAt(0)}
+                                </AvatarFallback>
+                            </Avatar>
+
+                            <label
+                                htmlFor="photo-upload"
+                                className="w-full"
+                            >
+                                <div className="border rounded-md px-4 py-2 text-center cursor-pointer w-full hover:bg-muted flex items-center justify-center gap-2">
+                                    <FontAwesomeIcon icon={faCamera} />
+                                    Upload Photo
+                                </div>
+                            </label>
+
+                            <input
+                                id="photo-upload"
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                disabled={isStores}
+                                onChange={handlePhotoUpload}
+                            />
                         </div>
                     </div>
 

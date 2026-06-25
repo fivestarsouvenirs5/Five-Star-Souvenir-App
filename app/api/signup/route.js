@@ -1,5 +1,6 @@
 import {Resend} from 'resend';
 import prisma from '../../utils/prisma';
+import { put } from '@vercel/blob';
 
 async function sendAdminEmail(newUserDetails, response) {
   //console.log(response)
@@ -40,12 +41,41 @@ async function sendAdminEmail(newUserDetails, response) {
 }
 
 export async function POST(request) {
-  const newUserDetails = await request.json()
-  console.log(newUserDetails);
+  const formData = await request.formData();
+
+  const profilePicture = formData.get('profile_picture');
+
+  const newUserDetails = {
+    first_name: formData.get('first_name'),
+    last_name: formData.get('last_name'),
+    user_email: formData.get('user_email'),
+    user_password: formData.get('user_password'),
+    phone_number: formData.get('phone_number'),
+    admin_approval: formData.get('admin_approval'),
+    stores: JSON.parse(formData.get('stores') || '[]'),
+  };
+
+
   try {
     if (!newUserDetails.first_name || !newUserDetails.last_name || !newUserDetails.user_email || !newUserDetails.user_password || !newUserDetails.phone_number) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
+
+    //picture upload
+    let photoUrl = null;
+
+    if ( profilePicture && profilePicture instanceof File && profilePicture.size > 0 ) {
+      const blob = await put(
+        `profile-pictures/${Date.now()}_${newUserDetails.first_name}_${newUserDetails.last_name}`,
+        profilePicture,
+        {
+          access: 'public',
+        }
+      );
+
+      photoUrl = blob.url;
+    }
+
     const fetchURL = 'https://' + process.env.AUTH0_DOMAIN + '/dbconnections/signup'
 
     const response = await fetch(fetchURL, {
@@ -61,6 +91,7 @@ export async function POST(request) {
         email: newUserDetails.user_email,
         password:newUserDetails.user_password, 
         user_metadata: { phonenumber: newUserDetails.phone_number, adminapproval: "false"},
+        picture: photoUrl,
       })
 
       })
@@ -70,24 +101,21 @@ export async function POST(request) {
       }
 
       const responseData = await response.json();
-      //console.log(responseData);
+      console.log(responseData);
       const userId = responseData._id;
       //console.log("userid:" + userId)
-      newUserDetails.stores.forEach(async (store, index)=> {
-
-          const newStore = await prisma.stores.create({
-            data: {
-                store_name: store.name,
-                user_id: "auth0|" + userId,
-                store_street: store.street,
-                store_city: store.city,
-                store_state: store.state,
-                store_zip: store.zip,
-            },
+      for (const store of newUserDetails.stores) {
+        await prisma.stores.create({
+          data: {
+            store_name: store.name,
+            user_id: "auth0|" + userId,
+            store_street: store.street,
+            store_city: store.city,
+            store_state: store.state,
+            store_zip: store.zip,
+          },
         });
-
-
-      })
+      }
       
 
       await sendAdminEmail(newUserDetails, response);

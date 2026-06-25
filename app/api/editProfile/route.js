@@ -38,7 +38,7 @@ export async function PATCH(req) {
 
     let blob;
     if (photoFile && photoFile.size > 0) {
-        blob = await put(`${user_id}_profile`, photoFile, {
+        blob = await put( `profile-pictures/${Date.now()}_${firstName}_${lastName}`, photoFile, {
             access: 'public',
         });
     }

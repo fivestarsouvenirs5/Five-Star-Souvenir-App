@@ -384,23 +384,23 @@ function SignupForm() {
                             )}
 
                             <div className="text-sm mt-2">
-                                <p className={passwordChecks.length ? 'text-green-600' : ''}>
+                                <p className={passwordChecks.length ? 'text-green-600 mb-1' : 'mb-1'}>
                                     Must be at least 8 characters
                                 </p>
 
-                                <p className={passwordChecks.lowercase ? 'text-green-600' : ''}>
+                                <p className={passwordChecks.lowercase ? 'text-green-600 mb-1' : 'mb-1'}>
                                     Must contain lowercase letter (a-z)
                                 </p>
 
-                                <p className={passwordChecks.uppercase ? 'text-green-600' : ''}>
+                                <p className={passwordChecks.uppercase ? 'text-green-600 mb-1' : 'mb-1'}>
                                     Must contain uppercase letter (A-Z)
                                 </p>
 
-                                <p className={passwordChecks.number ? 'text-green-600' : ''}>
+                                <p className={passwordChecks.number ? 'text-green-600 mb-1' : 'mb-1'}>
                                     Must contain number (0-9)
                                 </p>
 
-                                <p className={passwordChecks.special ? 'text-green-600' : ''}>
+                                <p className={passwordChecks.special ? 'text-green-600 mb-1' : 'mb-1'}>
                                     Must contain special character (!@#$%^&*)
                                 </p>
                             </div>
@@ -414,13 +414,13 @@ function SignupForm() {
                                 </label>
                             </div>
 
-                            <Avatar className="w-40 h-40">
+                            <Avatar className="w-32 h-32">
                                 <AvatarImage
                                     src={profilePreview}
-                                    className="w-40 h-40 rounded-full object-cover"
+                                    className="w-32 h-32 rounded-full object-cover"
                                 />
 
-                                <AvatarFallback className="text-3xl w-40 h-40 rounded-full object-cover">
+                                <AvatarFallback className="text-3xl w-32 h-32 rounded-full object-cover">
                                     {firstName?.charAt(0)}
                                     {lastName?.charAt(0)}
                                 </AvatarFallback>

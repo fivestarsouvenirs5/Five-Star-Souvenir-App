@@ -18,6 +18,7 @@ export default function UserCard({ user, setRefresh }) {
 
     const handleDelete = async () => {
         setLoadingDelete(true);
+        setOpen(false)
 
         try {
             const response = await fetch("/api/deletingUser", {
@@ -43,7 +44,7 @@ export default function UserCard({ user, setRefresh }) {
                 duration: 5000,
             });
 
-            setOpen(false)
+            
 
             setRefresh(prev => !prev);
 
@@ -107,7 +108,7 @@ export default function UserCard({ user, setRefresh }) {
                     <button
                         disabled={loadingDelete}
                         className="absolute top-2 right-2 sm:top-3 sm:right-3 hover:bg-gray-300 p-1 rounded transition-colors text-destructive disabled:opacity-50"
-                        onClick={setOpen(true)}
+                        onClick={() => setOpen(true)}
                     >
                         {loadingDelete ? (
                             <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
@@ -135,7 +136,7 @@ export default function UserCard({ user, setRefresh }) {
                         <button
                             disabled={loadingDelete}
                             className="p-1 rounded-md bg-destructive hover:bg-red-300 disabled:opacity-50"
-                            onClick={handleDelete}
+                            onClick={() => setOpen(true)}
                         >
                             {loadingDelete ? (
                                 <Loader2 className="w-5 h-5 text-white animate-spin" />
@@ -162,7 +163,7 @@ export default function UserCard({ user, setRefresh }) {
                             />
                             <AvatarFallback className="text-sm sm:text-lg">
                                 {user.name.charAt(0)}
-                                {user.given_name.charAt(0)}
+                                {user.given_name?.charAt(0)}
                             </AvatarFallback>
                         </Avatar>
 

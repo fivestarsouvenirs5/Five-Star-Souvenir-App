@@ -78,7 +78,11 @@ export async function POST(request) {
 
     const fetchURL = 'https://' + process.env.AUTH0_DOMAIN + '/dbconnections/signup'
 
-    const response = await fetch(fetchURL, {
+    let response;
+
+    if (photoUrl !== null) {
+      console.log("pic")
+       response = await fetch(fetchURL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -95,6 +99,27 @@ export async function POST(request) {
       })
 
       })
+    }
+    else {
+       response = await fetch(fetchURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        client_id: process.env.AUTH0_CLIENT_ID,
+        connection: 'Username-Password-Authentication',
+        name: newUserDetails.first_name,
+        given_name: newUserDetails.last_name,
+        email: newUserDetails.user_email,
+        password:newUserDetails.user_password, 
+        user_metadata: { phonenumber: newUserDetails.phone_number, adminapproval: "false"},
+      })
+
+      })
+    }
+
+   
 
       if (!response.ok) {
         return new Response(JSON.stringify({ error: 'Failed to create Auth0 user' }), { status: 400, headers: { 'Content-Type': 'application/json' } });

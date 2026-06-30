@@ -4,10 +4,14 @@ import React from 'react';
 import { Button, Modal } from 'flowbite-react';
 import { useState } from 'react';
 import { formatCurrencyString } from 'use-shopping-cart';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { useMyUser } from "../../context/userContext";
 import Image from "next/image";
 import { decode } from 'he'; // Importing decode function from he module
 import { toast } from 'sonner';
+import {
+  Card,
+  CardContent,
+} from "@/components/ui/card";
 
 const Stock = ({ product }) => {
   const decodedStock = decode(product.in_stock); // Decoding stock status
@@ -39,12 +43,12 @@ const Category = ({ subcategory, category }) => {
 }
 
 
-const ProductDisplay = ({ product, category, subcategory, addItem, approved, img, cartCount }) => {
-  const { user } = useUser();
+const ProductDisplay = ({ isEditing, product, category, subcategory, addItem, approved, img, cartCount }) => {
+ const { myUser, isSignedIn } = useMyUser();
   const [openModal, setOpenModal] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
-  if (user && approved === "true") {
+  if (isSignedIn) {
     // Other code remains unchanged
      //  var size = document.getElementById('selector').value
      var cartDisplayProduct
@@ -139,24 +143,43 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved, img
           </label>
           {formatCurrencyString({ value: product.price, currency: 'USD' })}
         </div> */}
-        <div className="border-2 bg-red-100 flex flex-col items-center h-full">
-          {/* Image/Button Section */}
-          <div className="flex-grow flex-[3] w-full flex items-center justify-center">
-            <button className="border-b-2" onClick={() => setOpenModal(true)}>
-              <Image className="w-60" src={img} alt="Product Image" width={300} height={400} />
-            </button>
-          </div>
-          
-          {/* Label and Price Section */}
-          <div className="flex-grow flex-[1] w-full flex flex-col items-center justify-center">
-            <label className="text-sm sm:text-base md:text-lg font-semibold">
-              {decode(product.product_name)}
-            </label>
-            <span className="text-xs sm:text-sm md:text-base text-gray-600">
-              {formatCurrencyString({ value: product.price, currency: 'USD' })}
-            </span>
-          </div>
-        </div>
+    <Card className="w-full max-w-[300px] h-[360px] bg-white border shadow-md rounded-2xl">
+      <CardContent className="h-full p-4 flex flex-col gap-2">
+          <button
+            onClick={() => setOpenModal(true)}
+            className="group flex flex-col h-full"
+          >
+            {/* Image (70%) */}
+          <div className="flex-1 flex items-center justify-center overflow-hidden">
+                <Image
+                    src={img}
+                    alt={decode(product.product_name)}
+                    width={500}
+                    height={500}
+                    className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                />
+            </div>
+
+            {/* Text (30%) */}
+            <div className="h-[90px] flex flex-col justify-center text-center">
+                <p className="text-xs uppercase tracking-wide text-red-700">
+                    {decode(category.category)}
+                </p>
+
+                <h3 className="font-semibold text-lg leading-tight">
+                    {decode(product.product_name)}
+                </h3>
+
+                <p className="text-gray-500">
+                    {formatCurrencyString({
+                        value: product.price,
+                        currency: "USD",
+                    })}
+                </p>
+            </div>
+          </button>
+        </CardContent>
+      </Card>
 
 
         <Modal show={openModal} onClose={() => setOpenModal(false)}>
@@ -203,14 +226,39 @@ const ProductDisplay = ({ product, category, subcategory, addItem, approved, img
             {product.product_name}
           </label>
         </div> */}
-        <div className="border-2 bg-red-100 flex flex-col items-center h-full">
-          <div className="flex-grow flex-[3] w-full flex items-center justify-center">
-            <Image className="w-60" src={img} alt="Product Image" width={300} height={400} />
-          </div>
-          <label className="flex-grow flex-[1] w-full flex items-center justify-center text-sm sm:text-base md:text-lg font-semibold">
-            {product.product_name}
-          </label>
-        </div>
+        <Card className="w-full max-w-[300px] h-[360px] bg-white border shadow-md rounded-2xl">
+          <CardContent className="h-full p-4 flex flex-col gap-2">
+            <div className="flex flex-col gap-2 w-full">
+               <div className="flex-1 flex items-center justify-center overflow-hidden">
+                <Image
+                  src={img}
+                  alt={decode(product.product_name)}
+                  width={500}
+                  height={500}
+                  className="w-full h-full object-contain rounded-xl"
+                />
+              </div>
+
+              <div className="h-[90px] flex flex-col justify-center text-center">
+                <p className="text-xs sm:text-sm uppercase tracking-wide text-secondary-dark font-medium">
+                  {decode(category.category)}
+                  {subcategory ? ` • ${decode(subcategory.subcategory_name)}` : ""}
+                </p>
+
+                <h3 className="text-sm sm:text-base font-semibold text-text-dark line-clamp-2">
+                  {decode(product.product_name)}
+                </h3>
+
+                <p className="text-sm text-text">
+                  {formatCurrencyString({
+                    value: product.price,
+                    currency: "USD",
+                  })}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
        
       </>

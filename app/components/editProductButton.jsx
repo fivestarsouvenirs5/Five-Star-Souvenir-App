@@ -4,6 +4,7 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'flowbite-react';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { Pencil } from "lucide-react";
 
 export default function EditProductButton({ product, admin }) {
     const { user } = useUser();
@@ -86,8 +87,8 @@ export default function EditProductButton({ product, admin }) {
         }
         return (
             <div>
-                <button className="bg-blue-500 text-white px-2 py-1 rounded-md mb-4" onClick={() => setOpenModal(true)}>
-                    Edit 
+                 <button className="bg-gray-300 hover:bg-gray-600 px-2 py-1 rounded-md mb-4" onClick={() => setOpenModal(true)}>
+                    <Pencil className="w-5 h-5 text-text hover:text-white cursor-pointer" />
                 </button>
                 <Modal show={openModal} onClose={() => setOpenModal(false)}>
                     <Modal.Header>Product {product.product_name}</Modal.Header>

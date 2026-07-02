@@ -1,57 +1,82 @@
-import axios from "axios"
+import axios from "axios";
+import prisma from '../../utils/prisma'
 
 export async function POST(request) {
-    //console.log('reached server post request'); 
-        const myRequest = await request.json(); // Assuming cartDetails is sent in the request body
-        //console.log(myRequest.useremail);
+    try {
 
-        var axios = require("axios").default;
-
-        var getAccess = {
-            method: 'POST',
-            url: 'https://' + process.env.AUTH0_DOMAIN + '/oauth/token',
-            headers: {'content-type': 'application/x-www-form-urlencoded'},
-            data: new URLSearchParams({
-                grant_type: 'client_credentials',
+        const tokenResponse = await axios.post(
+            `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
+            new URLSearchParams({
+                grant_type: "client_credentials",
                 client_id: process.env.AUTH0_API_CLIENT_ID,
                 client_secret: process.env.AUTH0_API_CLIENT_SECRET,
-                audience: process.env.AUTH0_API_ID 
-            })
-        };
+                audience: process.env.AUTH0_API_ID,
+            }),
+            {
+                headers: {
+                    "content-type": "application/x-www-form-urlencoded",
+                },
+            }
+        );
 
-        // console.log("Made it!");
-        // console.log(getAccess);
+        const accessToken = tokenResponse.data.access_token;
 
-        let apiKeyInformation = [];
-        await axios.request(getAccess).then(function (response) {
-            apiKeyInformation = response.data;
-        }).catch(function (error) {
-            console.error(error);
-        })
-   
-        var axios = require("axios").default;
+    
+        const userResponse = await axios.get(
+            `https://${process.env.AUTH0_DOMAIN}/api/v2/users`,
+            {
+                params: {
+                    q: 'user_metadata.adminapproval: "true"',
+                    search_engine: "v3",
+                },
+                headers: {
+                    authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
 
-        var options = {
-            method: 'GET',
-            url: 'https://dev-k7q6c31x25d0h3f6.us.auth0.com/api/v2/users?fields=name,given_name,email,user_metadata',
-            params: {q: 'user_metadata.adminapproval: "true"', search_engine: 'v3'},
-            headers: {authorization: 'Bearer ' + apiKeyInformation.access_token}
-        };
+        const users = userResponse.data;
 
-        const headers = {
-            'Content-Type': 'application/json',
-        };
 
-        let user = [];
-        await axios.request(options).then(function (response) {
-            //console.log(response.data);
-            user = response.data;
-        }).catch(function (error) {
-            console.error(error);
+        const userIds = users.map((user) => user.user_id);
+
+
+        const stores = await prisma.stores.findMany({
+            where: {
+                user_id: {
+                    in: userIds,
+                },
+            },
         });
-         //console.log(user);
-        // const jsonStringOfUser = JSON.parse(JSON.stringify(user));
-        // console.log(jsonStringOfUser)
-        //console.log(user.email);
-        return new Response(JSON.stringify(user), {headers});
-   }
+
+        // Attach stores to each user
+        const usersWithStores = users.map((user) => ({
+            ...user,
+            stores: stores.filter(
+                (store) => store.user_id === user.user_id
+            ),
+        }));
+
+        return new Response(JSON.stringify(usersWithStores), {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            status: 200,
+        });
+
+    } catch (error) {
+        console.error("Error fetching approved users and stores:", error);
+
+        return new Response(
+            JSON.stringify({
+                error: "Failed to fetch users and stores",
+            }),
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                status: 500,
+            }
+        );
+    }
+}

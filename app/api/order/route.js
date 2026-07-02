@@ -7,29 +7,14 @@ import { getSession } from '@auth0/nextjs-auth0';
 import { Resend } from 'resend';
 import prisma from '../../utils/prisma'
 
-const fetchStore = async (id) => {
-  try {
-    const store = await prisma.stores.findMany({
-      where: { store_name: id },
-    });
-    return store[0];
-  } catch (error) {
-    // Handle error
-    console.error("Error fetching stores:", error);
-    throw error; // Re-throw the error if needed
-  }
-};
-
-
 
 export async function POST(request) {
   try {
     // const session = await getSession();
     const req = await request.json();
     const cartDetails = req.cart;
-    const storeName = req.selectedStore; 
     // console.log(storeName)
-    const store = await fetchStore(storeName); 
+    const store = req.selectedStore;; 
     // console.log("mystore")
     // console.log(store);
     let nyWorkbook = new ExcelJS.Workbook();

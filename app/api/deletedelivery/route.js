@@ -3,6 +3,7 @@ import prisma from '../../utils/prisma';
 export async function DELETE(request) {
   try {
     const dateDetails = await request.json();
+    console.log(dateDetails);
 
     await prisma.delivery_date.delete({
       where: {

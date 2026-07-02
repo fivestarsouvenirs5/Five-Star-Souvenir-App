@@ -1,49 +1,89 @@
+import Image from "next/image"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
+
 export default function Contact() {
+  const v = process.env.API_KEY
 
-    const v = process.env.API_KEY
+  return (
+    <>
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 py-10">
 
-    return (
-        
-        <main>
-            <div className="py-20 px-20 grid grid-cols-1 lg:grid-cols-2">
-                <div className="flex flex-col gap-8">
-                    
-                    <h1 className="mt-3 font-bold text-2xl">Contact</h1>
-                    <div className="h-1 bg-rose-600/50 rounded"/>
-                    
-                    
-                        <form action="https://api.web3forms.com/submit" method="POST">
-                            <input type="hidden" name="access_key" value={v} />
-                        
-                        {/* name */}
-                        <div className="flex flex-col gap-2 py-2">
-                            <label className="font-bold"id="yourName">Your Name (required)</label>
-                            <input type="text" placeholder="Name" name="name" className="border-2 border-rose-600/50" required />
-                        </div>
+            <h1 className="text-4xl font-bold text-center mb-4 w-full max-w-6xl text-secondary-dark">
+            Contact Us
+            </h1>
 
-                        {/* email */}
-                        <div className="flex flex-col gap-2 py-2">
-                            <label className="font-bold" id="yourEmail"> Your Email (required) </label>
-                            <input type="email" placeholder="Email" name="email" className="border-2 border-rose-600/50" required/>
-                            {/* <div className="border border-black-600"></div> */}
-                            {/* <div className="focus:border-black focus:ring-0" shadow={true} placeholder="Firstname" /> */}
-                        </div>
-                        
-                        {/* message */}
-                        <div className="flex flex-col gap-2 py-2">
-                            <label className="font-bold" id="yourMessage">Your Message </label>
-                            <textarea placeholder="Message..." name="message" className="border-2 border-rose-600/50 resize-none" cols="10" rows="20"></textarea>
-                        </div>
+            <div className="w-24 h-[2px] bg-secondary mb-12 rounded-full" />
 
-                        {/* Submit */}
-                        <div className="py-2"> {/* py-10 px-20*/}
-                            <button href="" className="w-[100px] h-[50px] font-bold border border-rose-600/50 hover:border-rose-600 ...">
-                                Submit
-                            </button>
-                        </div>
-                        </form>
+            <div className="grid lg:grid-cols-2 gap-14 items-center w-full max-w-6xl">
+
+            <div className="hidden lg:flex items-center justify-center">
+                <div className="relative w-[420px] h-[420px]">
+                <Image
+                    src="/contact-image.png"
+                    alt="Contact illustration"
+                    fill
+                    className="object-contain"
+                    priority
+                />
                 </div>
             </div>
-        </main>
-    )
-    }
+
+            <Card className="w-full shadow-2xl border border-border/40 rounded-3xl bg-neutral-beige-light backdrop-blur-sm">
+                <CardContent className="p-10">
+
+                <h2 className="text-2xl font-bold mb-2">
+                    HAVE SOME QUESTIONS?
+                </h2>
+
+                <p className="text-sm text-muted-foreground mb-6">
+                    Send us a message and we’ll get back to you shortly.
+                </p>
+
+                <form
+                    action="https://api.web3forms.com/submit"
+                    method="POST"
+                    className="flex flex-col gap-4"
+                >
+                    <input type="hidden" name="access_key" value={v} />
+
+                    <Input
+                    name="name"
+                    placeholder="What's your name?"
+                    className="rounded-full h-11 border-text border"
+                    required
+                    />
+
+                    <Input
+                    type="email"
+                    name="email"
+                    placeholder="What's your email?"
+                    className="rounded-full h-11 border-text border"
+                    required
+                    />
+
+                    <Textarea
+                    name="message"
+                    placeholder="Your message...."
+                    className="rounded-2xl min-h-[140px] border-text border"
+                    required
+                    />
+
+                    <Button
+                    type="submit"
+                    className="w-full rounded-full bg-primary text-white font-semibold h-11 mt-2"
+                    >
+                    SEND MESSAGE
+                    </Button>
+                </form>
+
+                </CardContent>
+            </Card>
+
+            </div>
+        </div>
+        </>
+  )
+}

@@ -5,9 +5,15 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { CartProvider } from '../providers/cartProvider';
 import { getSession } from '@auth0/nextjs-auth0';
 import { ApproveBanner } from '../app/components/approvalBanner';
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { UserProvider as MyUserProvider} from './context/userContext';
+import { getCurrentUser } from "@/lib/getUserInfo";
+import { Toaster } from "@/components/ui/sonner";
+
+
 
 //components
-import NavBar from './components/navbar';
+import NavBar from './components/navbar/navbar';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,18 +23,28 @@ export const metadata = {
 }
 
 export default async function RootLayout({ children }) {
-  const session = await getSession();
+  const { user, isSignedIn } =
+    await getCurrentUser();
+    const session = await getSession();
   return (
     <html lang="en">
       
         <UserProvider user={session?.user}>
           
-          <body className={inter.className}>
-          <CartProvider>
-            <NavBar/>
-            <ApproveBanner  />
-            {children}
-          </CartProvider>
+          <body  className={`${inter.className} bg-background text-text-dark`}>
+             <MyUserProvider
+              initialUser={user}
+              initialSignedIn={isSignedIn}
+            >
+            <TooltipProvider>
+              <CartProvider>
+                <NavBar/>
+                <ApproveBanner  />
+                {children}
+                <Toaster position="top-center" />
+              </CartProvider>
+          </TooltipProvider>
+          </MyUserProvider>
             </body>
           
         </UserProvider>

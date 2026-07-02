@@ -2,6 +2,8 @@
 import React from 'react'
 import { Button, Modal } from 'flowbite-react';
 import { useState, useEffect } from 'react';
+import UserCard from './userCard';
+import { RefreshCw } from "lucide-react";
 
 async function forApprovedUser() {
   try {
@@ -70,223 +72,83 @@ async function forUnapprovedUser() {
   }
 }
 const UsersPage = () => {
-    const [displayContent, setDisplayContent] = useState(null);
         const [openModal, setOpenModal] = useState(false);
         const [refresh, setRefresh] = useState(false);
+        const [unapprovedUsers, setUnapprovedUsers] = useState([]);
+        const [approvedUsers, setApprovedUsers] = useState([]);
+        const [loading, setLoading] = useState(false);
 
         useEffect(() => {
-        const fetchData = async () => {
-            try {
-            const approved = await forApprovedUser();
-            const unapproved = await forUnapprovedUser();
+            const loadData = async () => {
 
-            setDisplayContent(
-                <>
+                setLoading(true)
 
-                {/* unapproved users table */}
-                <div className="flex m-10">
-                    <h1 m-10>Unapproved Users:</h1>
-                    <div className="flex-grow ml-5">
-                        <table className="w-full table-auto border-separate border-spacing-5 border border-slate-400 ml-2 mb-2">
-                            <thead className="bg-gray-50 border-b-2 border-gray-200">
-                            <tr>
-                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Name</th>
-                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Store</th>
-                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Phone Number</th>
-                            </tr>
-                            </thead>
-                        {unapproved.map((user, index) => (
-                            <tbody key={index}>
-                                <tr className="bg-gray-50">
-                                <td>{user.name}</td>
-                                <td>{user.user_metadata.storename}<br></br>{user.user_metadata.storeaddress}, {user.user_metadata.storecity}</td>
-                                <td>{user.user_metadata.phonenumber}</td>
-                                <td>
-                                    <Button className='py-2 px-3 bg-green-400 hover:bg-green-300 text-white-900 hover:text-white-800 rounded' onClick={async() => {
-                                    var useremail = user.email;
-                                    // console.log(useremail);
-
-                                    try {
-                                        const response = await fetch('/api/approvingUser', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({useremail})
-                                        });
-
-                                        const myResponse = await response.json();
-
-                                        if (!response.ok) {
-                                        alert("This is an incorrect email.");
-                                        throw new Error('Failed to fetch the email of this user');
-                                        }
-                                        else {
-                                        if (myResponse.noUserMessage == "usernotfound") {
-                                            alert("It seems that you are not registered. Please make sure there are not typos in the email or go to signup to register.");
-                                            setRefresh(!refresh);
-                                        }
-                                        else {
-                                            if (myResponse.userMetadataUpdated == "userapproved") {
-                                    
-                                            setRefresh(!refresh);
-                                            window.location.assign("/users");
-                                            }
-                                            else if (myResponse.userMetadataNotUpdated == "userstillunapproved") {
-                               
-                                            setRefresh(!refresh);
-                                            window.location.assign("/users")
-                                            }
-                                        }
-                                        }
-                                    } catch (error) {
-                                        console.error('Error fetching the email of this user:', error);
-                                    } finally {
-
-                                    }
-                                    }}>Approve</Button>
+                const app = await forApprovedUser();
+                const unapp = await forUnapprovedUser();
                                 
-                                    {/* <Button className='py-2 px-3 bg-green-400 hover:bg-green-300 text-white-900 hover:text-white-800 rounded'>Approve</Button> */}
-                                    {/* <button className="py-2 px-3 bg-green-400 hover:bg-green-300 text-white-900 hover:text-white-800 rounded"> Approve</button> */}
-                                </td>
-                                <td>
-                                    <Button className='py-2 px-3 bg-red-400 hover:bg-red-300 text-white-900 hover:text-white-800 rounded' onClick={async () => {
-                                    var useremail = user.email;
-                                    // console.log(useremail)
+                setUnapprovedUsers(unapp);
+                setApprovedUsers(app);
 
-                                    try {
-                                        const response = await fetch('/api/deletingUser', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({useremail})
-                                        });
-
-                                        const myResponse = await response.json();
-
-                                        if (!response.ok) {
-                                        alert("This is an incorrect email.");
-                                        throw new Error('Failed to fetch the email of this user');
-                                        }
-                                        else {
-                                        if (myResponse.noUserMessage == "usernotfound") {
-                                            alert("It seems that you are not registered. Please make sure there are no typos in the email or go to signup to register.");
-                                            setRefresh(!refresh);
-                                        }
-                                        else {
-                                            if (myResponse.userDeleted == "userdeleted") {
-                                            setRefresh(!refresh);
-                                            window.location.assign("/users");
-                                            }
-                                            else if (myResponse.userNotDeleted == "usernotdeleted") {
-                                            alert("User did not get deleted properly :(")
-                                            setRefresh(!refresh);
-                                            window.location.assign("/users")
-                                            }
-                                        }
-                                        }
-                                    } catch (error) {
-                                        console.error('Error fetching the email of this user:', error);
-                                    } finally {
-                                        //idk
-                                    }
-                                    }}>Delete</Button>
-                                    {/* <Button className='py-2 px-3 bg-red-400 hover:bg-red-300 text-white-900 hover:text-white-800 rounded'>Deny/Delete</Button> */}
-                                </td>
-                                </tr>
-                            </tbody>
-                            ))}
-                        </table>
-                    </div>
-                </div>
-
-                {/* approved users table */}
-                <div className="flex m-10">
-                    <h1 m-10>Approved Users:</h1>
-                    <div className="flex-grow ml-10">
-                        <table className="w-full table-auto border-separate border-spacing-5 border border-slate-400m ml-2 mb-2">
-                            <thead className="bg-gray-50 border-b-2 border-gray-200">
-                            <tr>
-                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Name</th>
-                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Store</th>
-                                <th className="p-3 text-sm font-semibold tracking-wide text-left">Phone Number</th>
-                            </tr>
-                            </thead>
-                            {approved.map((user, index) => (
-                            <tbody key={index}>
-                                <tr className="bg-gray-50">
-                                <td>{user.name}</td>
-                                <td>{user.user_metadata.storename}<br></br>{user.user_metadata.storeaddress}, {user.user_metadata.storecity}</td>
-                                <td>{user.user_metadata.phonenumber}</td>
-                                <td>
-                                    <Button className='py-2 px-3 bg-red-400 hover:bg-red-300 text-white-900 hover:text-white-800 rounded' onClick={async () => {
-                                    var useremail = user.email;
-                                    // console.log(useremail)
-
-                                    try {
-                                        const response = await fetch('/api/deletingUser', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({useremail})
-                                        });
-
-                                        const myResponse = await response.json();
-
-                                        if (!response.ok) {
-                                        alert("This is an incorrect email.");
-                                        throw new Error('Failed to fetch the email of this user');
-                                        }
-                                        else {
-                                        if (myResponse.noUserMessage == "usernotfound") {
-                                            alert("It seems that you are not registered. Please make sure there are no typos in the email or go to signup to register.");
-                                            setRefresh(!refresh);
-                                        }
-                                        else {
-                                            if (myResponse.userDeleted == "userdeleted") {
-                                  
-                                            setRefresh(!refresh);
-                                            window.location.assign("/users");
-                                            }
-                                            else if (myResponse.userNotDeleted == "usernotdeleted") {
-                                            alert("User did not get deleted properly :(")
-                                            setRefresh(!refresh);
-                                            window.location.assign("/users")
-                                            }
-                                        }
-                                        }
-                                    } catch (error) {
-                                        console.error('Error fetching the email of this user:', error);
-                                    } finally {
-                                        //idk
-                                    }
-                                    }}>Delete</Button>
-                                    {/* <Button className='py-2 px-3 bg-red-400 hover:bg-red-300 text-white-900 hover:text-white-800 rounded'>Delete</Button> */}
-                                </td>
-                                </tr>
-                                
-                            </tbody>
-                            ))}
-                        </table>
-                    </div>
-                </div>
-            </>
-            );
-            } catch (error) {
-            console.error('Error handling click:', error);
+                setLoading(false)
+               
             }
-        };
-        fetchData();
-        }, []);
+     
+             loadData()
+             
+        }, [refresh])
 
         return (
-            <div>        
-            <h1 className="flex justify-center p-6 text-2xl font-bold">Users Page</h1>
-            {displayContent}
-            </div>
+            <>
+                <h1 className="text-3xl text-center text-secondary-dark font-bold p-7">Users</h1>
+
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-8 pb-4 gap-3">
+
             
+                  <div className="flex flex-wrap gap-4 text-sm sm:text-base text-gray-700">
+                      <p>
+                          <span className="font-semibold">Total:</span>{" "}
+                          {approvedUsers.length + unapprovedUsers.length}
+                      </p>
+
+                      <p>
+                          <span className="font-semibold text-green-600">Approved:</span>{" "}
+                          {approvedUsers.length}
+                      </p>
+
+                      <p>
+                          <span className="font-semibold text-destructive">Unapproved:</span>{" "}
+                          {unapprovedUsers.length}
+                      </p>
+                  </div>
+
+                  <button
+                      onClick={() => setRefresh(prev => !prev)}
+                      disabled={loading}
+                      className="bg-primary text-white p-2 rounded-md hover:opacity-80 transition disabled:opacity-50"
+                      title="Refresh users"
+                  >
+                      <RefreshCw className={`w-5 h-5 ${loading ? "animate-spin" : ""}`} />
+                  </button>
+
+              </div>
+                
+                {loading ? (<p className="p-6 text-lg">Loading Users...</p>) : (
+               <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 pb-8 px-8">
+                    
+                   {unapprovedUsers.map((user) => (
+                         <UserCard key={user.user_id} user={user} setRefresh={setRefresh}/>
+                    ))}
+
+                  
+
+                      {approvedUsers.map((user) => (
+                        <UserCard key={user.user_id} user={user} setRefresh={setRefresh}/>
+                      ))}
+
+                  </div>
+                )}
+            </>
         )
+
 }
-export default UsersPage
+export default UsersPage;

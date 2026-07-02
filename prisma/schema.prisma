@@ -3,22 +3,18 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model category {
   category_id       Int             @id @default(autoincrement())
   category          String?         @db.VarChar(45)
   category_location Int
-  image_id          String?         @db.VarChar(500)
+  image_id          String?         @db.VarChar
   products          products[]
   subcategories     subcategories[]
-}
-
-model clothing_size {
-  clothing_size_id Int     @id @default(autoincrement())
-  clothing_size    String? @db.VarChar(45)
 }
 
 model products {
@@ -29,9 +25,9 @@ model products {
   in_stock         String?        @db.VarChar(45)
   subcategory_id   Int?
   image_id         String?        @db.VarChar(500)
-  price            Float?         @db.Float
-  order_form_cell  String         @db.VarChar(45)
-  featured_product Int            @default(0)
+  price            Int?
+  order_form_cell  String?        @db.VarChar(45)
+  featured_product Int?           @default(0)
   set_qty          Int?
   category         category       @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_category")
   subcategories    subcategories? @relation(fields: [subcategory_id], references: [subcategory_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_subcategory")

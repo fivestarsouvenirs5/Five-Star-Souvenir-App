@@ -1,36 +1,38 @@
-
-import prisma from '../../utils/prisma';
+import prisma from "../../utils/prisma";
 
 export async function POST(request) {
-    try {
-        const newDateDetails = await request.formData();
+  try {
+    const rows = await request.json();
 
-        const newMonth = newDateDetails.get("month");
-        const newNumber = newDateDetails.get("number");
-        const newYear = newDateDetails.get("year");
-        
-        
+    const updates = rows.map((row) =>
+      prisma.delivery_date.update({
+        where: {
+          delivery_id: parseInt(row.id),
+        },
+        data: {
+          month: row.m,
+          number: parseInt(row.n),
+          year: parseInt(row.y),
+        },
+      })
+    );
 
-        const date = await prisma.delivery_date.update({
-            where: {delivery_id: parseInt(newDateDetails.get("id"))},
-            data: {
-                month: newMonth,
-                number: parseInt(newNumber),
-                year: parseInt(newYear),
-            },
-        });
+    await Promise.all(updates);
 
-        const newDate = await prisma.delivery_date.findUnique({
-            where: {delivery_id: 1}
-        })
+    const updated = await prisma.delivery_date.findMany();
 
-    
+    return new Response(
+      JSON.stringify({ updated }),
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error(
+      "Error updating deliveries:",
+      error
+    );
 
-        return new Response(JSON.stringify({newDate: newDate}), {
-            status: 200,
-        });
-    } catch (error) {
-        console.error("Error editing product:", error);
-        return new Response("Internal Server Error", { status: 500 });
-    }
+    return new Response("Internal Server Error", {
+      status: 500,
+    });
+  }
 }

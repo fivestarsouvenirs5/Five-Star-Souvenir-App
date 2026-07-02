@@ -24,7 +24,7 @@ export async function POST(request) {
         // await fs.mkdir(newFolderPath);
 
         // Return a success response with a message
-        return new Response('Date created successfully', { status: 200 });
+        return new Response(JSON.stringify(date), { status: 200, headers: { 'Content-Type': 'application/json' } });
     } catch (error) {
         console.error("Error adding Date:", error);
         // Return an error response

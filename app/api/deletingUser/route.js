@@ -1,71 +1,78 @@
+import axios from "axios";
+import prisma from "../../utils/prisma";
+
 export async function POST(request) {
-    const myRequest = await request.json(); // Assuming cartDetails is sent in the request body
-    //console.log(myRequest.useremail);
+    try {
+        const myRequest = await request.json();
+        const userId = myRequest.userId;
 
-    var axios = require("axios").default;
+        // Get Auth0 Management API access token
+        const tokenResponse = await axios.post(
+            `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
+            new URLSearchParams({
+                grant_type: "client_credentials",
+                client_id: process.env.AUTH0_API_CLIENT_ID,
+                client_secret: process.env.AUTH0_API_CLIENT_SECRET,
+                audience: process.env.AUTH0_API_ID,
+            }),
+            {
+                headers: {
+                    "content-type": "application/x-www-form-urlencoded",
+                },
+            }
+        );
 
-    var getAccess = {
-        method: 'POST',
-        url: 'https://' + process.env.AUTH0_DOMAIN + '/oauth/token',
-        headers: {'content-type': 'application/x-www-form-urlencoded'},
-        data: new URLSearchParams({
-            grant_type: 'client_credentials',
-            client_id: process.env.AUTH0_API_CLIENT_ID,
-            client_secret: process.env.AUTH0_API_CLIENT_SECRET,
-            audience: process.env.AUTH0_API_ID 
-        })
-    };
+        const accessToken = tokenResponse.data.access_token;
 
-    console.log("Made it!");
-    // console.log(getAccess);
+        // Delete all stores associated with this user
+        const deletedStores = await prisma.stores.deleteMany({
+            where: {
+                user_id: userId,
+            },
+        });
 
-    let apiKeyInformation = [];
-    await axios.request(getAccess).then(function (response) {
-        apiKeyInformation = response.data;
-    }).catch(function (error) {
-        console.error(error);
-    })
+        console.log(`Deleted ${deletedStores.count} stores`);
 
-    var axios = require("axios").default;
+        // Delete the Auth0 user
+        await axios.delete(
+            `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${encodeURIComponent(userId)}`,
+            {
+                headers: {
+                    authorization: `Bearer ${accessToken}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
 
-    var options = {
-        method: 'GET',
-        url: 'https://dev-k7q6c31x25d0h3f6.us.auth0.com/api/v2/users-by-email',
-        params: {email: myRequest.useremail},
-        headers: {authorization: 'Bearer ' + apiKeyInformation.access_token}
-    };
+        return new Response(
+            JSON.stringify({
+                success: true,
+                message: "User and associated stores deleted successfully",
+                storesDeleted: deletedStores.count,
+            }),
+            {
+                status: 200,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
 
-    const headers = {
-        'Content-Type': 'application/json',
-    };
+    } catch (error) {
+        console.error("Error deleting user:", error);
 
-    let user = [];
-    await axios.request(options).then(function (response) {
-        user = response.data;
-    }).catch(function (error) {
-        console.error(error);
-    });
-
-    if (user.length == 0) {
-        return new Response(JSON.stringify({noUserMessage: 'usernotfound'}), {headers});
+        return new Response(
+            JSON.stringify({
+                success: false,
+                message: "Failed to delete user",
+                error: error.message,
+            }),
+            {
+                status: 500,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
     }
-
-    let userid = user[0].user_id;
-
-    let userData = []
-    axios.delete('https://' + process.env.AUTH0_DOMAIN + '/api/v2/users/' + userid, {
-        headers: {
-            authorization: 'Bearer ' + apiKeyInformation.access_token,
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
-        // console.log('User deleted successfully:', response.data);
-        userData = response.data;
-        // console.log(userData);
-    })
-    .catch(error => {
-        // console.error('Error deleted user:', error.response.data);
-    })
-    return new Response(JSON.stringify({userDeleted: 'userdeleted'}), {headers});
 }

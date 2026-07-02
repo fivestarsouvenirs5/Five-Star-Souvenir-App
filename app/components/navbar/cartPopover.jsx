@@ -3,7 +3,7 @@
 import { Popover, PopoverTrigger, PopoverContent, PopoverHeader } from "@/components/ui/popover";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-cart';
 import OrderButton from '../orderButton'
 import Image from "next/image";
@@ -30,8 +30,7 @@ export default function CartPopover() {
   const { myUser, isSignedIn } = useMyUser();
 
   const [open, setOpen] = useState(false);
-   const cart = useShoppingCart();
-   const [cartEntries, setCartEntries] = useState([]);
+   const cart = useShoppingCart()
 
   if (
     !isSignedIn ||
@@ -40,12 +39,6 @@ export default function CartPopover() {
     return null;
   }
          const { removeItem, cartDetails, clearCart, formattedTotalPrice } = cart  
-
-         useEffect(() => {
-          setCartEntries(Object.values(cartDetails ?? {}).map((entry) => (
-            <CartEntry key={entry.id} entry={entry} removeItem={removeItem} />
-          )))
-        }, [cartDetails, removeItem]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -68,12 +61,13 @@ export default function CartPopover() {
          <h2 className="text-xl font-bold text-secondary pb-2 text-center">Your Cart</h2>
          <hr className="pb-2"></hr>
             <div className="max-h-96 overflow-y-auto space-y-2">
-              {cartEntries.length === 0 ? <p>Cart is empty.</p> : null}
-                    {cartEntries.length > 0 ? (
-                      <>           
-                         {cartEntries}
-                      </>
-                    ) : null}
+              {Object.values(cartDetails || {}).length === 0 ? (
+                <p className="text-sm text-center text-text">Cart is empty.</p>
+              ) : (
+                Object.values(cartDetails || {}).map((entry) => (
+                  <CartEntry key={entry.id} entry={entry} />
+                ))
+              )}
               </div>
                     <div className="pb-3">
                       <div className="justify-end flex pb-4 gap-2 lg:pt-5 pt-5">

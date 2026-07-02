@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
 
 export default function AboutUsCard() {
     return (
@@ -25,9 +24,9 @@ export default function AboutUsCard() {
                     </p>
                 </CardContent>
                 <CardFooter className="px-4 sm:px-6 lg:px-8 py-2 sm:py-3">
-                    <Link href="/about-us" className="text-sm sm:text-base text-primary hover:underline whitespace-nowrap">
+                    <a href="/about-us" className="text-sm sm:text-base text-primary hover:underline whitespace-nowrap">
                         Read More
-                    </Link>
+                    </a>
                 </CardFooter>
             </Card>
         </section>

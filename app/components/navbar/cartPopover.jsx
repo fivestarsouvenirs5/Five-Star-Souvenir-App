@@ -9,7 +9,6 @@ import OrderButton from '../orderButton'
 import Image from "next/image";
 
 import { useMyUser } from "../../context/userContext";
-import Link from "next/link";
 
 function CartEntry({ entry }) {
     return (
@@ -41,12 +40,6 @@ export default function CartPopover() {
   }
          const { removeItem, cartDetails, clearCart, formattedTotalPrice } = cart  
 
-        const cartEntries = Object.values(cartDetails ?? {}).map((entry) => (
-    
-            <CartEntry key={entry.id} entry={entry} removeItem={removeItem} />
-          ))
-
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -68,12 +61,13 @@ export default function CartPopover() {
          <h2 className="text-xl font-bold text-secondary pb-2 text-center">Your Cart</h2>
          <hr className="pb-2"></hr>
             <div className="max-h-96 overflow-y-auto space-y-2">
-              {cartEntries.length === 0 ? <p>Cart is empty.</p> : null}
-                    {cartEntries.length > 0 ? (
-                      <>           
-                         {cartEntries}
-                      </>
-                    ) : null}
+              {Object.values(cartDetails || {}).length === 0 ? (
+                <p className="text-sm text-center text-text">Cart is empty.</p>
+              ) : (
+                Object.values(cartDetails || {}).map((entry) => (
+                  <CartEntry key={entry.id} entry={entry} />
+                ))
+              )}
               </div>
                     <div className="pb-3">
                       <div className="justify-end flex pb-4 gap-2 lg:pt-5 pt-5">
@@ -81,7 +75,7 @@ export default function CartPopover() {
                         <h3 className="text-lg font-bold leading-normal text-right text-text-dark">{formattedTotalPrice}</h3>
                       </div>
   
-                        <OrderButton closeCart={setOpen}/>
+                        <OrderButton closeCart={setOpen} page={null}/>
                         
                     </div>
                     <a href="/cart" className="text-lg text-primary hover:underline ">

@@ -5,7 +5,6 @@ import { Input } from '../../components/ui/input';
 import { Button } from '../../components/ui/button';
 import StoresForm from '../components/storeFormSignUp';
 import { Modal } from 'flowbite-react';
-import Link from "next/link";
 import {
     Avatar,
     AvatarImage,
@@ -227,7 +226,7 @@ function SignupForm() {
                         <p className="text-sm text-gray-600">
                             Your account has been submitted for approval.
                             Please wait 1-3 business days to be approved!
-                            In the meantime feel free to reach out to us through the <Link href='/contact' className="text-primary hover:underline">Contact Page</Link>!
+                            In the meantime feel free to reach out to us through the Contact Page!
                         </p>
 
                     </Modal.Body>

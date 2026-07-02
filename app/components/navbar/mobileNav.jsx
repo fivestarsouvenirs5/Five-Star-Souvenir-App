@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Menu } from "lucide-react";
 import {
   Popover,
@@ -33,46 +32,46 @@ export default function MobileNav() {
         align="start"
         className="w-64 p-6 bg-primary-dark border-none"
       >
-        <Link
+        <a
           href="/"
           onClick={handleClose}
           className="block py-2 text-white"
         >
           Home
-        </Link>
+        </a>
 
-        <Link
+        <a
           href="/products/new-york"
           onClick={handleClose}
           className="block py-2 text-white"
         >
           Products
-        </Link>
+        </a>
 
-        <Link
+        <a
           href="/contact"
           onClick={handleClose}
           className="block py-2 text-white"
         >
           Contact
-        </Link>
+        </a>
 
-        <Link
+        <a
           href="/about-us"
           onClick={handleClose}
           className="block py-2 text-white"
         >
           About Us
-        </Link>
+        </a>
 
         {myUser?.app_metadata?.admin && (
-          <Link
+          <a
             href="/users"
             onClick={handleClose}
             className="block py-2 text-white"
           >
             Users
-          </Link>
+          </a>
         )}
       </PopoverContent>
     </Popover>

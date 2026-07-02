@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Button, Modal } from 'flowbite-react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { formatCurrencyString } from 'use-shopping-cart';
+import { Plus } from "lucide-react";
 
 
 export default function AddProductButton({ category, subcategory, admin}) {
@@ -135,9 +136,22 @@ export default function AddProductButton({ category, subcategory, admin}) {
     
         return (
             <div>
-                <div className='className="bg-gray-200 border p-4 w-64"'>
-                <button className="border-b-2 text-lg font-bold " onClick={() => setOpenProductModal(true)}>
-                    Add New Product
+                <div className=''>
+                <button
+                onClick={() => setOpenProductModal(true)}
+                className="
+                    flex items-center gap-1
+                    px-4 py-1
+                    font-medium
+                    rounded-md
+                      bg-primary
+                    text-white
+                    hover:bg-primary-light hover:text-text-dark
+                    transition-colors
+                "
+                >
+                <Plus className="w-4 h-4" />
+                Prod
                 </button>
                 </div>
                 <Modal show={openProductModal} onClose={() => setOpenProductModal(false)}>

@@ -9,14 +9,14 @@ import SubCategoryNY from './subcategoryny'
 import { Button, Modal } from 'flowbite-react';
 import { useState } from 'react';
 import { useShoppingCart } from 'use-shopping-cart';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { useMyUser } from "../../context/userContext";
 import EditProductButton from '../editProductButton';
 import EditClothingButton from '../editClothingButton';
-import { toast } from 'sonner';
+
 import { Trash2 } from "lucide-react";
 
 const DeleteButton= ({item, type, isEditing, admin}) => {
-  const { user} = useUser();
+  const { myUser, isSignedIn } = useMyUser();
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +31,7 @@ const DeleteButton= ({item, type, isEditing, admin}) => {
   else if (type === "Product") {
     name = item.product_name;
   }
-  if (user && admin) {
+  if (isSignedIn && myUser?.app_metadata?.admin) {
     async function handleClick() {
       setLoading(true)
       const response = await fetch('/api/delete', {
@@ -98,7 +98,7 @@ const ImgSrc = (category, subcategory, product) => {
 
 
  const ProductPageMappingHelper = ({ isEditing, products, categoryList, subcategoryList, isNY, category, subcategory, clothingList, subMainCategory, isAdmin, isApproved, stores }) => {
-  // const { user} = useUser();
+  const { myUser, isSignedIn } = useMyUser();
     const cart = useShoppingCart();
     const { addItem, formattedTotalPrice, cartCount } = cart;
     const [myProducts, setMyProducts] = useState(products);
@@ -132,42 +132,7 @@ const ImgSrc = (category, subcategory, product) => {
       }
     }
 
-    const AddAllToCartButton = ({ cartCount }) => {
-      if (products.length > 0) {
-        if (products[0].clothing_size_id !== 1 && isApproved) {
-          return(
-        <div className="mt-5">
-                    <Button
-                      onClick={() => {
-                        let totalAdded = 0;
-                        Object.entries(products).forEach(([productId, product]) => {
-                          if (document.getElementById(`qty-${product.product_id}`).value > 0) {
-                            const quantity = parseInt(document.getElementById(`qty-${product.product_id}`).value, 10);
-                        
-                              const cartDisplayProduct = {
-                                name: product.product_name,
-                                id: category.category + '_' + product.product_name,
-                                price: product.price,
-                                currency: 'USD',
-                              };
-                              addItem(cartDisplayProduct, {count: quantity, product_metadata: {location: category.category_location, cell: product.order_form_cell,product_qty: product.set_qty, category: category.category, subcategory: subcategory ? subcategory.subcategory_name : null, image_url: ImgSrc(category, subcategory, product)}});
-                              totalAdded += quantity;
-                              }
-                          
-                        });
-                        toast.success( `${totalAdded} item(s) added. Total items: ${cartCount + totalAdded}`, {
-                          className: "!bg-neutral-beige-light !text-text-dark",
-                          duration: 5000,
-                        });
-                      }}
-                    >
-                      Add All to Cart
-                    </Button>
-                  </div>
-          )
-        }
-    }
-    }
+    
 
     const QtyBtn = (myProduct) => {
       var p = myProduct.myProduct;
@@ -310,9 +275,11 @@ const ImgSrc = (category, subcategory, product) => {
                 img={ImgSrc(category, null, product)}
                 cartCount={cartCount}
               />
-              <div className="mt-3 w-full flex justify-center">
+              {isSignedIn && (
+                <div className="mt-3 w-full flex justify-center">
                   <QtyBtn myProduct={product} />
-              </div>
+                </div>
+              )}
               {/* <div className="flex items-center gap-2 mt-1">
                 <label htmlFor={`qty-${product.product_id}`} className="text-sm font-medium">Qty:</label>
                 <input
@@ -363,9 +330,12 @@ const ImgSrc = (category, subcategory, product) => {
                 img={ImgSrc(category, subcategory, product)}
                 cartCount={cartCount}
               />
-          <div className="mt-3 w-full flex justify-center">
-              <QtyBtn myProduct={product} />
-          </div>
+              {isSignedIn && (
+                <div className="mt-3 w-full flex justify-center">
+                  <QtyBtn myProduct={product} /> 
+                </div>
+              )}
+         
               {/* <div className="flex items-center gap-2 mt-1">
                 <label htmlFor={`qty-${product.product_id}`} className="text-sm font-medium">Qty:</label>
                 <input
@@ -412,8 +382,7 @@ const ImgSrc = (category, subcategory, product) => {
     if (categoryList !== null) {
       if (isNY == true) {
         return (
-          <div className="flex flex-col lg:flex-row justify-between gap-5">
-            <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-7">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6 gap-7 p-2 justify-items-center">
               {categoryList.map((category) => (
                 <div key={category.category_id} className="mb-3 sm:mb-0">
                   <div className=" flex items-center justify-center max-w-full hover:bg-gray-300 mb-4">
@@ -425,19 +394,14 @@ const ImgSrc = (category, subcategory, product) => {
                 </div>
               ))}
             </div>
-            {/* <div className="border-8 border-sky-500 float-right h-96"></div> */}
-                  
-
-          </div>
+                
         )
       }
       // is NJ categories
       else{
         return (
-          <div className = "flex justify-between gap-10">
-
             
-                  <div className="grid grid-cols-6 gap-7">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-7 p-2 justify-items-center">
                       {categoryList.map((category) => (
                         <div key={category.category_id}>
                           <div className="border rounded-md flex items-center justify-center text-center max-w-full text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl" key={category.category_id} >                        
@@ -449,9 +413,7 @@ const ImgSrc = (category, subcategory, product) => {
                       ))}
 
                   </div>
-                  {/* <div className="border-8 border-sky-500 float-right h-96"></div> */}
-
-          </div>
+                 
         )
       }
     }
@@ -459,12 +421,10 @@ const ImgSrc = (category, subcategory, product) => {
     //subcategory list for ny
     else if (subcategoryList !== null) {
       return (
-          <div className = "flex flex-col lg:flex-row justify-between gap-5 p-4">
-
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-7">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6 gap-7 p-2 justify-items-center">
                     {subcategoryList.map((subcategory) => (
                       <div key ={subcategory.subcategory_id}>
-                        <div className="border p-5 rounded-md items-center justify-center text-text-dark shadow-lg text-center text-xl font-bold bg-neutral-beige-light hover:bg-neutral-beige-dark" key={subcategory.subcategory_id} >
+                        <div className="border p-5 h-[120px] w-[220px] rounded-md text-center items-center flex justify-center text-text-dark shadow-lg text-center text-xl font-bold bg-neutral-beige-light hover:bg-neutral-beige-dark" key={subcategory.subcategory_id} >
                             <SubCategoryNY subcategory = {subcategory} />
                             
                         </div>
@@ -474,7 +434,6 @@ const ImgSrc = (category, subcategory, product) => {
                         </div>
                     ))}
               </div>
-          </div>
           
         
       )
@@ -483,10 +442,9 @@ const ImgSrc = (category, subcategory, product) => {
     else if (subcategory === null) {
       return (
         <div>
-        <AddAllToCartButton cartCount={cartCount} />
-        <div className = "flex flex-col lg:flex-row justify-between gap-5">
+     
 
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8 justify-items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6 2xl:grid-cols-6 gap-8 justify-items-center">
             {products.map((product) => (
                   <div key={product.product_id}  className="flex flex-col items-center w-[220px]">
                       <div className="w-full">
@@ -506,17 +464,16 @@ const ImgSrc = (category, subcategory, product) => {
               
             </div>
         </div>
-    </div>
       )
     }
   // non clothing products
     else {
       return (
         <div>
-          <AddAllToCartButton cartCount={cartCount} />
+   
 
 
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8 justify-items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 justify-items-center">
               {products.map((product) => (
                       <div key={product.product_id}  className="flex flex-col items-center w-[220px]">
                       <div className="w-full">

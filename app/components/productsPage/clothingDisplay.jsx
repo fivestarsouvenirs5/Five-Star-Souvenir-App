@@ -82,8 +82,8 @@ const ClothingDisplay = ({ isEditing, product, category, subcategory, addItem, c
 
     return (
       <>
-        <Card className="w-full max-w-[300px] h-[360px] bg-white border shadow-md rounded-2xl">
-          <CardContent className="h-full p-4 flex flex-col gap-2">
+        <Card className="w-full h-[325px] sm:max-w-[300px] mx-auto bg-white border shadow-md rounded-2xl">
+          <CardContent className="h-full p-2 flex flex-col gap-2">
             <button
               onClick={() => setOpenModal(true)}
               className="group flex flex-col h-full"
@@ -222,20 +222,34 @@ const ClothingDisplay = ({ isEditing, product, category, subcategory, addItem, c
   else {
       return (
         <>
-          <div className="border-2 bg-red-100 flex flex-col items-center h-full">
-            <div className="flex-grow flex-[3] w-full flex items-center justify-center">
-              <Image className="w-60"
-                src={img}
-                alt="Product Image"
-                width={300}
-                height={400}
-              />
-            </div>
-            <label className="flex-grow flex-[1] w-full flex items-center justify-center text-sm sm:text-base md:text-lg font-semibold">
-              {product.product_name}
-            </label>
-          </div>
+              <Card className="w-full h-[300px] sm:max-w-[300px] mx-auto bg-white border shadow-md rounded-2xl">
+                <CardContent className="h-full p-2 flex flex-col gap-2">
+                  {/* IMAGE */}
+                  <div className="flex-1 flex items-center justify-center overflow-hidden">
+                    <Image
+                      src={img}
+                      alt={decode(product.product_name)}
+                      width={500}
+                      height={500}
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  </div>
 
+                  {/* TEXT */}
+                  <div className="h-[30px] flex flex-col justify-center text-center">
+                    <p className="text-xs uppercase tracking-wide text-red-700">
+                      {decode(category.category)}
+                      {subcategory ? ` • ${decode(subcategory.subcategory_name)}` : ""}
+                    </p>
+
+                    <h3 className="font-semibold text-lg leading-tight">
+                      {decode(product.product_name)}
+                    </h3>
+
+                    {/* no pricing for logged out users */}
+                  </div>
+                </CardContent>
+              </Card>
           
         </>
       );

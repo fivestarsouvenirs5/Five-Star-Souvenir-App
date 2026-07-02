@@ -1,7 +1,6 @@
 
 'use client'
 import React from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import { decode } from 'he';
 
@@ -37,9 +36,9 @@ const CategoryNY = ({ category }) => {
   };
 
   return (
-    <Link href={`/products/new-york/${category.category_id || ''}`}>
+    <a href={`/products/new-york/${category.category_id || ''}`}>
       <ImgSrc />
-    </Link>
+    </a>
   );
 };
 

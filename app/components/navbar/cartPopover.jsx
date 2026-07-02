@@ -3,13 +3,12 @@
 import { Popover, PopoverTrigger, PopoverContent, PopoverHeader } from "@/components/ui/popover";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-cart';
 import OrderButton from '../orderButton'
 import Image from "next/image";
 
 import { useMyUser } from "../../context/userContext";
-import Link from "next/link";
 
 function CartEntry({ entry }) {
     return (
@@ -31,7 +30,8 @@ export default function CartPopover() {
   const { myUser, isSignedIn } = useMyUser();
 
   const [open, setOpen] = useState(false);
-   const cart = useShoppingCart()
+   const cart = useShoppingCart();
+   const [cartEntries, setCartEntries] = useState([]);
 
   if (
     !isSignedIn ||
@@ -41,11 +41,11 @@ export default function CartPopover() {
   }
          const { removeItem, cartDetails, clearCart, formattedTotalPrice } = cart  
 
-        const cartEntries = Object.values(cartDetails ?? {}).map((entry) => (
-    
+         useEffect(() => {
+          setCartEntries(Object.values(cartDetails ?? {}).map((entry) => (
             <CartEntry key={entry.id} entry={entry} removeItem={removeItem} />
-          ))
-
+          )))
+        }, [cartDetails, removeItem]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

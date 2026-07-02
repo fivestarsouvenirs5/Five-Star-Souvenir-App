@@ -1,6 +1,5 @@
 'use client';
 
-import Link from "next/link";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -26,7 +25,7 @@ export default function ProductBreadcrumb({
         {/* Home */}
         <BreadcrumbItem>
           <BreadcrumbLink asChild className="text-lg hover:underline transition-all">
-            <Link href="/">Home</Link>
+            <a href="/">Home</a>
           </BreadcrumbLink>
         </BreadcrumbItem>
 
@@ -35,9 +34,9 @@ export default function ProductBreadcrumb({
         {/* Products */}
         <BreadcrumbItem>
           <BreadcrumbLink asChild className="text-lg hover:underline transition-all">
-            <Link href={basePath}>
+            <a href={basePath}>
               Products
-            </Link>
+            </a>
           </BreadcrumbLink>
         </BreadcrumbItem>
 
@@ -48,9 +47,9 @@ export default function ProductBreadcrumb({
 
             <BreadcrumbItem>
               <BreadcrumbLink asChild className="text-lg hover:underline transition-all">
-                <Link href="/products/new-york">
+                <a href="/products/new-york">
                   NY
-                </Link>
+                </a>
               </BreadcrumbLink>
             </BreadcrumbItem>
           </>
@@ -64,9 +63,9 @@ export default function ProductBreadcrumb({
             <BreadcrumbItem>
               {subcategory ? (
                 <BreadcrumbLink asChild className="text-lg hover:underline transition-all">
-                  <Link href={`${basePath}/${category.category_id}`}>
+                  <a href={`${basePath}/${category.category_id}`}>
                     {category.category}
-                  </Link>
+                  </a>
                 </BreadcrumbLink>
               ) : (
                 <BreadcrumbPage className="text-lg font-semibold">

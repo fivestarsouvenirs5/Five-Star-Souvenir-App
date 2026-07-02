@@ -143,8 +143,8 @@ const ProductDisplay = ({ isEditing, product, category, subcategory, addItem, ap
           </label>
           {formatCurrencyString({ value: product.price, currency: 'USD' })}
         </div> */}
-    <Card className="w-full max-w-[300px] h-[360px] bg-white border shadow-md rounded-2xl">
-      <CardContent className="h-full p-4 flex flex-col gap-2">
+    <Card className="w-full h-[300px] sm:max-w-[300px] mx-auto bg-white border shadow-md rounded-2xl">
+      <CardContent className="h-full p-2 flex flex-col gap-2">
           <button
             onClick={() => setOpenModal(true)}
             className="group flex flex-col h-full"
@@ -220,41 +220,31 @@ const ProductDisplay = ({ isEditing, product, category, subcategory, addItem, ap
   else {
     return (
       <>
-        {/* <div className="border-2 bg-red-100 flex flex-col items-center">
-            <ImgSrc category = {category} subcategory={subcategory} product = {product} />
-          <label className="flex justify items-center">
-            {product.product_name}
-          </label>
-        </div> */}
-        <Card className="w-full max-w-[300px] h-[360px] bg-white border shadow-md rounded-2xl">
-          <CardContent className="h-full p-4 flex flex-col gap-2">
-            <div className="flex flex-col gap-2 w-full">
-               <div className="flex-1 flex items-center justify-center overflow-hidden">
+        <Card className="w-full h-[300px] sm:max-w-[300px] mx-auto bg-white border shadow-md rounded-2xl">
+          <CardContent className="h-full p-2 flex flex-col gap-2">
+            <div className="flex flex-col h-full">
+              {/* Image */}
+              <div className="flex-1 flex items-center justify-center overflow-hidden">
                 <Image
                   src={img}
                   alt={decode(product.product_name)}
                   width={500}
                   height={500}
-                  className="w-full h-full object-contain rounded-xl"
+                  className="max-w-full max-h-full object-contain"
                 />
               </div>
 
-              <div className="h-[90px] flex flex-col justify-center text-center">
-                <p className="text-xs sm:text-sm uppercase tracking-wide text-secondary-dark font-medium">
+             <div className="h-[30px] flex flex-col justify-center text-center">
+                <p className="text-xs uppercase tracking-wide text-red-700">
                   {decode(category.category)}
                   {subcategory ? ` • ${decode(subcategory.subcategory_name)}` : ""}
                 </p>
 
-                <h3 className="text-sm sm:text-base font-semibold text-text-dark line-clamp-2">
+                <h3 className="font-semibold text-lg leading-tight">
                   {decode(product.product_name)}
                 </h3>
 
-                <p className="text-sm text-text">
-                  {formatCurrencyString({
-                    value: product.price,
-                    currency: "USD",
-                  })}
-                </p>
+
               </div>
             </div>
           </CardContent>

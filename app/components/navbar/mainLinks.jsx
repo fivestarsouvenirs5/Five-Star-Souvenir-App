@@ -1,7 +1,6 @@
 
 "use client";
 
-import Link from "next/link";
 import { useMyUser } from "../../context/userContext";
 
 export default function MainLinks() {
@@ -9,41 +8,41 @@ export default function MainLinks() {
 
   return (
     <nav className="hidden md:flex items-center space-x-1">
-      <Link
+      <a
         href="/"
         className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline"
       >
         Home
-      </Link>
+      </a>
 
-      <Link
+      <a
         href="/products/new-york"
         className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline"
       >
         Products
-      </Link>
+      </a>
 
-      <Link
+      <a
         href="/contact"
         className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline"
       >
         Contact
-      </Link>
+      </a>
 
-      <Link
+      <a
         href="/about-us"
         className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline"
       >
         About Us
-      </Link>
+      </a>
 
       {myUser?.app_metadata?.admin && (
-        <Link
+        <a
           href="/users"
           className="py-2 md:py-5 px-3 text-neutral-beige-light hover:text-neutral-beige-dark hover:underline"
         >
           Users
-        </Link>
+        </a>
       )}
     </nav>
   );

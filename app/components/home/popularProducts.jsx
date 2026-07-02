@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import Image from "next/image";
 
 import {
@@ -62,7 +61,7 @@ const Display = ({ product }) => {
   }
 
   return (
-    <Link href={link} className="group flex flex-col gap-2">
+    <a href={link} className="group flex flex-col gap-2">
       <div className="h-40 sm:h-44 md:h-48 lg:h-52 w-full flex items-center justify-center overflow-hidden rounded-2xl bg-white">
         <ImgSrc product={product} />
       </div>
@@ -76,7 +75,7 @@ const Display = ({ product }) => {
           {product.product_name}
         </h3>
       </div>
-    </Link>
+    </a>
   );
 };
 
@@ -120,12 +119,12 @@ export default function PopularProducts() {
             </CardDescription>
         </div>
 
-        <Link
+        <a
             href="/products/new-york"
             className="text-sm sm:text-base text-primary hover:underline whitespace-nowrap pt-1"
         >
             View All Products
-        </Link>
+        </a>
 
         </CardHeader>
 

@@ -32,8 +32,8 @@ export default function AddSubCategoryButton({ category, admin }) {
                                    onClick={() => setOpenModal(true)}
                                    className="
                                        flex items-center gap-1
-                                       px-3 py-1
-                                       text-sm font-medium
+                                       px-4 py-1
+                                       font-medium
                                        rounded-md
                                         bg-primary
                                         text-white

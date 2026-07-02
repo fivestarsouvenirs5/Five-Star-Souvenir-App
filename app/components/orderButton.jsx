@@ -5,7 +5,7 @@ import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-c
 import { Button, Modal } from 'flowbite-react';
 import { useMyUser } from "../context/userContext";
 
-export default function OrderButton({page}) {
+export default function OrderButton({closeCart, page}) {
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [preOrderOpenModal, setPreOrderOpenModal] = useState(false);

@@ -75,7 +75,7 @@ export default function CartPopover() {
                         <h3 className="text-lg font-bold leading-normal text-right text-text-dark">{formattedTotalPrice}</h3>
                       </div>
   
-                        <OrderButton closeCart={setOpen}/>
+                        <OrderButton closeCart={setOpen} page={null}/>
                         
                     </div>
                     <a href="/cart" className="text-lg text-primary hover:underline ">

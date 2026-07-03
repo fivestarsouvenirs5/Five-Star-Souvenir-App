@@ -4,7 +4,7 @@ import React, { lazy } from 'react';
 import { Button, Modal } from 'flowbite-react';
 import { useState } from 'react';
 import { useShoppingCart, DebugCart, formatCurrencyString } from 'use-shopping-cart';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { useMyUser } from "../../context/userContext";
 import Image from "next/image";
 import { decode } from 'he'; // Importing decode function from he module
 import { toast } from 'sonner';
@@ -71,10 +71,10 @@ const Category = ({ subcategory, category }) => {
 }
 
 const ClothingDisplay = ({ isEditing, product, category, subcategory, addItem, clothe, approved, cartCount, img }) => {
-  const { user } = useUser();
+  const { myUser, isSignedIn } = useMyUser();
   const [openModal, setOpenModal] = useState(false);
 
-  if (user && approved === "true") {
+  if (isSignedIn) {
 
     const filteredSizes = clothe.map(item => item.size);
       const filteredPrices = clothe.map(item => item.price);
@@ -88,7 +88,7 @@ const ClothingDisplay = ({ isEditing, product, category, subcategory, addItem, c
               onClick={() => setOpenModal(true)}
               className="group flex flex-col h-full"
             >
-              {/* IMAGE SECTION (matches ProductDisplay) */}
+
               <div className="flex-1 flex items-center justify-center overflow-hidden">
                 <Image
                   src={img}

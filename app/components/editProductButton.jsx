@@ -11,8 +11,9 @@ export default function EditProductButton({ product, admin }) {
     const [openModal, setOpenModal] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [cellValid, setCellValid] = useState(true);
-    const [isFeatured, setIsFeatured] = useState(product.featured_product === 1);
+    const [isFeatured, setIsFeatured] = useState(product.myProduct.featured_product === 1);
     const [loading, setLoading] = useState(false);
+
 
     async function editProduct() {
         var productName = document.getElementById('newProductName').value;
@@ -26,16 +27,16 @@ export default function EditProductButton({ product, admin }) {
         }
 
         if (productName === "") {
-            productName = product.product_name;
+            productName = product.myProduct.product_name;
         }
         if (productPrice === "") {
-            productPrice = product.price;
+            productPrice = product.myProduct.price;
         }
         if (productStock === "") {
-            productStock = product.in_stock;
+            productStock = product.myProduct.in_stock;
         }
         if (productCell === "") {
-            productCell = product.order_form_cell;
+            productCell = product.myProduct.order_form_cell;
         }
 
         var formData = new FormData();
@@ -44,10 +45,10 @@ export default function EditProductButton({ product, admin }) {
         formData.append("price", productPrice);
         formData.append("stock", productStock);
         formData.append("cell", productCell);
-        formData.append("oldProductID", product.product_id);
-        formData.append("oldProductCatgID", product.category_id);
-        formData.append("oldProductSubCatgID", product.subcategory_id);
-        formData.append("image", product.image_id);
+        formData.append("oldProductID", product.myProduct.product_id);
+        formData.append("oldProductCatgID", product.myProduct.category_id);
+        formData.append("oldProductSubCatgID", product.myProduct.subcategory_id);
+        formData.append("image", product.myProduct.image_id);
         formData.append("featured", isFeatured ? 1 : 0);  // Add featured status
         formData.append("qty", productQty);
 
@@ -61,7 +62,7 @@ export default function EditProductButton({ product, admin }) {
         }
     }
 
-    if (user && admin && product.clothing_size_id !== 1) {
+    if (user && admin && product.myProduct.clothing_size_id !== 1) {
 
         const handleFileChange = (event) => {
             const file = event.target.files[0];
@@ -82,8 +83,8 @@ export default function EditProductButton({ product, admin }) {
         };
 
         var qty = "None";
-        if(product.set_qty !== null && product.set_qty > 0) {
-            var qty = product.set_qty;
+        if(product.myProduct.set_qty !== null && product.myProduct.set_qty > 0) {
+            var qty = product.myProduct.set_qty;
         }
         return (
             <div>
@@ -91,7 +92,7 @@ export default function EditProductButton({ product, admin }) {
                     <Pencil className="w-5 h-5 text-text hover:text-white cursor-pointer" />
                 </button>
                 <Modal show={openModal} onClose={() => setOpenModal(false)}>
-                    <Modal.Header>Product {product.product_name}</Modal.Header>
+                    <Modal.Header>Product {product.myProduct.product_name}</Modal.Header>
                     <Modal.Body>
                         <div className="flex justify-between">
                             <div>
@@ -101,17 +102,17 @@ export default function EditProductButton({ product, admin }) {
                             <div>
                                 <div className='ml-[-80px]'>
                                     <label className='font-bold'>Product Name: </label>
-                                    <input type="text" id="newProductName" placeholder={product.product_name}></input>
+                                    <input type="text" id="newProductName" placeholder={product.myProduct.product_name}></input>
                                     <br></br>
                                     <br></br>
 
                                     <label className='font-bold'>Price (¢): </label>
-                                    <input type="number" id="newProductPrice" placeholder={product.price}></input>
+                                    <input type="number" id="newProductPrice" placeholder={product.myProduct.price}></input>
                                     <br></br>
                                     <br></br>
 
                                     <label className='font-bold'>Stock: </label>
-                                    <input type="text" id="newProductStock" placeholder={product.in_stock}></input>
+                                    <input type="text" id="newProductStock" placeholder={product.myProduct.in_stock}></input>
                                     <br></br>
                                     <br></br>
 
@@ -135,7 +136,7 @@ export default function EditProductButton({ product, admin }) {
                                         type="text"
                                         id="newProductCell"
                                         onChange={handleCellChange}
-                                        placeholder={product.order_form_cell}
+                                        placeholder={product.myProduct.order_form_cell}
                                     />
                                     {!cellValid && <span style={{ color: 'red' }}>Invalid cell format. Please enter capital letters followed by digits.</span>}
                                 </div>
